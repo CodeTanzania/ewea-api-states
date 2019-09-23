@@ -59,31 +59,19 @@ export function createResourcesSlices(resources) {
 export function app(state = appDefaultState, action) {
   switch (action.type) {
     case INITIALIZE_APP_START:
-      return Object.assign({}, state, { loading: true });
+      return { ...state, loading: true };
     case INITIALIZE_APP_SUCCESS:
-      return Object.assign({}, state, { loading: false });
+      return { ...state, loading: false };
     case INITIALIZE_APP_FAILURE:
-      return Object.assign({}, state, {
-        loading: false,
-        error: action.payload,
-      });
+      return { ...state, loading: false, error: action.payload };
     case SIGNIN_APP_START:
-      return Object.assign({}, state, { signing: true });
+      return { ...state, signing: true };
     case SIGNIN_APP_SUCCESS:
-      return Object.assign({}, state, {
-        party: action.payload,
-        signing: false,
-      });
+      return { ...state, party: action.payload, signing: false };
     case SIGNIN_APP_FAILURE:
-      return Object.assign({}, state, {
-        error: action.payload,
-        signing: false,
-      });
+      return { ...state, error: action.payload, signing: false };
     case SIGNOUT:
-      return Object.assign({}, state, {
-        error: null,
-        party: null,
-      });
+      return { ...state, error: null, party: null };
     default:
       return state;
   }
@@ -91,8 +79,6 @@ export function app(state = appDefaultState, action) {
 
 // all resources exposed by this library
 const resources = [
-  'activity',
-  'adjustment',
   'agency',
   'alert',
   'alertSource',
@@ -100,23 +86,15 @@ const resources = [
   'campaign',
   'district',
   'feature',
+  'focalPerson',
   'incident',
   'incidentType',
   'indicator',
-  'item',
-  'itemCategory',
-  'itemUnit',
   'message',
-  'plan',
-  'procedure',
   'question',
   'questionnaire',
   'region',
-  'resource',
   'role',
-  'focalPerson',
-  'stock',
-  'warehouse',
 ];
 
 const slices = createResourcesSlices(resources);

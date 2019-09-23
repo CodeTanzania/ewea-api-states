@@ -3,7 +3,7 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import createThunkFor from '../src/factories/thunk';
 
-const { deletePlan, getPlan, getPlans, postPlan, putPlan } = httpActions;
+const { deleteAlert, getAlert, getAlerts, postAlert, putAlert } = httpActions;
 jest.mock('@codetanzania/emis-api-client');
 const mockStore = configureMockStore([thunk]);
 
@@ -19,7 +19,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when get resources succeed', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
       },
     });
@@ -33,18 +33,18 @@ describe('Thunk Factory', () => {
       },
     };
 
-    getPlans.mockResolvedValueOnce(mockData);
+    getAlerts.mockResolvedValueOnce(mockData);
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansSuccess', payload: mockData },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsSuccess', payload: mockData },
     ];
 
     return store
-      .dispatch(planThunks.getPlans({}, onSuccess, onError))
+      .dispatch(alertThunks.getAlerts({}, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
@@ -54,7 +54,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when get resources fails', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
       },
     });
@@ -70,18 +70,18 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getPlans.mockRejectedValueOnce(error);
+    getAlerts.mockRejectedValueOnce(error);
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansFailure', payload: error },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsFailure', payload: error },
     ];
 
     return store
-      .dispatch(planThunks.getPlans({}, onSuccess, onError))
+      .dispatch(alertThunks.getAlerts({}, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -92,7 +92,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when refresh resources succeed', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
         filter: { name: 'Test' },
         page: 1,
@@ -107,19 +107,19 @@ describe('Thunk Factory', () => {
         total: 1,
       },
     };
-    getPlans.mockResolvedValueOnce(mockData);
+    getAlerts.mockResolvedValueOnce(mockData);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansSuccess', payload: mockData },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsSuccess', payload: mockData },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.refreshPlans(onSuccess, onError))
+      .dispatch(alertThunks.refreshAlerts(onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalled();
@@ -129,7 +129,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when refresh resources fails', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
       },
     });
@@ -145,18 +145,18 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getPlans.mockRejectedValueOnce(error);
+    getAlerts.mockRejectedValueOnce(error);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansFailure', payload: error },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsFailure', payload: error },
     ];
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.refreshPlans(onSuccess, onError))
+      .dispatch(alertThunks.refreshAlerts(onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -167,7 +167,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when filter resources succeed', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
         page: 1,
         filter: {},
@@ -182,20 +182,20 @@ describe('Thunk Factory', () => {
         total: 1,
       },
     };
-    getPlans.mockResolvedValueOnce(mockData);
+    getAlerts.mockResolvedValueOnce(mockData);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/filterPlans', payload: { name: 'Test' } },
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansSuccess', payload: mockData },
+      { type: 'alert/filterAlerts', payload: { name: 'Test' } },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsSuccess', payload: mockData },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.filterPlans({ name: 'Test' }, onSuccess, onError))
+      .dispatch(alertThunks.filterAlerts({ name: 'Test' }, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
@@ -205,7 +205,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when filter resources fails', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
         error: null,
       },
@@ -222,20 +222,20 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getPlans.mockRejectedValueOnce(error);
+    getAlerts.mockRejectedValueOnce(error);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/filterPlans', payload: { name: 'Test' } },
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansFailure', payload: error },
+      { type: 'alert/filterAlerts', payload: { name: 'Test' } },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsFailure', payload: error },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.filterPlans({ name: 'Test' }, onSuccess, onError))
+      .dispatch(alertThunks.filterAlerts({ name: 'Test' }, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -246,7 +246,7 @@ describe('Thunk Factory', () => {
 
   it('should reload resources when clear resource filters succeed', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
       },
     });
@@ -259,20 +259,20 @@ describe('Thunk Factory', () => {
         total: 1,
       },
     };
-    getPlans.mockResolvedValueOnce(mockData);
+    getAlerts.mockResolvedValueOnce(mockData);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/filterPlans', payload: null },
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansSuccess', payload: mockData },
+      { type: 'alert/filterAlerts', payload: null },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsSuccess', payload: mockData },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.clearPlanFilters(onSuccess, onError))
+      .dispatch(alertThunks.clearAlertFilters(onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
@@ -282,7 +282,7 @@ describe('Thunk Factory', () => {
 
   it('should reload resources when clearing part of filters succeed', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
         filter: { name: 'Test', age: 12 },
       },
@@ -296,20 +296,20 @@ describe('Thunk Factory', () => {
         total: 1,
       },
     };
-    getPlans.mockResolvedValueOnce(mockData);
+    getAlerts.mockResolvedValueOnce(mockData);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/filterPlans', payload: { name: 'Test' } },
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansSuccess', payload: mockData },
+      { type: 'alert/filterAlerts', payload: { name: 'Test' } },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsSuccess', payload: mockData },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.clearPlanFilters(onSuccess, onError, ['name']))
+      .dispatch(alertThunks.clearAlertFilters(onSuccess, onError, ['name']))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
@@ -319,7 +319,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch error action when clear filters fails', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
         error: null,
         filter: { name: 'Test' },
@@ -337,20 +337,20 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getPlans.mockRejectedValueOnce(error);
+    getAlerts.mockRejectedValueOnce(error);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/filterPlans', payload: null },
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansFailure', payload: error },
+      { type: 'alert/filterAlerts', payload: null },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsFailure', payload: error },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.clearPlanFilters(onSuccess, onError))
+      .dispatch(alertThunks.clearAlertFilters(onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -361,7 +361,7 @@ describe('Thunk Factory', () => {
 
   it('should reload resources when clear resource sort succeed', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
         page: 1,
       },
@@ -375,31 +375,31 @@ describe('Thunk Factory', () => {
         total: 1,
       },
     };
-    getPlans.mockResolvedValueOnce(mockData);
+    getAlerts.mockResolvedValueOnce(mockData);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/clearPlansSort', payload: undefined },
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansSuccess', payload: mockData },
+      { type: 'alert/clearAlertsSort', payload: undefined },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsSuccess', payload: mockData },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.clearPlansSort(onSuccess, onError))
+      .dispatch(alertThunks.clearAlertsSort(onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
         expect(onError).toHaveBeenCalledTimes(0);
-        expect(getPlans).toHaveBeenCalledWith({ page: 1 });
+        expect(getAlerts).toHaveBeenCalledWith({ page: 1 });
       });
   });
 
   it('should dispatch error action when clear resource sort fails', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
         error: null,
         page: 1,
@@ -417,31 +417,31 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getPlans.mockRejectedValueOnce(error);
+    getAlerts.mockRejectedValueOnce(error);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/clearPlansSort', payload: undefined },
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansFailure', payload: error },
+      { type: 'alert/clearAlertsSort', payload: undefined },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsFailure', payload: error },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.clearPlansSort(onSuccess, onError))
+      .dispatch(alertThunks.clearAlertsSort(onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
         expect(onError).toHaveBeenCalledTimes(1);
-        expect(getPlans).toHaveBeenCalledWith({ page: 1 });
+        expect(getAlerts).toHaveBeenCalledWith({ page: 1 });
       });
   });
 
   it('should dispatch required actions when search resources succeed', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
         q: undefined,
       },
@@ -455,20 +455,20 @@ describe('Thunk Factory', () => {
         total: 1,
       },
     };
-    getPlans.mockResolvedValueOnce(mockData);
+    getAlerts.mockResolvedValueOnce(mockData);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/searchPlans', payload: 'Test' },
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansSuccess', payload: mockData },
+      { type: 'alert/searchAlerts', payload: 'Test' },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsSuccess', payload: mockData },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.searchPlans('Test', onSuccess, onError))
+      .dispatch(alertThunks.searchAlerts('Test', onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
@@ -478,7 +478,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when search resources fails', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
       },
     });
@@ -494,20 +494,20 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getPlans.mockRejectedValueOnce(error);
+    getAlerts.mockRejectedValueOnce(error);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/searchPlans', payload: 'Test' },
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansFailure', payload: error },
+      { type: 'alert/searchAlerts', payload: 'Test' },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsFailure', payload: error },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.searchPlans('Test', onSuccess, onError))
+      .dispatch(alertThunks.searchAlerts('Test', onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -518,7 +518,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when sort resources succeed', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
         page: 1,
       },
@@ -532,31 +532,31 @@ describe('Thunk Factory', () => {
         total: 1,
       },
     };
-    getPlans.mockResolvedValueOnce(mockData);
+    getAlerts.mockResolvedValueOnce(mockData);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/sortPlans', payload: { name: -1 } },
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansSuccess', payload: mockData },
+      { type: 'alert/sortAlerts', payload: { name: -1 } },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsSuccess', payload: mockData },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.sortPlans({ name: -1 }, onSuccess, onError))
+      .dispatch(alertThunks.sortAlerts({ name: -1 }, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
         expect(onError).toHaveBeenCalledTimes(0);
-        expect(getPlans).toHaveBeenCalledWith({ page: 1, sort: { name: -1 } });
+        expect(getAlerts).toHaveBeenCalledWith({ page: 1, sort: { name: -1 } });
       });
   });
 
   it('should dispatch required actions when sort resources fails', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
         page: 1,
       },
@@ -573,30 +573,30 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getPlans.mockRejectedValueOnce(error);
+    getAlerts.mockRejectedValueOnce(error);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/sortPlans', payload: { name: -1 } },
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansFailure', payload: error },
+      { type: 'alert/sortAlerts', payload: { name: -1 } },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsFailure', payload: error },
     ];
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.sortPlans({ name: -1 }, onSuccess, onError))
+      .dispatch(alertThunks.sortAlerts({ name: -1 }, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
         expect(onError).toHaveBeenCalledTimes(1);
-        expect(getPlans).toHaveBeenCalledWith({ page: 1, sort: { name: -1 } });
+        expect(getAlerts).toHaveBeenCalledWith({ page: 1, sort: { name: -1 } });
       });
   });
 
   it('should dispatch required actions when paginate resources succeed', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
         filter: {},
       },
@@ -610,30 +610,30 @@ describe('Thunk Factory', () => {
         total: 1,
       },
     };
-    getPlans.mockResolvedValueOnce(mockData);
+    getAlerts.mockResolvedValueOnce(mockData);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansSuccess', payload: mockData },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsSuccess', payload: mockData },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.paginatePlans(1, onSuccess, onError))
+      .dispatch(alertThunks.paginateAlerts(1, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
         expect(onError).toHaveBeenCalledTimes(0);
-        expect(getPlans).toHaveBeenCalledWith({ page: 1, filter: {} });
+        expect(getAlerts).toHaveBeenCalledWith({ page: 1, filter: {} });
       });
   });
 
   it('should dispatch required actions when paginate resources fails', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
       },
     });
@@ -649,19 +649,19 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getPlans.mockRejectedValueOnce(error);
+    getAlerts.mockRejectedValueOnce(error);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansFailure', payload: error },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsFailure', payload: error },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.paginatePlans(1, onSuccess, onError))
+      .dispatch(alertThunks.paginateAlerts(1, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -672,7 +672,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when get a resource succeed', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
       },
     });
@@ -681,18 +681,18 @@ describe('Thunk Factory', () => {
       name: 'Finish off',
     };
 
-    getPlan.mockResolvedValueOnce(mockData);
+    getAlert.mockResolvedValueOnce(mockData);
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/getPlanRequest', payload: undefined },
-      { type: 'plan/getPlanSuccess', payload: mockData },
+      { type: 'alert/getAlertRequest', payload: undefined },
+      { type: 'alert/getAlertSuccess', payload: mockData },
     ];
 
     return store
-      .dispatch(planThunks.getPlan('id', onSuccess, onError))
+      .dispatch(alertThunks.getAlert('id', onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
@@ -702,7 +702,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when get a resource fails', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
       },
     });
@@ -717,18 +717,18 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getPlan.mockRejectedValueOnce(error);
+    getAlert.mockRejectedValueOnce(error);
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/getPlanRequest', payload: undefined },
-      { type: 'plan/getPlanFailure', payload: error },
+      { type: 'alert/getAlertRequest', payload: undefined },
+      { type: 'alert/getAlertFailure', payload: error },
     ];
 
     return store
-      .dispatch(planThunks.getPlan({}, onSuccess, onError))
+      .dispatch(alertThunks.getAlert({}, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -739,7 +739,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when post a resource succeed', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
       },
     });
@@ -759,25 +759,25 @@ describe('Thunk Factory', () => {
       },
     };
 
-    postPlan.mockResolvedValueOnce(mockData);
-    getPlans.mockResolvedValueOnce(mockGetData);
+    postAlert.mockResolvedValueOnce(mockData);
+    getAlerts.mockResolvedValueOnce(mockGetData);
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/postPlanRequest', payload: undefined },
-      { type: 'plan/postPlanSuccess', payload: mockData },
-      { type: 'plan/clearPlansFilters', payload: undefined },
-      { type: 'plan/clearPlansSort', payload: undefined },
-      { type: 'plan/searchPlans', payload: undefined },
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansSuccess', payload: mockGetData },
+      { type: 'alert/postAlertRequest', payload: undefined },
+      { type: 'alert/postAlertSuccess', payload: mockData },
+      { type: 'alert/clearAlertsFilters', payload: undefined },
+      { type: 'alert/clearAlertsSort', payload: undefined },
+      { type: 'alert/searchAlerts', payload: undefined },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsSuccess', payload: mockGetData },
     ];
 
     return store
-      .dispatch(planThunks.postPlan({}, onSuccess, onError))
+      .dispatch(alertThunks.postAlert({}, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
@@ -787,7 +787,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when post a resource fails', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
       },
     });
@@ -803,19 +803,19 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    postPlan.mockRejectedValueOnce(error);
+    postAlert.mockRejectedValueOnce(error);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/postPlanRequest', payload: undefined },
-      { type: 'plan/postPlanFailure', payload: error },
+      { type: 'alert/postAlertRequest', payload: undefined },
+      { type: 'alert/postAlertFailure', payload: error },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.postPlan({}, onSuccess, onError))
+      .dispatch(alertThunks.postAlert({}, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -826,7 +826,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when put a resource succeed', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
       },
     });
@@ -847,22 +847,22 @@ describe('Thunk Factory', () => {
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
-    putPlan.mockResolvedValueOnce(mockData);
-    getPlans.mockResolvedValueOnce(mockGetData);
+    putAlert.mockResolvedValueOnce(mockData);
+    getAlerts.mockResolvedValueOnce(mockGetData);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/putPlanRequest', payload: undefined },
-      { type: 'plan/putPlanSuccess', payload: mockData },
-      { type: 'plan/clearPlansFilters', payload: undefined },
-      { type: 'plan/clearPlansSort', payload: undefined },
-      { type: 'plan/searchPlans', payload: undefined },
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansSuccess', payload: mockGetData },
+      { type: 'alert/putAlertRequest', payload: undefined },
+      { type: 'alert/putAlertSuccess', payload: mockData },
+      { type: 'alert/clearAlertsFilters', payload: undefined },
+      { type: 'alert/clearAlertsSort', payload: undefined },
+      { type: 'alert/searchAlerts', payload: undefined },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsSuccess', payload: mockGetData },
     ];
 
     return store
-      .dispatch(planThunks.putPlan({}, onSuccess, onError))
+      .dispatch(alertThunks.putAlert({}, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
@@ -872,7 +872,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when put a resource fails', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
       },
     });
@@ -888,18 +888,18 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    putPlan.mockRejectedValueOnce(error);
+    putAlert.mockRejectedValueOnce(error);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/putPlanRequest', payload: undefined },
-      { type: 'plan/putPlanFailure', payload: error },
+      { type: 'alert/putAlertRequest', payload: undefined },
+      { type: 'alert/putAlertFailure', payload: error },
     ];
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.putPlan({}, onSuccess, onError))
+      .dispatch(alertThunks.putAlert({}, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -910,7 +910,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when delete resource succeed', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
         page: 1,
         filter: null,
@@ -933,24 +933,24 @@ describe('Thunk Factory', () => {
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
-    deletePlan.mockResolvedValueOnce(mockData);
-    getPlans.mockResolvedValueOnce(mockGetData);
+    deleteAlert.mockResolvedValueOnce(mockData);
+    getAlerts.mockResolvedValueOnce(mockGetData);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/deletePlanRequest', payload: undefined },
-      { type: 'plan/deletePlanSuccess', payload: mockData },
-      { type: 'plan/getPlansRequest', payload: undefined },
-      { type: 'plan/getPlansSuccess', payload: mockGetData },
+      { type: 'alert/deleteAlertRequest', payload: undefined },
+      { type: 'alert/deleteAlertSuccess', payload: mockData },
+      { type: 'alert/getAlertsRequest', payload: undefined },
+      { type: 'alert/getAlertsSuccess', payload: mockGetData },
     ];
 
     return store
-      .dispatch(planThunks.deletePlan('id', onSuccess, onError))
+      .dispatch(alertThunks.deleteAlert('id', onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
         expect(onError).toHaveBeenCalledTimes(0);
-        expect(getPlans).toHaveBeenCalledWith({
+        expect(getAlerts).toHaveBeenCalledWith({
           page: 1,
           filter: null,
         });
@@ -959,7 +959,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when delete resource fails', () => {
     const store = mockStore({
-      plans: {
+      alerts: {
         list: [],
       },
     });
@@ -975,18 +975,18 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    deletePlan.mockRejectedValueOnce(error);
+    deleteAlert.mockRejectedValueOnce(error);
 
-    const planThunks = createThunkFor('plans');
+    const alertThunks = createThunkFor('alerts');
     const expectedActions = [
-      { type: 'plan/deletePlanRequest', payload: undefined },
-      { type: 'plan/deletePlanFailure', payload: error },
+      { type: 'alert/deleteAlertRequest', payload: undefined },
+      { type: 'alert/deleteAlertFailure', payload: error },
     ];
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(planThunks.deletePlan({}, onSuccess, onError))
+      .dispatch(alertThunks.deleteAlert({}, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);

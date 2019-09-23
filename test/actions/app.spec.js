@@ -80,40 +80,23 @@ describe('App Actions', () => {
         Message: {},
         Party: {},
         Alert: {},
-        AlertSource: {},
-        Item: {},
-        Stock: {},
-        Adjustment: {},
         Agency: {},
         Indicator: {},
         Question: {},
         Questionnaire: {},
         Region: {},
         IncidentType: {},
-        Plan: {},
-        Activity: {},
-        Procedure: {},
-        Warehouse: {},
       };
 
       getSchemas.mockResolvedValueOnce(mockData);
 
       const expectedActions = [
         { type: 'app/initialize' },
-        { type: 'activity/setActivitySchema', payload: mockData.Activity },
-        {
-          type: 'adjustment/setAdjustmentSchema',
-          payload: mockData.Adjustment,
-        },
         {
           type: 'agency/setAgencySchema',
           payload: mockData.Agency,
         },
         { type: 'alert/setAlertSchema', payload: mockData.Alert },
-        {
-          type: 'alertSource/setAlertSourceSchema',
-          payload: mockData.AlertSource,
-        },
         { type: 'district/setDistrictSchema', payload: mockData.District },
         { type: 'feature/setFeatureSchema', payload: mockData.Feature },
         {
@@ -125,12 +108,6 @@ describe('App Actions', () => {
           type: 'incidentType/setIncidentTypeSchema',
           payload: mockData.IncidentType,
         },
-        {
-          type: 'item/setItemSchema',
-          payload: mockData.Item,
-        },
-        { type: 'plan/setPlanSchema', payload: mockData.Plan },
-        { type: 'procedure/setProcedureSchema', payload: mockData.Procedure },
         { type: 'question/setQuestionSchema', payload: mockData.Question },
         {
           type: 'questionnaire/setQuestionnaireSchema',
@@ -140,12 +117,10 @@ describe('App Actions', () => {
           type: 'region/setRegionSchema',
           payload: mockData.Region,
         },
-        { type: 'role/setRoleSchema', payload: mockData.Role },
         {
-          type: 'stock/setStockSchema',
-          payload: mockData.Stock,
+          type: 'role/setRoleSchema',
+          payload: mockData.Role,
         },
-        { type: 'warehouse/setWarehouseSchema', payload: mockData.Warehouse },
         { type: 'app/initializeSuccess' },
       ];
 

@@ -9,32 +9,21 @@ import * as lib from '../src/index';
 describe('Library Index', () => {
   it('should expose actions from resources', () => {
     const resources = [
-      'activity',
-      'adjustment',
       'agency',
       'alert',
-      'alertSource',
       'assessment',
       'campaign',
       'district',
       'feature',
+      'focalPerson',
       'incident',
       'incidentType',
       'indicator',
-      'item',
-      'itemCategory',
-      'itemUnit',
       'message',
-      'plan',
-      'procedure',
       'question',
       'questionnaire',
       'region',
-      'resource',
       'role',
-      'focalPerson',
-      'stock',
-      'warehouse',
     ];
 
     forEach(resources, resource => {

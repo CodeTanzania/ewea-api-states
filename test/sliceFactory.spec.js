@@ -3,6 +3,15 @@ import createSliceFor, {
   getDefaultReducers,
 } from '../src/factories/slice';
 
+/**
+ * @function
+ * @name createAction
+ * @description Create a simple redux action
+ *
+ * @param {string} actionType Action type
+ * @param {string|object| number} payload Action payload | data
+ * @returns {object} redux action
+ */
 function createAction(actionType, payload) {
   return { type: actionType, payload };
 }

@@ -32,7 +32,7 @@ export default function createThunksFor(resource) {
 
   /**
    * @function
-   * @name get<Resource Plural Name>
+   * @name getResources
    * @description A thunk that will be dispatched when fetching data from API
    *
    * @param {object} param  Param object to be passed to API client
@@ -79,7 +79,7 @@ export default function createThunksFor(resource) {
 
   /**
    * @function
-   * @name get<Resource Singular Name>
+   * @name getResource
    * @description A thunk that will be dispatched when fetching
    * single resource data from the API
    *
@@ -127,7 +127,7 @@ export default function createThunksFor(resource) {
 
   /**
    * @function
-   * @name post<Resource Singular Name>
+   * @name postResource
    * @description A thunk that will be dispatched when creating a single
    * resource data in the API
    *
@@ -188,7 +188,7 @@ export default function createThunksFor(resource) {
 
   /**
    * @function
-   * @name put<Resource Singular Name>
+   * @name putResource
    * @description A thunk that will be dispatched when updating a single
    * resource data in the API
    *
@@ -247,7 +247,7 @@ export default function createThunksFor(resource) {
 
   /**
    * @function
-   * @name delete<Resource Singular Name>
+   * @name deleteResource
    * @description A thunk that will be dispatched when deleting/archiving
    * a single resource data in the API
    *
@@ -303,7 +303,7 @@ export default function createThunksFor(resource) {
 
   /**
    * @function
-   * @name fetch<Resource Name>
+   * @name fetchResources
    * @description A thunk that for fetching data from the API the difference
    * between this and get thunk is this will apply all the criteria on fetch.
    * Pagination, filters, Search Query and sort.
@@ -312,6 +312,7 @@ export default function createThunksFor(resource) {
    * resources from the API succeed
    * @param {Function} onError Callback to be called when fetching
    * resources from the API fails
+   * @returns {Function} Thunk function
    *
    * @version 0.1.0
    * @since 0.1.0
@@ -333,7 +334,7 @@ export default function createThunksFor(resource) {
 
   /**
    * @function
-   * @name filter<Resource Plural Name>
+   * @name filterResources
    * @description A thunk that will be dispatched when filtering resources
    *  data in the API
    *
@@ -361,7 +362,7 @@ export default function createThunksFor(resource) {
 
   /**
    * @function
-   * @name refresh<Resource Plural Name>
+   * @name refreshResources
    * @description A thunk that will be dispatched when refreshing resources
    *  data in the API
    *
@@ -395,7 +396,7 @@ export default function createThunksFor(resource) {
 
   /**
    * @function
-   * @name search<Resource Plural Name>
+   * @name searchResources
    * @description A thunk that will be dispatched when searching resources
    *  data in the API
    *
@@ -428,7 +429,7 @@ export default function createThunksFor(resource) {
 
   /**
    * @function
-   * @name sort<Resource Plural Name>
+   * @name sortResources
    * @description A thunk that will be dispatched when sorting resources
    *  data in the API
    *
@@ -461,7 +462,7 @@ export default function createThunksFor(resource) {
 
   /**
    * @function
-   * @name paginate<Resource Plural Name>
+   * @name paginateResources
    * @description A thunk that will be dispatched when paginating resources
    *  data in the API
    *
@@ -492,7 +493,7 @@ export default function createThunksFor(resource) {
 
   /**
    * @function
-   * @name clear<Resource Singular Name>Filters
+   * @name clearReourceFilters
    * @description A thunk that will be dispatched when clearing filters on
    * resources data in the API
    *
@@ -528,7 +529,7 @@ export default function createThunksFor(resource) {
 
   /**
    * @function
-   * @name clear<Resource Plural Name>Sort
+   * @name clearResourcesSort
    * @description A thunk that will be dispatched when clearing sort order on
    * resources data in the API
    *

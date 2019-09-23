@@ -144,68 +144,44 @@ export function initializeApp() {
     return getSchemas()
       .then(schemas => {
         const {
-          activity: { setActivitySchema },
-          adjustment: { setAdjustmentSchema },
           agency: { setAgencySchema },
           alert: { setAlertSchema },
-          alertSource: { setAlertSourceSchema },
           district: { setDistrictSchema },
           feature: { setFeatureSchema },
           focalPerson: { setFocalPersonSchema },
           indicator: { setIndicatorSchema },
-          item: { setItemSchema },
           incidentType: { setIncidentTypeSchema },
-          plan: { setPlanSchema },
-          procedure: { setProcedureSchema },
           question: { setQuestionSchema },
           questionnaire: { setQuestionnaireSchema },
           region: { setRegionSchema },
           role: { setRoleSchema },
-          stock: { setStockSchema },
-          warehouse: { setWarehouseSchema },
         } = actions;
 
         const {
-          Activity: activitySchema,
-          Adjustment: adjustmentSchema,
           Agency: agencySchema,
           Alert: alertSchema,
-          AlertSource: alertSourceSchema,
           District: districtSchema,
           Feature: featureSchema,
           FocalPerson: focalPersonSchema,
           IncidentType: incidentTypeSchema,
           Indicator: indicatorSchema,
-          Item: itemSchema,
-          Plan: planSchema,
-          Procedure: procedureSchema,
           Question: questionSchema,
           Questionnaire: questionnaireSchema,
           Region: regionSchema,
           Role: roleSchema,
-          Stock: stockSchema,
-          Warehouse: warehouseSchema,
         } = schemas;
 
-        dispatch(setActivitySchema(activitySchema));
-        dispatch(setAdjustmentSchema(adjustmentSchema));
         dispatch(setAgencySchema(agencySchema));
         dispatch(setAlertSchema(alertSchema));
-        dispatch(setAlertSourceSchema(alertSourceSchema));
         dispatch(setDistrictSchema(districtSchema));
         dispatch(setFeatureSchema(featureSchema));
         dispatch(setFocalPersonSchema(focalPersonSchema));
         dispatch(setIndicatorSchema(indicatorSchema));
         dispatch(setIncidentTypeSchema(incidentTypeSchema));
-        dispatch(setItemSchema(itemSchema));
-        dispatch(setPlanSchema(planSchema));
-        dispatch(setProcedureSchema(procedureSchema));
         dispatch(setQuestionSchema(questionSchema));
         dispatch(setQuestionnaireSchema(questionnaireSchema));
         dispatch(setRegionSchema(regionSchema));
         dispatch(setRoleSchema(roleSchema));
-        dispatch(setStockSchema(stockSchema));
-        dispatch(setWarehouseSchema(warehouseSchema));
         dispatch(initializeAppSuccess());
       })
       .catch(error => {
