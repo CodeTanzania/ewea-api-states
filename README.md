@@ -1,6 +1,6 @@
-# EMIS API States
+# EWEA API States
 
-[![Build Status](https://travis-ci.org/CodeTanzania/emis-api-states.svg?branch=develop)](https://travis-ci.org/CodeTanzania/emis-api-states)
+[![Build Status](https://travis-ci.org/CodeTanzania/ewea-api-states.svg?branch=develop)](https://travis-ci.org/CodeTanzania/ewea-api-states)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 
@@ -11,68 +11,52 @@ Simplify API calls and state management on top of redux and others.
 Using npm
 
 ```sh
-npm install @codetanzania/emis-api-states
+npm install @codetanzania/ewea-api-states
 ```
 
 Using yarn
 
 ```sh
-yarn add @codetanzania/emis-api-states
+yarn add @codetanzania/ewea-api-states
 ```
 
 ## Usage
 
-All actions exposed by `emis-api-states` are wrapped with dispatch function, so the is no need to dispatch them again just invoke them.
+All actions exposed by `ewea-api-states` are wrapped with dispatch function, so the is no need to dispatch them again just invoke them.
 
 The following is the list of all resources exposed by this library.
 
-- activity
-- adjustment
 - agency
 - alert
-- alertSource
-- assessment
-- district
 - feature
 - focalPerson
 - incident
 - incidentType
 - indicator
-- item
-- itemCategory
-- itemUnit
-- plan
-- procedure
-- question
-- questionnaire
-- region
-- resource
 - role
-- stock
-- warehouse
 
   For each resource you can get it's exposed actions as follows;
 
-  > Replace activities/activity with the name of the module you want
+  > Replace alerts/activity with the name of the module you want
 
 ```js
 import {
-  clearActivityFilters,
-  clearActivitiesSort,
-  closeActivityForm,
-  deleteActivity,
-  filterActivities,
-  getActivities,
-  getActivity,
-  selectActivity,
-  openActivityForm,
-  paginateActivities,
-  postActivity,
-  putActivity,
-  refreshActivities,
-  searchActivities,
-  sortActivities,
-} from '@codetanzania/emis-api-states';
+  clearAlertFilters,
+  clearAlertsSort,
+  closeAlertForm,
+  deleteAlert,
+  filterAlerts,
+  getAlerts,
+  getAlert,
+  selectAlert,
+  openAlertForm,
+  paginateAlerts,
+  postAlert,
+  putAlert,
+  refreshAlerts,
+  searchAlerts,
+  sortAlerts,
+} from '@codetanzania/ewea-api-states';
 ```
 
 ### Store Structure
@@ -81,22 +65,7 @@ The structure of the store for each resource is
 
 ```js
 const store = {
-  activities: {
-    list: [],
-    selected: null,
-    page: 1,
-    total: 0,
-    size: 0,
-    pages: 1,
-    loading: false,
-    posting: false,
-    showForm: false,
-    schema: null,
-    filter: null,
-    sort: null,
-    q: undefined
-  },
-  alerts: {
+ alerts: {
     list: [],
     selected: null,
     page: 1,
@@ -121,7 +90,7 @@ This is a wrapper around react-redux `Provider` component. You can use it as fol
 
 ```jsx
 import { render } from 'react-dom';
-import { StoreProvider } from '@codetanzania/emis-api-states';
+import { StoreProvider } from '@codetanzania/ewea-api-states';
 
 // store provider
 render(
@@ -137,10 +106,10 @@ render(
 This is a wrapper around react-redux `connect` HOC with little improvement over it. You can use it as follows
 
 ```js
-import {Connect} from '@codetanzania/emis-api-states';
+import {Connect} from '@codetanzania/ewea-api-states';
 
 // for component
-function ActivityList({ activities }){
+function AlertList({ alerts }){
   return(
     // jsx stuff
   );
@@ -148,7 +117,7 @@ function ActivityList({ activities }){
 
 // connect AlertList component to store
 export Connect(AlertList, {
-    activities: 'activities.list'
+    alerts: 'alerts.list'
 });
 
 ```
@@ -160,19 +129,19 @@ Some of these actions accepts two callback functions which will be executed on S
 #### Fetch Data
 
 ```js
-import { getActivities, getActivity } from '@codetanzania/emis-api-states';
+import { getAlerts, getAlert } from '@codetanzania/ewea-api-states';
 
-getActivities();
+getAlerts();
 
-getActivity(activityId);
+getAlerts(alertId);
 ```
 
 #### Create Data
 
 ```js
-import { postActivity } from '@codetanzania/emis-api-states';
+import { postAlert } from '@codetanzania/ewea-api-states';
 
-postActivity(activity, onSuccess, onError);
+postAlert(alert, onSuccess, onError);
 ```
 
 #### Update Data
@@ -180,74 +149,68 @@ postActivity(activity, onSuccess, onError);
 > Note the `activity` here should have a valid `_id` property
 
 ```js
-import { putActivity } from '@codetanzania/emis-api-states';
+import { putAlert } from '@codetanzania/ewea-api-states';
 
-putActivity(activity, onSuccess, onError);
+putAlert(alert, onSuccess, onError);
 ```
 
 #### Archive/Delete Data
 
 ```js
-import { deleteActivity } from '@codetanzania/emis-api-states';
+import { deleteAlert } from '@codetanzania/ewea-api-states';
 
-deleteActivity(activityId, onSuccess, onError);
+deleteAlert(alertId, onSuccess, onError);
 ```
 
 #### Searching
 
 ```js
-import { searchActivities } from '@codetanzania/emis-api-states';
+import { searchAlerts } from '@codetanzania/ewea-api-states';
 
-searchActivities(searchQueryString);
+searchAlerts(searchQueryString);
 ```
 
 #### Filtering
 
 ```js
-import {
-  filterActivities,
-  clearActivityFilters,
-} from '@codetanzania/emis-api-states';
+import { filterAlerts, clearAlertFilters } from '@codetanzania/ewea-api-states';
 
-filterActivities({ plan: planId }, onSuccess, onError);
+filterAlerts({ alertType: alertTypeId }, onSuccess, onError);
 
 // clearing filters
-clearActivityFilters(onSuccess, onError);
+clearAlertFilters(onSuccess, onError);
 
 //  keep some filters from being cleared. This won't reset plan field in filter object
-clearActivityFilters(onSuccess, onError, ['plan']);
+clearAlertFilters(onSuccess, onError, ['alertType']);
 ```
 
 #### Pagination
 
 ```js
-import { paginateActivities } from '@codetanzania/emis-api-state';
+import { paginateAlerts } from '@codetanzania/ewea-api-state';
 
-paginateActivity(pageNumber);
+paginateAlerts(pageNumber);
 ```
 
 #### Sorting
 
 ```js
-import {
-  sortActivities,
-  clearActivitiesSort,
-} from '@codetanzania/emis-api-state';
+import { sortAlerts, clearAlertsSort } from '@codetanzania/ewea-api-state';
 
-sortActivities({ name: 1 }, onSuccess, onError);
+sortAlerts({ name: 1 }, onSuccess, onError);
 
 // clear sort
 
-clearActivitiesSort(onSuccess, onError);
+clearAlertsSort(onSuccess, onError);
 ```
 
-> Note: This library depends on [emis-api-client](https://github.com/CodeTanzania/emis-api-client) to work, so in order to specify API URL add `.env` file on your project root folder and specify your API URL under `REACT_APP_EMIS_API_URL=[specify API BASE URL here]`
+> Note: This library depends on [ewea-api-client](https://github.com/CodeTanzania/ewea-api-client) to work, so in order to specify API URL add `.env` file on your project root folder and specify your API URL under `REACT_APP_EMIS_API_URL=[specify API BASE URL here]`
 
 ### LICENSE
 
 MIT License
 
-Copyright (c) 2018 - present Code Tanzania & Contributors
+Copyright (c) 2019 - present Code Tanzania & Contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
