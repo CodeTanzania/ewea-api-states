@@ -8,7 +8,7 @@ import { Provider, connect } from 'react-redux';
 import merge from 'lodash/merge';
 import { combineReducers } from 'redux';
 import { createSlice, configureStore } from 'redux-starter-kit';
-import { getAuthenticatedParty, httpActions, signin as signin$1, signout as signout$1 } from '@codetanzania/emis-api-client';
+import { getAuthenticatedParty, httpActions, signin as signin$1, signout as signout$1 } from '@codetanzania/ewea-api-client';
 import { pluralize, singularize } from 'inflection';
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
@@ -138,87 +138,87 @@ function getDefaultReducers(resourceName) {
   const plural = upperFirst(pluralize(resourceName));
   const singular = upperFirst(singularize(resourceName));
   return {
-    [camelize('select', singular)]: (state, action) => Object.assign({}, state, {
+    [camelize('select', singular)]: (state, action) => ({ ...state,
       selected: action.payload
     }),
-    [camelize('filter', plural)]: (state, action) => Object.assign({}, state, {
+    [camelize('filter', plural)]: (state, action) => ({ ...state,
       filter: action.payload
     }),
-    [camelize('sort', plural)]: (state, action) => Object.assign({}, state, {
+    [camelize('sort', plural)]: (state, action) => ({ ...state,
       sort: action.payload
     }),
-    [camelize('search', plural)]: (state, action) => Object.assign({}, state, {
+    [camelize('search', plural)]: (state, action) => ({ ...state,
       q: action.payload
     }),
-    [camelize('clear', plural, 'filters')]: state => Object.assign({}, state, {
+    [camelize('clear', plural, 'filters')]: state => ({ ...state,
       filters: null
     }),
-    [camelize('clear', plural, 'sort')]: state => Object.assign({}, state, {
+    [camelize('clear', plural, 'sort')]: state => ({ ...state,
       sort: null
     }),
-    [camelize('get', plural, 'Request')]: state => Object.assign({}, state, {
+    [camelize('get', plural, 'Request')]: state => ({ ...state,
       loading: true
     }),
-    [camelize('get', plural, 'Success')]: (state, action) => Object.assign({}, state, {
+    [camelize('get', plural, 'Success')]: (state, action) => ({ ...state,
       list: [...action.payload.data],
       page: action.payload.page,
       total: action.payload.total,
       size: action.payload.size,
       loading: false
     }),
-    [camelize('get', plural, 'Failure')]: (state, action) => Object.assign({}, state, {
+    [camelize('get', plural, 'Failure')]: (state, action) => ({ ...state,
       error: action.payload,
       loading: false
     }),
-    [camelize('get', singular, 'Request')]: state => Object.assign({}, state, {
+    [camelize('get', singular, 'Request')]: state => ({ ...state,
       loading: true
     }),
-    [camelize('get', singular, 'Success')]: state => Object.assign({}, state, {
+    [camelize('get', singular, 'Success')]: state => ({ ...state,
       loading: false
     }),
-    [camelize('get', singular, 'Failure')]: (state, action) => Object.assign({}, state, {
+    [camelize('get', singular, 'Failure')]: (state, action) => ({ ...state,
       loading: false,
       error: action.payload
     }),
-    [camelize('post', singular, 'Request')]: state => Object.assign({}, state, {
+    [camelize('post', singular, 'Request')]: state => ({ ...state,
       posting: true
     }),
-    [camelize('post', singular, 'Success')]: state => Object.assign({}, state, {
+    [camelize('post', singular, 'Success')]: state => ({ ...state,
       posting: false,
       showForm: false
     }),
-    [camelize('post', singular, 'Failure')]: (state, action) => Object.assign({}, state, {
+    [camelize('post', singular, 'Failure')]: (state, action) => ({ ...state,
       error: action.payload,
       posting: false
     }),
-    [camelize('put', singular, 'Request')]: state => Object.assign({}, state, {
+    [camelize('put', singular, 'Request')]: state => ({ ...state,
       posting: true
     }),
-    [camelize('put', singular, 'Success')]: state => Object.assign({}, state, {
+    [camelize('put', singular, 'Success')]: state => ({ ...state,
       posting: false,
       showForm: false
     }),
-    [camelize('put', singular, 'Failure')]: (state, action) => Object.assign({}, state, {
+    [camelize('put', singular, 'Failure')]: (state, action) => ({ ...state,
       posting: false,
       error: action.payload
     }),
-    [camelize('delete', singular, 'Request')]: state => Object.assign({}, state, {
+    [camelize('delete', singular, 'Request')]: state => ({ ...state,
       posting: true
     }),
-    [camelize('delete', singular, 'Success')]: state => Object.assign({}, state, {
+    [camelize('delete', singular, 'Success')]: state => ({ ...state,
       posting: false
     }),
-    [camelize('delete', singular, 'Failure')]: (state, action) => Object.assign({}, state, {
+    [camelize('delete', singular, 'Failure')]: (state, action) => ({ ...state,
       posting: false,
       error: action.payload
     }),
-    [camelize('open', singular, 'Form')]: state => Object.assign({}, state, {
+    [camelize('open', singular, 'Form')]: state => ({ ...state,
       showForm: true
     }),
-    [camelize('close', singular, 'Form')]: state => Object.assign({}, state, {
+    [camelize('close', singular, 'Form')]: state => ({ ...state,
       showForm: false
     }),
-    [camelize('set', singular, 'Schema')]: (state, action) => Object.assign({}, state, {
+    [camelize('set', singular, 'Schema')]: (state, action) => ({ ...state,
       schema: action.payload
     })
   };
@@ -304,7 +304,7 @@ const appDefaultState = {
 /**
  * @function
  * @name createResourcesSlices
- * @description Create slices from all EMIS resources
+ * @description Create slices from all EWEA resources
  *
  * @param {string[]} resources list of api resources
  * @returns {object} slices resources slice
@@ -337,50 +337,50 @@ function createResourcesSlices(resources) {
 function app(state = appDefaultState, action) {
   switch (action.type) {
     case INITIALIZE_APP_START:
-      return Object.assign({}, state, {
+      return { ...state,
         loading: true
-      });
+      };
 
     case INITIALIZE_APP_SUCCESS:
-      return Object.assign({}, state, {
+      return { ...state,
         loading: false
-      });
+      };
 
     case INITIALIZE_APP_FAILURE:
-      return Object.assign({}, state, {
+      return { ...state,
         loading: false,
         error: action.payload
-      });
+      };
 
     case SIGNIN_APP_START:
-      return Object.assign({}, state, {
+      return { ...state,
         signing: true
-      });
+      };
 
     case SIGNIN_APP_SUCCESS:
-      return Object.assign({}, state, {
+      return { ...state,
         party: action.payload,
         signing: false
-      });
+      };
 
     case SIGNIN_APP_FAILURE:
-      return Object.assign({}, state, {
+      return { ...state,
         error: action.payload,
         signing: false
-      });
+      };
 
     case SIGNOUT:
-      return Object.assign({}, state, {
+      return { ...state,
         error: null,
         party: null
-      });
+      };
 
     default:
       return state;
   }
 } // all resources exposed by this library
 
-const resources = ['activity', 'adjustment', 'agency', 'alert', 'alertSource', 'assessment', 'campaign', 'district', 'feature', 'incident', 'incidentType', 'indicator', 'item', 'itemCategory', 'itemUnit', 'message', 'plan', 'procedure', 'question', 'questionnaire', 'region', 'resource', 'role', 'focalPerson', 'stock', 'warehouse'];
+const resources = ['agency', 'alert', 'alertSource', 'assessment', 'campaign', 'district', 'feature', 'focalPerson', 'incident', 'incidentType', 'indicator', 'message', 'question', 'questionnaire', 'region', 'role'];
 const slices = createResourcesSlices(resources);
 const reducers = merge({}, extractReducers(resources, slices), {
   app
@@ -418,7 +418,7 @@ function createThunksFor(resource) {
   const thunks = {};
   /**
    * @function
-   * @name get<Resource Plural Name>
+   * @name getResources
    * @description A thunk that will be dispatched when fetching data from API
    *
    * @param {object} param  Param object to be passed to API client
@@ -451,7 +451,7 @@ function createThunksFor(resource) {
   };
   /**
    * @function
-   * @name get<Resource Singular Name>
+   * @name getResource
    * @description A thunk that will be dispatched when fetching
    * single resource data from the API
    *
@@ -486,7 +486,7 @@ function createThunksFor(resource) {
   };
   /**
    * @function
-   * @name post<Resource Singular Name>
+   * @name postResource
    * @description A thunk that will be dispatched when creating a single
    * resource data in the API
    *
@@ -525,7 +525,7 @@ function createThunksFor(resource) {
   };
   /**
    * @function
-   * @name put<Resource Singular Name>
+   * @name putResource
    * @description A thunk that will be dispatched when updating a single
    * resource data in the API
    *
@@ -564,7 +564,7 @@ function createThunksFor(resource) {
   };
   /**
    * @function
-   * @name delete<Resource Singular Name>
+   * @name deleteResource
    * @description A thunk that will be dispatched when deleting/archiving
    * a single resource data in the API
    *
@@ -608,7 +608,7 @@ function createThunksFor(resource) {
   };
   /**
    * @function
-   * @name fetch<Resource Name>
+   * @name fetchResources
    * @description A thunk that for fetching data from the API the difference
    * between this and get thunk is this will apply all the criteria on fetch.
    * Pagination, filters, Search Query and sort.
@@ -617,6 +617,7 @@ function createThunksFor(resource) {
    * resources from the API succeed
    * @param {Function} onError Callback to be called when fetching
    * resources from the API fails
+   * @returns {Function} Thunk function
    *
    * @version 0.1.0
    * @since 0.1.0
@@ -639,7 +640,7 @@ function createThunksFor(resource) {
   };
   /**
    * @function
-   * @name filter<Resource Plural Name>
+   * @name filterResources
    * @description A thunk that will be dispatched when filtering resources
    *  data in the API
    *
@@ -663,7 +664,7 @@ function createThunksFor(resource) {
   };
   /**
    * @function
-   * @name refresh<Resource Plural Name>
+   * @name refreshResources
    * @description A thunk that will be dispatched when refreshing resources
    *  data in the API
    *
@@ -692,7 +693,7 @@ function createThunksFor(resource) {
   };
   /**
    * @function
-   * @name search<Resource Plural Name>
+   * @name searchResources
    * @description A thunk that will be dispatched when searching resources
    *  data in the API
    *
@@ -720,7 +721,7 @@ function createThunksFor(resource) {
   };
   /**
    * @function
-   * @name sort<Resource Plural Name>
+   * @name sortResources
    * @description A thunk that will be dispatched when sorting resources
    *  data in the API
    *
@@ -748,7 +749,7 @@ function createThunksFor(resource) {
   };
   /**
    * @function
-   * @name paginate<Resource Plural Name>
+   * @name paginateResources
    * @description A thunk that will be dispatched when paginating resources
    *  data in the API
    *
@@ -777,7 +778,7 @@ function createThunksFor(resource) {
   };
   /**
    * @function
-   * @name clear<Resource Singular Name>Filters
+   * @name clearReourceFilters
    * @description A thunk that will be dispatched when clearing filters on
    * resources data in the API
    *
@@ -806,7 +807,7 @@ function createThunksFor(resource) {
   };
   /**
    * @function
-   * @name clear<Resource Plural Name>Sort
+   * @name clearResourcesSort
    * @description A thunk that will be dispatched when clearing sort order on
    * resources data in the API
    *
@@ -863,46 +864,6 @@ function generateExposedActions(resource, actions, dispatch, thunks = null) {
   const allActions = merge({}, extractedActions, generatedThunks);
   return wrapActionsWithDispatch(allActions, dispatch);
 }
-
-const activityActions = generateExposedActions('activity', actions, dispatch);
-const {
-  clearActivityFilters,
-  clearActivitiesSort,
-  closeActivityForm,
-  deleteActivity,
-  filterActivities,
-  getActivities,
-  getActivity,
-  selectActivity,
-  openActivityForm,
-  paginateActivities,
-  postActivity,
-  putActivity,
-  refreshActivities,
-  searchActivities,
-  setActivitySchema,
-  sortActivities
-} = activityActions;
-
-const adjustmentActions = generateExposedActions('adjustment', actions, dispatch);
-const {
-  clearAdjustmentFilters,
-  clearAdjustmentsSort,
-  closeAdjustmentForm,
-  deleteAdjustment,
-  filterAdjustments,
-  getAdjustments,
-  getAdjustment,
-  selectAdjustment,
-  openAdjustmentForm,
-  paginateAdjustments,
-  postAdjustment,
-  putAdjustment,
-  refreshAdjustments,
-  searchAdjustments,
-  setAdjustmentSchema,
-  sortAdjustments
-} = adjustmentActions;
 
 const stakeholderActions = generateExposedActions('agency', actions, dispatch);
 const {
@@ -1111,20 +1072,11 @@ function initializeApp() {
     dispatch(initializeAppStart());
     return getSchemas().then(schemas => {
       const {
-        activity: {
-          setActivitySchema
-        },
-        adjustment: {
-          setAdjustmentSchema
-        },
         agency: {
           setAgencySchema
         },
         alert: {
           setAlertSchema
-        },
-        alertSource: {
-          setAlertSourceSchema
         },
         district: {
           setDistrictSchema
@@ -1138,17 +1090,8 @@ function initializeApp() {
         indicator: {
           setIndicatorSchema
         },
-        item: {
-          setItemSchema
-        },
         incidentType: {
           setIncidentTypeSchema
-        },
-        plan: {
-          setPlanSchema
-        },
-        procedure: {
-          setProcedureSchema
         },
         question: {
           setQuestionSchema
@@ -1161,54 +1104,32 @@ function initializeApp() {
         },
         role: {
           setRoleSchema
-        },
-        stock: {
-          setStockSchema
-        },
-        warehouse: {
-          setWarehouseSchema
         }
       } = actions;
       const {
-        Activity: activitySchema,
-        Adjustment: adjustmentSchema,
         Agency: agencySchema,
         Alert: alertSchema,
-        AlertSource: alertSourceSchema,
         District: districtSchema,
         Feature: featureSchema,
         FocalPerson: focalPersonSchema,
         IncidentType: incidentTypeSchema,
         Indicator: indicatorSchema,
-        Item: itemSchema,
-        Plan: planSchema,
-        Procedure: procedureSchema,
         Question: questionSchema,
         Questionnaire: questionnaireSchema,
         Region: regionSchema,
-        Role: roleSchema,
-        Stock: stockSchema,
-        Warehouse: warehouseSchema
+        Role: roleSchema
       } = schemas;
-      dispatch(setActivitySchema(activitySchema));
-      dispatch(setAdjustmentSchema(adjustmentSchema));
       dispatch(setAgencySchema(agencySchema));
       dispatch(setAlertSchema(alertSchema));
-      dispatch(setAlertSourceSchema(alertSourceSchema));
       dispatch(setDistrictSchema(districtSchema));
       dispatch(setFeatureSchema(featureSchema));
       dispatch(setFocalPersonSchema(focalPersonSchema));
       dispatch(setIndicatorSchema(indicatorSchema));
       dispatch(setIncidentTypeSchema(incidentTypeSchema));
-      dispatch(setItemSchema(itemSchema));
-      dispatch(setPlanSchema(planSchema));
-      dispatch(setProcedureSchema(procedureSchema));
       dispatch(setQuestionSchema(questionSchema));
       dispatch(setQuestionnaireSchema(questionnaireSchema));
       dispatch(setRegionSchema(regionSchema));
       dispatch(setRoleSchema(roleSchema));
-      dispatch(setStockSchema(stockSchema));
-      dispatch(setWarehouseSchema(warehouseSchema));
       dispatch(initializeAppSuccess());
     }).catch(error => {
       dispatch(initializeAppFailure(error));
@@ -1461,66 +1382,6 @@ const {
   sortIndicators
 } = indicatorActions;
 
-const itemActions = generateExposedActions('item', actions, dispatch);
-const {
-  clearItemFilters,
-  clearItemsSort,
-  closeItemForm,
-  deleteItem,
-  filterItems,
-  getItems,
-  getItem,
-  selectItem,
-  openItemForm,
-  paginateItems,
-  postItem,
-  putItem,
-  refreshItems,
-  searchItems,
-  setItemSchema,
-  sortItems
-} = itemActions;
-
-const itemCategoryActions = generateExposedActions('itemCategory', actions, dispatch);
-const {
-  clearItemCategoryFilters,
-  clearItemCategoriesSort,
-  closeItemCategoryForm,
-  deleteItemCategory,
-  filterItemCategories,
-  getItemCategories,
-  getItemCategory,
-  selectItemCategory,
-  openItemCategoryForm,
-  paginateItemCategories,
-  postItemCategory,
-  putItemCategory,
-  refreshItemCategories,
-  searchItemCategories,
-  setItemCategorySchema,
-  sortItemCategories
-} = itemCategoryActions;
-
-const itemUnitActions = generateExposedActions('itemUnit', actions, dispatch);
-const {
-  clearItemUnitFilters,
-  clearItemUnitsSort,
-  closeItemUnitForm,
-  deleteItemUnit,
-  filterItemUnits,
-  getItemUnits,
-  getItemUnit,
-  selectItemUnit,
-  openItemUnitForm,
-  paginateItemUnits,
-  postItemUnit,
-  putItemUnit,
-  refreshItemUnits,
-  searchItemUnits,
-  setItemUnitSchema,
-  sortItemUnits
-} = itemUnitActions;
-
 const messageActions = generateExposedActions('message', actions, dispatch);
 const {
   clearMessageFilters,
@@ -1540,46 +1401,6 @@ const {
   setMessageSchema,
   sortMessages
 } = messageActions;
-
-const planActions = generateExposedActions('plan', actions, dispatch);
-const {
-  clearPlanFilters,
-  clearPlansSort,
-  closePlanForm,
-  deletePlan,
-  filterPlans,
-  getPlans,
-  getPlan,
-  selectPlan,
-  openPlanForm,
-  paginatePlans,
-  postPlan,
-  putPlan,
-  refreshPlans,
-  searchPlans,
-  setPlanSchema,
-  sortPlans
-} = planActions;
-
-const procedureActions = generateExposedActions('procedure', actions, dispatch);
-const {
-  clearProcedureFilters,
-  clearProceduresSort,
-  closeProcedureForm,
-  deleteProcedure,
-  filterProcedures,
-  getProcedures,
-  getProcedure,
-  selectProcedure,
-  openProcedureForm,
-  paginateProcedures,
-  postProcedure,
-  putProcedure,
-  refreshProcedures,
-  searchProcedures,
-  setProcedureSchema,
-  sortProcedures
-} = procedureActions;
 
 const questionActions = generateExposedActions('question', actions, dispatch);
 const {
@@ -1641,26 +1462,6 @@ const {
   sortRegions
 } = featureActions$2;
 
-const resourceActions = generateExposedActions('resource', actions, dispatch);
-const {
-  clearResourceFilters,
-  clearResourcesSort,
-  closeResourceForm,
-  deleteResource,
-  filterResources,
-  getResources,
-  getResource,
-  selectResource,
-  openResourceForm,
-  paginateResources,
-  postResource,
-  putResource,
-  refreshResources,
-  searchResources,
-  setResourceSchema,
-  sortResources
-} = resourceActions;
-
 const roleActions = generateExposedActions('role', actions, dispatch);
 const {
   clearRoleFilters,
@@ -1681,50 +1482,10 @@ const {
   sortRoles
 } = roleActions;
 
-const stakeholderActions$2 = generateExposedActions('stock', actions, dispatch);
-const {
-  clearStockFilters,
-  clearStocksSort,
-  closeStockForm,
-  deleteStock,
-  filterStocks,
-  getStocks,
-  getStock,
-  selectStock,
-  openStockForm,
-  paginateStocks,
-  postStock,
-  putStock,
-  refreshStocks,
-  searchStocks,
-  setStockSchema,
-  sortStocks
-} = stakeholderActions$2;
-
-const warehouseActions = generateExposedActions('warehouse', actions, dispatch);
-const {
-  clearWarehouseFilters,
-  clearWarehousesSort,
-  closeWarehouseForm,
-  deleteWarehouse,
-  filterWarehouses,
-  getWarehouses,
-  getWarehouse,
-  selectWarehouse,
-  openWarehouseForm,
-  paginateWarehouses,
-  postWarehouse,
-  putWarehouse,
-  refreshWarehouses,
-  searchWarehouses,
-  setWarehouseSchema,
-  sortWarehouses
-} = warehouseActions;
-
 /**
  * @function
  * @name StoreProvider
- * @description Store Provider for EMIS store
+ * @description Store Provider for EWEA store
  *
  * @param {object} props react nodes
  * @param {object} props.children react nodes
@@ -1732,7 +1493,7 @@ const {
  * @version 0.1.0
  * @since 0.1.0
  * @example
- * import {StoreProvider} from '@codetanzania/emis-api-states';
+ * import {StoreProvider} from '@codetanzania/ewea-api-states';
  *
  * ReactDom.render(<StoreProvider><App /></StoreProvider>,
  * document.getElementById('root'));
@@ -1788,4 +1549,4 @@ function Connect(component, stateToProps = null) {
   return connect(mapStateToProps)(component);
 }
 
-export { Connect, StoreProvider, clearActivitiesSort, clearActivityFilters, clearAdjustmentFilters, clearAdjustmentsSort, clearAgenciesSort, clearAgencyFilters, clearAlertFilters, clearAlertSourceFilters, clearAlertSourcesSort, clearAlertsSort, clearAssessmentFilters, clearAssessmentsSort, clearCampaignFilters, clearCampaignsSort, clearDistrictFilters, clearDistrictsSort, clearFeatureFilters, clearFeaturesSort, clearFocalPeopleSort, clearFocalPersonFilters, clearIncidentFilters, clearIncidentTypeFilters, clearIncidentTypesSort, clearIncidentsSort, clearIndicatorFilters, clearIndicatorsSort, clearItemCategoriesSort, clearItemCategoryFilters, clearItemFilters, clearItemUnitFilters, clearItemUnitsSort, clearItemsSort, clearMessageFilters, clearMessagesSort, clearPlanFilters, clearPlansSort, clearProcedureFilters, clearProceduresSort, clearQuestionFilters, clearQuestionnaireFilters, clearQuestionnairesSort, clearQuestionsSort, clearRegionFilters, clearRegionsSort, clearResourceFilters, clearResourcesSort, clearRoleFilters, clearRolesSort, clearStockFilters, clearStocksSort, clearWarehouseFilters, clearWarehousesSort, closeActivityForm, closeAdjustmentForm, closeAgencyForm, closeAlertForm, closeAlertSourceForm, closeAssessmentForm, closeCampaignForm, closeDistrictForm, closeFeatureForm, closeFocalPersonForm, closeIncidentForm, closeIncidentTypeForm, closeIndicatorForm, closeItemCategoryForm, closeItemForm, closeItemUnitForm, closeMessageForm, closePlanForm, closeProcedureForm, closeQuestionForm, closeQuestionnaireForm, closeRegionForm, closeResourceForm, closeRoleForm, closeStockForm, closeWarehouseForm, deleteActivity, deleteAdjustment, deleteAgency, deleteAlert, deleteAlertSource, deleteAssessment, deleteCampaign, deleteDistrict, deleteFeature, deleteFocalPerson, deleteIncident, deleteIncidentType, deleteIndicator, deleteItem, deleteItemCategory, deleteItemUnit, deleteMessage, deletePlan, deleteProcedure, deleteQuestion, deleteQuestionnaire, deleteRegion, deleteResource, deleteRole, deleteStock, deleteWarehouse, filterActivities, filterAdjustments, filterAgencies, filterAlertSources, filterAlerts, filterAssessments, filterCampaigns, filterDistricts, filterFeatures, filterFocalPeople, filterIncidentTypes, filterIncidents, filterIndicators, filterItemCategories, filterItemUnits, filterItems, filterMessages, filterPlans, filterProcedures, filterQuestionnaires, filterQuestions, filterRegions, filterResources, filterRoles, filterStocks, filterWarehouses, getActivities, getActivity, getAdjustment, getAdjustments, getAgencies, getAgency, getAlert, getAlertSource, getAlertSources, getAlerts, getAssessment, getAssessments, getCampaign, getCampaigns, getDistrict, getDistricts, getFeature, getFeatures, getFocalPeople, getFocalPerson, getIncident, getIncidentType, getIncidentTypes, getIncidents, getIndicator, getIndicators, getItem, getItemCategories, getItemCategory, getItemUnit, getItemUnits, getItems, getMessage, getMessages, getPlan, getPlans, getProcedure, getProcedures, getQuestion, getQuestionnaire, getQuestionnaires, getQuestions, getRegion, getRegions, getResource, getResources, getRole, getRoles, getStock, getStocks, getWarehouse, getWarehouses, wrappedInitializeApp as initializeApp, openActivityForm, openAdjustmentForm, openAgencyForm, openAlertForm, openAlertSourceForm, openAssessmentForm, openCampaignForm, openDistrictForm, openFeatureForm, openFocalPersonForm, openIncidentForm, openIncidentTypeForm, openIndicatorForm, openItemCategoryForm, openItemForm, openItemUnitForm, openMessageForm, openPlanForm, openProcedureForm, openQuestionForm, openQuestionnaireForm, openRegionForm, openResourceForm, openRoleForm, openStockForm, openWarehouseForm, paginateActivities, paginateAdjustments, paginateAgencies, paginateAlertSources, paginateAlerts, paginateAssessments, paginateCampaigns, paginateDistricts, paginateFeatures, paginateFocalPeople, paginateIncidentTypes, paginateIncidents, paginateIndicators, paginateItemCategories, paginateItemUnits, paginateItems, paginateMessages, paginatePlans, paginateProcedures, paginateQuestionnaires, paginateQuestions, paginateRegions, paginateResources, paginateRoles, paginateStocks, paginateWarehouses, postActivity, postAdjustment, postAgency, postAlert, postAlertSource, postAssessment, postCampaign, postDistrict, postFeature, postFocalPerson, postIncident, postIncidentType, postIndicator, postItem, postItemCategory, postItemUnit, postMessage, postPlan, postProcedure, postQuestion, postQuestionnaire, postRegion, postResource, postRole, postStock, postWarehouse, putActivity, putAdjustment, putAgency, putAlert, putAlertSource, putAssessment, putCampaign, putDistrict, putFeature, putFocalPerson, putIncident, putIncidentType, putIndicator, putItem, putItemCategory, putItemUnit, putMessage, putPlan, putProcedure, putQuestion, putQuestionnaire, putRegion, putResource, putRole, putStock, putWarehouse, refreshActivities, refreshAdjustments, refreshAgencies, refreshAlertSources, refreshAlerts, refreshAssessments, refreshCampaigns, refreshDistricts, refreshFeatures, refreshFocalPeople, refreshIncidentTypes, refreshIncidents, refreshIndicators, refreshItemCategories, refreshItemUnits, refreshItems, refreshMessages, refreshPlans, refreshProcedures, refreshQuestionnaires, refreshQuestions, refreshRegions, refreshResources, refreshRoles, refreshStocks, refreshWarehouses, searchActivities, searchAdjustments, searchAgencies, searchAlertSources, searchAlerts, searchAssessments, searchCampaigns, searchDistricts, searchFeatures, searchFocalPeople, searchIncidentTypes, searchIncidents, searchIndicators, searchItemCategories, searchItemUnits, searchItems, searchMessages, searchPlans, searchProcedures, searchQuestionnaires, searchQuestions, searchRegions, searchResources, searchRoles, searchStocks, searchWarehouses, selectActivity, selectAdjustment, selectAgency, selectAlert, selectAlertSource, selectAssessment, selectCampaign, selectDistrict, selectFeature, selectFocalPerson, selectIncident, selectIncidentType, selectIndicator, selectItem, selectItemCategory, selectItemUnit, selectMessage, selectPlan, selectProcedure, selectQuestion, selectQuestionnaire, selectRegion, selectResource, selectRole, selectStock, selectWarehouse, setActivitySchema, setAdjustmentSchema, setAgencySchema, setAlertSchema, setAlertSourceSchema, setAssessmentSchema, setCampaignSchema, setDistrictSchema, setFeatureSchema, setFocalPersonSchema, setIncidentSchema, setIncidentTypeSchema, setIndicatorSchema, setItemCategorySchema, setItemSchema, setItemUnitSchema, setMessageSchema, setPlanSchema, setProcedureSchema, setQuestionSchema, setQuestionnaireSchema, setRegionSchema, setResourceSchema, setRoleSchema, setStockSchema, setWarehouseSchema, wrappedSingin as signin, wrappedSingout as signout, sortActivities, sortAdjustments, sortAgencies, sortAlertSources, sortAlerts, sortAssessments, sortCampaigns, sortDistricts, sortFeatures, sortFocalPeople, sortIncidentTypes, sortIncidents, sortIndicators, sortItemCategories, sortItemUnits, sortItems, sortMessages, sortPlans, sortProcedures, sortQuestionnaires, sortQuestions, sortRegions, sortResources, sortRoles, sortStocks, sortWarehouses };
+export { Connect, StoreProvider, clearAgenciesSort, clearAgencyFilters, clearAlertFilters, clearAlertSourceFilters, clearAlertSourcesSort, clearAlertsSort, clearAssessmentFilters, clearAssessmentsSort, clearCampaignFilters, clearCampaignsSort, clearDistrictFilters, clearDistrictsSort, clearFeatureFilters, clearFeaturesSort, clearFocalPeopleSort, clearFocalPersonFilters, clearIncidentFilters, clearIncidentTypeFilters, clearIncidentTypesSort, clearIncidentsSort, clearIndicatorFilters, clearIndicatorsSort, clearMessageFilters, clearMessagesSort, clearQuestionFilters, clearQuestionnaireFilters, clearQuestionnairesSort, clearQuestionsSort, clearRegionFilters, clearRegionsSort, clearRoleFilters, clearRolesSort, closeAgencyForm, closeAlertForm, closeAlertSourceForm, closeAssessmentForm, closeCampaignForm, closeDistrictForm, closeFeatureForm, closeFocalPersonForm, closeIncidentForm, closeIncidentTypeForm, closeIndicatorForm, closeMessageForm, closeQuestionForm, closeQuestionnaireForm, closeRegionForm, closeRoleForm, deleteAgency, deleteAlert, deleteAlertSource, deleteAssessment, deleteCampaign, deleteDistrict, deleteFeature, deleteFocalPerson, deleteIncident, deleteIncidentType, deleteIndicator, deleteMessage, deleteQuestion, deleteQuestionnaire, deleteRegion, deleteRole, filterAgencies, filterAlertSources, filterAlerts, filterAssessments, filterCampaigns, filterDistricts, filterFeatures, filterFocalPeople, filterIncidentTypes, filterIncidents, filterIndicators, filterMessages, filterQuestionnaires, filterQuestions, filterRegions, filterRoles, getAgencies, getAgency, getAlert, getAlertSource, getAlertSources, getAlerts, getAssessment, getAssessments, getCampaign, getCampaigns, getDistrict, getDistricts, getFeature, getFeatures, getFocalPeople, getFocalPerson, getIncident, getIncidentType, getIncidentTypes, getIncidents, getIndicator, getIndicators, getMessage, getMessages, getQuestion, getQuestionnaire, getQuestionnaires, getQuestions, getRegion, getRegions, getRole, getRoles, wrappedInitializeApp as initializeApp, openAgencyForm, openAlertForm, openAlertSourceForm, openAssessmentForm, openCampaignForm, openDistrictForm, openFeatureForm, openFocalPersonForm, openIncidentForm, openIncidentTypeForm, openIndicatorForm, openMessageForm, openQuestionForm, openQuestionnaireForm, openRegionForm, openRoleForm, paginateAgencies, paginateAlertSources, paginateAlerts, paginateAssessments, paginateCampaigns, paginateDistricts, paginateFeatures, paginateFocalPeople, paginateIncidentTypes, paginateIncidents, paginateIndicators, paginateMessages, paginateQuestionnaires, paginateQuestions, paginateRegions, paginateRoles, postAgency, postAlert, postAlertSource, postAssessment, postCampaign, postDistrict, postFeature, postFocalPerson, postIncident, postIncidentType, postIndicator, postMessage, postQuestion, postQuestionnaire, postRegion, postRole, putAgency, putAlert, putAlertSource, putAssessment, putCampaign, putDistrict, putFeature, putFocalPerson, putIncident, putIncidentType, putIndicator, putMessage, putQuestion, putQuestionnaire, putRegion, putRole, refreshAgencies, refreshAlertSources, refreshAlerts, refreshAssessments, refreshCampaigns, refreshDistricts, refreshFeatures, refreshFocalPeople, refreshIncidentTypes, refreshIncidents, refreshIndicators, refreshMessages, refreshQuestionnaires, refreshQuestions, refreshRegions, refreshRoles, searchAgencies, searchAlertSources, searchAlerts, searchAssessments, searchCampaigns, searchDistricts, searchFeatures, searchFocalPeople, searchIncidentTypes, searchIncidents, searchIndicators, searchMessages, searchQuestionnaires, searchQuestions, searchRegions, searchRoles, selectAgency, selectAlert, selectAlertSource, selectAssessment, selectCampaign, selectDistrict, selectFeature, selectFocalPerson, selectIncident, selectIncidentType, selectIndicator, selectMessage, selectQuestion, selectQuestionnaire, selectRegion, selectRole, setAgencySchema, setAlertSchema, setAlertSourceSchema, setAssessmentSchema, setCampaignSchema, setDistrictSchema, setFeatureSchema, setFocalPersonSchema, setIncidentSchema, setIncidentTypeSchema, setIndicatorSchema, setMessageSchema, setQuestionSchema, setQuestionnaireSchema, setRegionSchema, setRoleSchema, wrappedSingin as signin, wrappedSingout as signout, sortAgencies, sortAlertSources, sortAlerts, sortAssessments, sortCampaigns, sortDistricts, sortFeatures, sortFocalPeople, sortIncidentTypes, sortIncidents, sortIndicators, sortMessages, sortQuestionnaires, sortQuestions, sortRegions, sortRoles };

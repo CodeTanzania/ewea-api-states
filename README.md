@@ -204,7 +204,7 @@ sortAlerts({ name: 1 }, onSuccess, onError);
 clearAlertsSort(onSuccess, onError);
 ```
 
-> Note: This library depends on [ewea-api-client](https://github.com/CodeTanzania/ewea-api-client) to work, so in order to specify API URL add `.env` file on your project root folder and specify your API URL under `REACT_APP_EMIS_API_URL=[specify API BASE URL here]`
+> Note: This library depends on [ewea-api-client](https://github.com/CodeTanzania/ewea-api-client) to work, so in order to specify API URL add `.env` file on your project root folder and specify your API URL under `REACT_APP_EWEA_API_URL=[specify API BASE URL here]`
 
 ### LICENSE
 

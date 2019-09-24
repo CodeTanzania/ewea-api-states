@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CodeTanzania/emis-api-states.git"
+    "url": "git+https://github.com/CodeTanzania/ewea-api-states.git"
   },
   "keywords": [
     "codetanzania",
@@ -108,10 +108,14 @@
     }
   },
   "commitlint": {
-    "extends": ["@commitlint/config-conventional"]
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "lint-staged": {
-    "src/**/*.js": ["npm run lint"]
+    "src/**/*.js": [
+      "npm run lint"
+    ]
   },
   "husky": {
     "hooks": {

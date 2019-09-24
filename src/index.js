@@ -10,7 +10,7 @@ import { store } from './store';
 /**
  * @function
  * @name StoreProvider
- * @description Store Provider for EMIS store
+ * @description Store Provider for EWEA store
  *
  * @param {object} props react nodes
  * @param {object} props.children react nodes
@@ -18,7 +18,7 @@ import { store } from './store';
  * @version 0.1.0
  * @since 0.1.0
  * @example
- * import {StoreProvider} from '@codetanzania/emis-api-states';
+ * import {StoreProvider} from '@codetanzania/ewea-api-states';
  *
  * ReactDom.render(<StoreProvider><App /></StoreProvider>,
  * document.getElementById('root'));

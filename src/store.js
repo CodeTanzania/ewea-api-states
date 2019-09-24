@@ -1,7 +1,7 @@
 import merge from 'lodash/merge';
 import { combineReducers } from 'redux';
 import { configureStore } from 'redux-starter-kit';
-import { getAuthenticatedParty } from '@codetanzania/emis-api-client';
+import { getAuthenticatedParty } from '@codetanzania/ewea-api-client';
 import createSliceFor from './factories/slice';
 import { extractActions, extractReducers } from './utils';
 
@@ -25,7 +25,7 @@ const appDefaultState = {
 /**
  * @function
  * @name createResourcesSlices
- * @description Create slices from all EMIS resources
+ * @description Create slices from all EWEA resources
  *
  * @param {string[]} resources list of api resources
  * @returns {object} slices resources slice
