@@ -1,0 +1,65 @@
+{
+  "parser": "babel-eslint",
+  "extends": [
+    "airbnb",
+    "plugin:import/recommended",
+    "plugin:react/recommended",
+    "plugin:jsdoc/recommended",
+    "plugin:jest/recommended",
+    "plugin:jest/style",
+    "prettier",
+    "prettier/react",
+    "plugin:prettier/recommended"
+  ],
+  "parserOptions":
+  {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures":
+    {
+      "jsx": true,
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "env":
+  {
+    "browser": true,
+    "mocha": true,
+    "node": true
+  },
+  "rules":
+  {
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": [
+          "**/*.test.js",
+          "**/*.spec.js",
+          "**/stories/*"
+        ]
+      }
+    ],
+    "react/destructuring-assignment": [
+      "error",
+      "always",
+      {
+        "ignoreClassFields": true
+      }
+    ],
+    "react/jsx-filename-extension": [
+      1,
+      {
+        "extensions": [".js", "jsx"]
+      }
+    ],
+    "max-len": ["error", 80],
+    "react/jsx-wrap-multilines": 2
+  },
+  "plugins": [
+    "import",
+    "jest",
+    "jsdoc",
+    "prettier",
+    "react"
+  ]
+}
