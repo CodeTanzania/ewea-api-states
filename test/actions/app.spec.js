@@ -1,4 +1,4 @@
-import { httpActions, signin } from '@codetanzania/emis-api-client';
+import { httpActions, signin } from '@codetanzania/ewea-api-client';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import {
@@ -23,7 +23,7 @@ import {
 } from '../../src/store';
 
 const { getSchemas } = httpActions;
-jest.mock('@codetanzania/emis-api-client');
+jest.mock('@codetanzania/ewea-api-client');
 const mockStore = configureMockStore([thunk]);
 
 describe('App Actions', () => {

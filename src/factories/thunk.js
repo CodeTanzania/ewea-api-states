@@ -1,4 +1,4 @@
-import { httpActions as client } from '@codetanzania/emis-api-client';
+import { httpActions as client } from '@codetanzania/ewea-api-client';
 import { pluralize, singularize } from 'inflection';
 import isEmpty from 'lodash/isEmpty';
 import isFunction from 'lodash/isFunction';

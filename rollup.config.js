@@ -4,7 +4,7 @@ import pkg from './package.json';
 export default {
   input: 'src/index.js',
   external: [
-    '@codetanzania/emis-api-client',
+    '@codetanzania/ewea-api-client',
     'axios',
     'inflection',
     'lodash',

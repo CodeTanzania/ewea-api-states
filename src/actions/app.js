@@ -2,7 +2,7 @@ import {
   httpActions,
   signin as login,
   signout as logout,
-} from '@codetanzania/emis-api-client';
+} from '@codetanzania/ewea-api-client';
 import { isFunction } from 'lodash';
 import {
   actions,
