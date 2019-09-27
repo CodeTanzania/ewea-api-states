@@ -87,7 +87,7 @@
     "jest": "24.9.0",
     "lint-staged": "9.4.0",
     "prettier": "1.18.2",
-    "react-dom": "16.9.0",
+    "react-dom": "16.10.0",
     "redux-mock-store": "1.5.3",
     "rollup": "1.21.4",
     "rollup-plugin-babel": "4.3.3"
