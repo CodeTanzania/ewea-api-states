@@ -38,7 +38,6 @@ describe('Slice Factory', () => {
 
     expect(resources.actions).toBeDefined();
     expect(resources.reducer).toBeDefined();
-    expect(resources.selectors).toBeDefined();
   });
 
   it('should create common actions for each resource', () => {
