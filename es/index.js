@@ -278,7 +278,7 @@ function createSliceFor(sliceName, initialState = null, reducers = null) {
   }
 
   return createSlice({
-    slice: sliceName,
+    name: sliceName,
     initialState: initialDefaultState,
     reducers: defaultReducers
   });
