@@ -9,7 +9,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "lint": "eslint --fix --ext .jsx,.js src/ test/",
-    "build": "npm run clean && npm run lint && BABEL_ENV=production rollup -c",
+    "build": "npm run clean && npm run lint && npm run test && BABEL_ENV=production rollup -c",
     "commit": "git-cz",
     "commit:all": "git add -A && git-cz",
     "cmt": "git add -A && git-cz",
@@ -108,14 +108,10 @@
     }
   },
   "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
+    "extends": ["@commitlint/config-conventional"]
   },
   "lint-staged": {
-    "src/**/*.js": [
-      "npm run lint"
-    ]
+    "src/**/*.js": ["npm run lint"]
   },
   "husky": {
     "hooks": {
