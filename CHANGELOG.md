@@ -1,3 +1,21 @@
+#### 0.2.0 (2019-11-25)
+
+##### New Features
+
+* **predefines:**  add predefines resources to the store ([544fc466](https://github.com/CodeTanzania/ewea-api-states/commit/544fc4666a1893e56a193416f29f4ae2ad98f837))
+
+##### Bug Fixes
+
+* **deps:**
+  *  update dependency @codetanzania/ewea-api-client to >=0.2.0 ([1cfba09e](https://github.com/CodeTanzania/ewea-api-states/commit/1cfba09e594d9a0626e834e941a3f74c6ee4705f))
+  *  update react monorepo to >=16.12.0 ([4a8a22b4](https://github.com/CodeTanzania/ewea-api-states/commit/4a8a22b4b2d4e34aeb5fa2d0ca48bb20dd10f3ba))
+  *  update dependency react-redux to >=7.1.3 ([3ffc61d2](https://github.com/CodeTanzania/ewea-api-states/commit/3ffc61d2a3e3476899480b6941e302c8595631d6))
+  *  update dependency redux-starter-kit to >=1.0.1 ([fb8cff6b](https://github.com/CodeTanzania/ewea-api-states/commit/fb8cff6bcaa5e9e93cba7186412c99f4625388f7))
+
+##### Other Changes
+
+* CodeTanzania/ewea-api-states into develop ([ff64cf2a](https://github.com/CodeTanzania/ewea-api-states/commit/ff64cf2a10b06411cd1bf321b3ad4a357ab81612))
+
 #### 0.1.1 (2019-10-31)
 
 ##### Chores
