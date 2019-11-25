@@ -13,7 +13,7 @@
     "commit": "git-cz",
     "commit:all": "git add -A && git-cz",
     "cmt": "git add -A && git-cz",
-    "changelog": "changelog"
+    "changelog": "changelog -x chore"
   },
   "repository": {
     "type": "git",
@@ -108,14 +108,10 @@
     }
   },
   "commitlint": {
-    "extends": [
-      "@commitlint/config-conventional"
-    ]
+    "extends": ["@commitlint/config-conventional"]
   },
   "lint-staged": {
-    "src/**/*.js": [
-      "npm run lint"
-    ]
+    "src/**/*.js": ["npm run lint"]
   },
   "husky": {
     "hooks": {
