@@ -11,7 +11,12 @@ describe('Library Index', () => {
     const resources = [
       'agency',
       'alert',
+      'alertSource',
       'assessment',
+      'eventAction',
+      'eventFunction',
+      'eventGroup',
+      'eventType',
       'campaign',
       'district',
       'feature',

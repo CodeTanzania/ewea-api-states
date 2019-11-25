@@ -84,6 +84,10 @@ export {
 export * from './actions/assessment';
 export * from './actions/campaign';
 export * from './actions/district';
+export * from './actions/eventAction';
+export * from './actions/eventFunction';
+export * from './actions/eventGroup';
+export * from './actions/eventType';
 export * from './actions/feature';
 export * from './actions/focalPerson';
 export * from './actions/incident';
