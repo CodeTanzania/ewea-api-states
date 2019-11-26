@@ -113,8 +113,13 @@
     ]
   },
   "lint-staged": {
-    "src/**/*.js": [
-      "npm run lint"
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{md,html,json}": [
+      "prettier --write",
+      "git add"
     ]
   },
   "husky": {
