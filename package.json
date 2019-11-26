@@ -108,10 +108,14 @@
     }
   },
   "commitlint": {
-    "extends": ["@commitlint/config-conventional"]
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "lint-staged": {
-    "src/**/*.js": ["npm run lint"]
+    "src/**/*.js": [
+      "npm run lint"
+    ]
   },
   "husky": {
     "hooks": {
