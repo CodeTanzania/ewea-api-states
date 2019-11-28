@@ -1,3 +1,18 @@
+#### 0.3.0 (2019-11-28)
+
+##### Documentation Changes
+
+- **changelog:** remove all chores from release notes ([d0b740c4](https://github.com/CodeTanzania/ewea-api-states/commit/d0b740c4000e9b4542909580012b163a19703d6b))
+
+##### Other Changes
+
+- CodeTanzania/ewea-api-states into develop ([e13ebef7](https://github.com/CodeTanzania/ewea-api-states/commit/e13ebef72c694955e0f7d4594459e26cb3621cad))
+- CodeTanzania/ewea-api-states into develop ([de8b1159](https://github.com/CodeTanzania/ewea-api-states/commit/de8b1159c81df964c5cda666811f3004a3b37505))
+
+##### Refactors
+
+- **cleanup:** remove unused codes for ewea ([c8ae1e78](https://github.com/CodeTanzania/ewea-api-states/commit/c8ae1e78350bb286bb5efa6f9fc19310d645e831))
+
 #### 0.2.0 (2019-11-25)
 
 ##### New Features
