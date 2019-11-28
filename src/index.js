@@ -74,27 +74,14 @@ export function Connect(component, stateToProps = null) {
 
 /* Export resource actions */
 export * from './actions/agency';
-export * from './actions/alert';
-export * from './actions/alertSource';
 export {
   wrappedInitializeApp as initializeApp,
   wrappedSingin as signin,
   wrappedSingout as signout,
 } from './actions/app';
-export * from './actions/assessment';
-export * from './actions/campaign';
-export * from './actions/district';
 export * from './actions/eventAction';
 export * from './actions/eventFunction';
 export * from './actions/eventGroup';
 export * from './actions/eventType';
-export * from './actions/feature';
 export * from './actions/focalPerson';
-export * from './actions/incident';
-export * from './actions/incidentType';
-export * from './actions/indicator';
-export * from './actions/message';
-export * from './actions/question';
-export * from './actions/questionnaire';
-export * from './actions/region';
 export * from './actions/role';

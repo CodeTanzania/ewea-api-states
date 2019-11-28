@@ -80,25 +80,12 @@ export function app(state = appDefaultState, action) {
 // all resources exposed by this library
 const resources = [
   'agency',
-  'alert',
-  'alertSource',
-  'assessment',
   'eventAction',
   'eventFunction',
   'eventGroup',
   'eventType',
-  'campaign',
-  'district',
-  'feature',
   'focalPerson',
-  'incident',
-  'incidentType',
-  'indicator',
-  'message',
-  'question',
-  'questionnaire',
-  'region',
-  'role',
+  // 'role',
 ];
 
 const slices = createResourcesSlices(resources);

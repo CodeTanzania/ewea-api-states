@@ -3,23 +3,29 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import createThunkFor from '../src/factories/thunk';
 
-const { deleteAlert, getAlert, getAlerts, postAlert, putAlert } = httpActions;
+const {
+  deleteFocalPerson,
+  getFocalPerson,
+  getFocalPeople,
+  postFocalPerson,
+  putFocalPerson,
+} = httpActions;
 jest.mock('@codetanzania/ewea-api-client');
 const mockStore = configureMockStore([thunk]);
 
 describe('Thunk Factory', () => {
   it('should create object which expose common thunks', () => {
-    const thunks = createThunkFor('incidentType');
+    const thunks = createThunkFor('focalPeople');
 
-    expect(typeof thunks.getIncidentTypes).toBe('function');
-    expect(typeof thunks.getIncidentType).toBe('function');
-    expect(typeof thunks.postIncidentType).toBe('function');
-    expect(typeof thunks.putIncidentType).toBe('function');
+    expect(typeof thunks.getFocalPeople).toBe('function');
+    expect(typeof thunks.getFocalPerson).toBe('function');
+    expect(typeof thunks.postFocalPerson).toBe('function');
+    expect(typeof thunks.putFocalPerson).toBe('function');
   });
 
   it('should dispatch required actions when get resources succeed', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
       },
     });
@@ -33,18 +39,18 @@ describe('Thunk Factory', () => {
       },
     };
 
-    getAlerts.mockResolvedValueOnce(mockData);
+    getFocalPeople.mockResolvedValueOnce(mockData);
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsSuccess', payload: mockData },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleSuccess', payload: mockData },
     ];
 
     return store
-      .dispatch(alertThunks.getAlerts({}, onSuccess, onError))
+      .dispatch(focalPersonThunks.getFocalPeople({}, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
@@ -54,7 +60,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when get resources fails', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
       },
     });
@@ -70,18 +76,18 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getAlerts.mockRejectedValueOnce(error);
+    getFocalPeople.mockRejectedValueOnce(error);
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsFailure', payload: error },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleFailure', payload: error },
     ];
 
     return store
-      .dispatch(alertThunks.getAlerts({}, onSuccess, onError))
+      .dispatch(focalPersonThunks.getFocalPeople({}, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -92,7 +98,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when refresh resources succeed', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
         filter: { name: 'Test' },
         page: 1,
@@ -107,19 +113,19 @@ describe('Thunk Factory', () => {
         total: 1,
       },
     };
-    getAlerts.mockResolvedValueOnce(mockData);
+    getFocalPeople.mockResolvedValueOnce(mockData);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsSuccess', payload: mockData },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleSuccess', payload: mockData },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.refreshAlerts(onSuccess, onError))
+      .dispatch(focalPersonThunks.refreshFocalPeople(onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalled();
@@ -129,7 +135,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when refresh resources fails', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
       },
     });
@@ -145,18 +151,18 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getAlerts.mockRejectedValueOnce(error);
+    getFocalPeople.mockRejectedValueOnce(error);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsFailure', payload: error },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleFailure', payload: error },
     ];
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.refreshAlerts(onSuccess, onError))
+      .dispatch(focalPersonThunks.refreshFocalPeople(onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -167,7 +173,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when filter resources succeed', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
         page: 1,
         filter: {},
@@ -182,20 +188,26 @@ describe('Thunk Factory', () => {
         total: 1,
       },
     };
-    getAlerts.mockResolvedValueOnce(mockData);
+    getFocalPeople.mockResolvedValueOnce(mockData);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/filterAlerts', payload: { name: 'Test' } },
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsSuccess', payload: mockData },
+      { type: 'focalPerson/filterFocalPeople', payload: { name: 'Test' } },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleSuccess', payload: mockData },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.filterAlerts({ name: 'Test' }, onSuccess, onError))
+      .dispatch(
+        focalPersonThunks.filterFocalPeople(
+          { name: 'Test' },
+          onSuccess,
+          onError
+        )
+      )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
@@ -205,7 +217,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when filter resources fails', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
         error: null,
       },
@@ -222,20 +234,26 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getAlerts.mockRejectedValueOnce(error);
+    getFocalPeople.mockRejectedValueOnce(error);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/filterAlerts', payload: { name: 'Test' } },
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsFailure', payload: error },
+      { type: 'focalPerson/filterFocalPeople', payload: { name: 'Test' } },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleFailure', payload: error },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.filterAlerts({ name: 'Test' }, onSuccess, onError))
+      .dispatch(
+        focalPersonThunks.filterFocalPeople(
+          { name: 'Test' },
+          onSuccess,
+          onError
+        )
+      )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -246,7 +264,7 @@ describe('Thunk Factory', () => {
 
   it('should reload resources when clear resource filters succeed', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
       },
     });
@@ -259,20 +277,20 @@ describe('Thunk Factory', () => {
         total: 1,
       },
     };
-    getAlerts.mockResolvedValueOnce(mockData);
+    getFocalPeople.mockResolvedValueOnce(mockData);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/filterAlerts', payload: null },
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsSuccess', payload: mockData },
+      { type: 'focalPerson/filterFocalPeople', payload: null },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleSuccess', payload: mockData },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.clearAlertFilters(onSuccess, onError))
+      .dispatch(focalPersonThunks.clearFocalPersonFilters(onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
@@ -282,7 +300,7 @@ describe('Thunk Factory', () => {
 
   it('should reload resources when clearing part of filters succeed', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
         filter: { name: 'Test', age: 12 },
       },
@@ -296,20 +314,22 @@ describe('Thunk Factory', () => {
         total: 1,
       },
     };
-    getAlerts.mockResolvedValueOnce(mockData);
+    getFocalPeople.mockResolvedValueOnce(mockData);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/filterAlerts', payload: { name: 'Test' } },
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsSuccess', payload: mockData },
+      { type: 'focalPerson/filterFocalPeople', payload: { name: 'Test' } },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleSuccess', payload: mockData },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.clearAlertFilters(onSuccess, onError, ['name']))
+      .dispatch(
+        focalPersonThunks.clearFocalPersonFilters(onSuccess, onError, ['name'])
+      )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
@@ -319,7 +339,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch error action when clear filters fails', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
         error: null,
         filter: { name: 'Test' },
@@ -337,20 +357,20 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getAlerts.mockRejectedValueOnce(error);
+    getFocalPeople.mockRejectedValueOnce(error);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/filterAlerts', payload: null },
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsFailure', payload: error },
+      { type: 'focalPerson/filterFocalPeople', payload: null },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleFailure', payload: error },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.clearAlertFilters(onSuccess, onError))
+      .dispatch(focalPersonThunks.clearFocalPersonFilters(onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -361,7 +381,7 @@ describe('Thunk Factory', () => {
 
   it('should reload resources when clear resource sort succeed', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
         page: 1,
       },
@@ -375,31 +395,31 @@ describe('Thunk Factory', () => {
         total: 1,
       },
     };
-    getAlerts.mockResolvedValueOnce(mockData);
+    getFocalPeople.mockResolvedValueOnce(mockData);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/clearAlertsSort', payload: undefined },
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsSuccess', payload: mockData },
+      { type: 'focalPerson/clearFocalPeopleSort', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleSuccess', payload: mockData },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.clearAlertsSort(onSuccess, onError))
+      .dispatch(focalPersonThunks.clearFocalPeopleSort(onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
         expect(onError).toHaveBeenCalledTimes(0);
-        expect(getAlerts).toHaveBeenCalledWith({ page: 1 });
+        expect(getFocalPeople).toHaveBeenCalledWith({ page: 1 });
       });
   });
 
   it('should dispatch error action when clear resource sort fails', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
         error: null,
         page: 1,
@@ -417,31 +437,31 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getAlerts.mockRejectedValueOnce(error);
+    getFocalPeople.mockRejectedValueOnce(error);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/clearAlertsSort', payload: undefined },
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsFailure', payload: error },
+      { type: 'focalPerson/clearFocalPeopleSort', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleFailure', payload: error },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.clearAlertsSort(onSuccess, onError))
+      .dispatch(focalPersonThunks.clearFocalPeopleSort(onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
         expect(onError).toHaveBeenCalledTimes(1);
-        expect(getAlerts).toHaveBeenCalledWith({ page: 1 });
+        expect(getFocalPeople).toHaveBeenCalledWith({ page: 1 });
       });
   });
 
   it('should dispatch required actions when search resources succeed', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
         q: undefined,
       },
@@ -455,20 +475,20 @@ describe('Thunk Factory', () => {
         total: 1,
       },
     };
-    getAlerts.mockResolvedValueOnce(mockData);
+    getFocalPeople.mockResolvedValueOnce(mockData);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/searchAlerts', payload: 'Test' },
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsSuccess', payload: mockData },
+      { type: 'focalPerson/searchFocalPeople', payload: 'Test' },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleSuccess', payload: mockData },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.searchAlerts('Test', onSuccess, onError))
+      .dispatch(focalPersonThunks.searchFocalPeople('Test', onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
@@ -478,7 +498,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when search resources fails', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
       },
     });
@@ -494,20 +514,20 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getAlerts.mockRejectedValueOnce(error);
+    getFocalPeople.mockRejectedValueOnce(error);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
+
     const expectedActions = [
-      { type: 'alert/searchAlerts', payload: 'Test' },
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsFailure', payload: error },
+      { type: 'focalPerson/searchFocalPeople', payload: 'Test' },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleFailure', payload: error },
     ];
-
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.searchAlerts('Test', onSuccess, onError))
+      .dispatch(focalPersonThunks.searchFocalPeople('Test', onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -518,7 +538,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when sort resources succeed', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
         page: 1,
       },
@@ -532,31 +552,36 @@ describe('Thunk Factory', () => {
         total: 1,
       },
     };
-    getAlerts.mockResolvedValueOnce(mockData);
+    getFocalPeople.mockResolvedValueOnce(mockData);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/sortAlerts', payload: { name: -1 } },
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsSuccess', payload: mockData },
+      { type: 'focalPerson/sortFocalPeople', payload: { name: -1 } },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleSuccess', payload: mockData },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.sortAlerts({ name: -1 }, onSuccess, onError))
+      .dispatch(
+        focalPersonThunks.sortFocalPeople({ name: -1 }, onSuccess, onError)
+      )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
         expect(onError).toHaveBeenCalledTimes(0);
-        expect(getAlerts).toHaveBeenCalledWith({ page: 1, sort: { name: -1 } });
+        expect(getFocalPeople).toHaveBeenCalledWith({
+          page: 1,
+          sort: { name: -1 },
+        });
       });
   });
 
   it('should dispatch required actions when sort resources fails', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
         page: 1,
       },
@@ -573,30 +598,35 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getAlerts.mockRejectedValueOnce(error);
+    getFocalPeople.mockRejectedValueOnce(error);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/sortAlerts', payload: { name: -1 } },
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsFailure', payload: error },
+      { type: 'focalPerson/sortFocalPeople', payload: { name: -1 } },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleFailure', payload: error },
     ];
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.sortAlerts({ name: -1 }, onSuccess, onError))
+      .dispatch(
+        focalPersonThunks.sortFocalPeople({ name: -1 }, onSuccess, onError)
+      )
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
         expect(onError).toHaveBeenCalledTimes(1);
-        expect(getAlerts).toHaveBeenCalledWith({ page: 1, sort: { name: -1 } });
+        expect(getFocalPeople).toHaveBeenCalledWith({
+          page: 1,
+          sort: { name: -1 },
+        });
       });
   });
 
   it('should dispatch required actions when paginate resources succeed', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
         filter: {},
       },
@@ -610,30 +640,30 @@ describe('Thunk Factory', () => {
         total: 1,
       },
     };
-    getAlerts.mockResolvedValueOnce(mockData);
+    getFocalPeople.mockResolvedValueOnce(mockData);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsSuccess', payload: mockData },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleSuccess', payload: mockData },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.paginateAlerts(1, onSuccess, onError))
+      .dispatch(focalPersonThunks.paginateFocalPeople(1, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
         expect(onError).toHaveBeenCalledTimes(0);
-        expect(getAlerts).toHaveBeenCalledWith({ page: 1, filter: {} });
+        expect(getFocalPeople).toHaveBeenCalledWith({ page: 1, filter: {} });
       });
   });
 
   it('should dispatch required actions when paginate resources fails', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
       },
     });
@@ -649,19 +679,19 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getAlerts.mockRejectedValueOnce(error);
+    getFocalPeople.mockRejectedValueOnce(error);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsFailure', payload: error },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleFailure', payload: error },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.paginateAlerts(1, onSuccess, onError))
+      .dispatch(focalPersonThunks.paginateFocalPeople(1, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -672,7 +702,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when get a resource succeed', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
       },
     });
@@ -681,18 +711,18 @@ describe('Thunk Factory', () => {
       name: 'Finish off',
     };
 
-    getAlert.mockResolvedValueOnce(mockData);
+    getFocalPerson.mockResolvedValueOnce(mockData);
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/getAlertRequest', payload: undefined },
-      { type: 'alert/getAlertSuccess', payload: mockData },
+      { type: 'focalPerson/getFocalPersonRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPersonSuccess', payload: mockData },
     ];
 
     return store
-      .dispatch(alertThunks.getAlert('id', onSuccess, onError))
+      .dispatch(focalPersonThunks.getFocalPerson('id', onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
@@ -702,7 +732,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when get a resource fails', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
       },
     });
@@ -717,18 +747,18 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    getAlert.mockRejectedValueOnce(error);
+    getFocalPerson.mockRejectedValueOnce(error);
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/getAlertRequest', payload: undefined },
-      { type: 'alert/getAlertFailure', payload: error },
+      { type: 'focalPerson/getFocalPersonRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPersonFailure', payload: error },
     ];
 
     return store
-      .dispatch(alertThunks.getAlert({}, onSuccess, onError))
+      .dispatch(focalPersonThunks.getFocalPerson({}, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -739,7 +769,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when post a resource succeed', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
       },
     });
@@ -759,25 +789,25 @@ describe('Thunk Factory', () => {
       },
     };
 
-    postAlert.mockResolvedValueOnce(mockData);
-    getAlerts.mockResolvedValueOnce(mockGetData);
+    postFocalPerson.mockResolvedValueOnce(mockData);
+    getFocalPeople.mockResolvedValueOnce(mockGetData);
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/postAlertRequest', payload: undefined },
-      { type: 'alert/postAlertSuccess', payload: mockData },
-      { type: 'alert/clearAlertsFilters', payload: undefined },
-      { type: 'alert/clearAlertsSort', payload: undefined },
-      { type: 'alert/searchAlerts', payload: undefined },
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsSuccess', payload: mockGetData },
+      { type: 'focalPerson/postFocalPersonRequest', payload: undefined },
+      { type: 'focalPerson/postFocalPersonSuccess', payload: mockData },
+      { type: 'focalPerson/clearFocalPeopleFilters', payload: undefined },
+      { type: 'focalPerson/clearFocalPeopleSort', payload: undefined },
+      { type: 'focalPerson/searchFocalPeople', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleSuccess', payload: mockGetData },
     ];
 
     return store
-      .dispatch(alertThunks.postAlert({}, onSuccess, onError))
+      .dispatch(focalPersonThunks.postFocalPerson({}, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
@@ -787,7 +817,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when post a resource fails', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
       },
     });
@@ -803,19 +833,19 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    postAlert.mockRejectedValueOnce(error);
+    postFocalPerson.mockRejectedValueOnce(error);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/postAlertRequest', payload: undefined },
-      { type: 'alert/postAlertFailure', payload: error },
+      { type: 'focalPerson/postFocalPersonRequest', payload: undefined },
+      { type: 'focalPerson/postFocalPersonFailure', payload: error },
     ];
 
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.postAlert({}, onSuccess, onError))
+      .dispatch(focalPersonThunks.postFocalPerson({}, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -826,7 +856,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when put a resource succeed', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
       },
     });
@@ -847,22 +877,22 @@ describe('Thunk Factory', () => {
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
-    putAlert.mockResolvedValueOnce(mockData);
-    getAlerts.mockResolvedValueOnce(mockGetData);
+    putFocalPerson.mockResolvedValueOnce(mockData);
+    getFocalPeople.mockResolvedValueOnce(mockGetData);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/putAlertRequest', payload: undefined },
-      { type: 'alert/putAlertSuccess', payload: mockData },
-      { type: 'alert/clearAlertsFilters', payload: undefined },
-      { type: 'alert/clearAlertsSort', payload: undefined },
-      { type: 'alert/searchAlerts', payload: undefined },
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsSuccess', payload: mockGetData },
+      { type: 'focalPerson/putFocalPersonRequest', payload: undefined },
+      { type: 'focalPerson/putFocalPersonSuccess', payload: mockData },
+      { type: 'focalPerson/clearFocalPeopleFilters', payload: undefined },
+      { type: 'focalPerson/clearFocalPeopleSort', payload: undefined },
+      { type: 'focalPerson/searchFocalPeople', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleSuccess', payload: mockGetData },
     ];
 
     return store
-      .dispatch(alertThunks.putAlert({}, onSuccess, onError))
+      .dispatch(focalPersonThunks.putFocalPerson({}, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
@@ -872,7 +902,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when put a resource fails', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
       },
     });
@@ -888,18 +918,18 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    putAlert.mockRejectedValueOnce(error);
+    putFocalPerson.mockRejectedValueOnce(error);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/putAlertRequest', payload: undefined },
-      { type: 'alert/putAlertFailure', payload: error },
+      { type: 'focalPerson/putFocalPersonRequest', payload: undefined },
+      { type: 'focalPerson/putFocalPersonFailure', payload: error },
     ];
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.putAlert({}, onSuccess, onError))
+      .dispatch(focalPersonThunks.putFocalPerson({}, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
@@ -910,7 +940,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when delete resource succeed', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
         page: 1,
         filter: null,
@@ -933,24 +963,24 @@ describe('Thunk Factory', () => {
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
-    deleteAlert.mockResolvedValueOnce(mockData);
-    getAlerts.mockResolvedValueOnce(mockGetData);
+    deleteFocalPerson.mockResolvedValueOnce(mockData);
+    getFocalPeople.mockResolvedValueOnce(mockGetData);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/deleteAlertRequest', payload: undefined },
-      { type: 'alert/deleteAlertSuccess', payload: mockData },
-      { type: 'alert/getAlertsRequest', payload: undefined },
-      { type: 'alert/getAlertsSuccess', payload: mockGetData },
+      { type: 'focalPerson/deleteFocalPersonRequest', payload: undefined },
+      { type: 'focalPerson/deleteFocalPersonSuccess', payload: mockData },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleSuccess', payload: mockGetData },
     ];
 
     return store
-      .dispatch(alertThunks.deleteAlert('id', onSuccess, onError))
+      .dispatch(focalPersonThunks.deleteFocalPerson('id', onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(1);
         expect(onError).toHaveBeenCalledTimes(0);
-        expect(getAlerts).toHaveBeenCalledWith({
+        expect(getFocalPeople).toHaveBeenCalledWith({
           page: 1,
           filter: null,
         });
@@ -959,7 +989,7 @@ describe('Thunk Factory', () => {
 
   it('should dispatch required actions when delete resource fails', () => {
     const store = mockStore({
-      alerts: {
+      focalPeople: {
         list: [],
       },
     });
@@ -975,18 +1005,18 @@ describe('Thunk Factory', () => {
       error_description: 'Not Found',
     };
 
-    deleteAlert.mockRejectedValueOnce(error);
+    deleteFocalPerson.mockRejectedValueOnce(error);
 
-    const alertThunks = createThunkFor('alerts');
+    const focalPersonThunks = createThunkFor('focalPeople');
     const expectedActions = [
-      { type: 'alert/deleteAlertRequest', payload: undefined },
-      { type: 'alert/deleteAlertFailure', payload: error },
+      { type: 'focalPerson/deleteFocalPersonRequest', payload: undefined },
+      { type: 'focalPerson/deleteFocalPersonFailure', payload: error },
     ];
     const onSuccess = jest.fn();
     const onError = jest.fn();
 
     return store
-      .dispatch(alertThunks.deleteAlert({}, onSuccess, onError))
+      .dispatch(focalPersonThunks.deleteFocalPerson({}, onSuccess, onError))
       .then(() => {
         expect(store.getActions()).toEqual(expectedActions);
         expect(onSuccess).toHaveBeenCalledTimes(0);
