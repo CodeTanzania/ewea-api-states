@@ -380,7 +380,8 @@ function app(state = appDefaultState, action) {
   }
 } // all resources exposed by this library
 
-const resources = ['agency', 'alert', 'alertSource', 'assessment', 'eventAction', 'eventFunction', 'eventGroup', 'eventType', 'campaign', 'district', 'feature', 'focalPerson', 'incident', 'incidentType', 'indicator', 'message', 'question', 'questionnaire', 'region', 'role'];
+const resources = ['agency', 'eventAction', 'eventFunction', 'eventGroup', 'eventType', 'focalPerson' // 'role',
+];
 const slices = createResourcesSlices(resources);
 const reducers = merge({}, extractReducers(resources, slices), {
   app
@@ -885,46 +886,6 @@ const {
   sortAgencies
 } = stakeholderActions;
 
-const alertActions = generateExposedActions('alert', actions, dispatch);
-const {
-  clearAlertFilters,
-  clearAlertsSort,
-  closeAlertForm,
-  deleteAlert,
-  filterAlerts,
-  getAlerts,
-  getAlert,
-  selectAlert,
-  openAlertForm,
-  paginateAlerts,
-  postAlert,
-  putAlert,
-  refreshAlerts,
-  searchAlerts,
-  setAlertSchema,
-  sortAlerts
-} = alertActions;
-
-const alertActions$1 = generateExposedActions('alertSource', actions, dispatch);
-const {
-  clearAlertSourceFilters,
-  clearAlertSourcesSort,
-  closeAlertSourceForm,
-  deleteAlertSource,
-  filterAlertSources,
-  getAlertSources,
-  getAlertSource,
-  selectAlertSource,
-  openAlertSourceForm,
-  paginateAlertSources,
-  postAlertSource,
-  putAlertSource,
-  refreshAlertSources,
-  searchAlertSources,
-  setAlertSourceSchema,
-  sortAlertSources
-} = alertActions$1;
-
 /* declarations */
 
 const {
@@ -1075,61 +1036,43 @@ function initializeApp() {
         agency: {
           setAgencySchema
         },
-        alert: {
-          setAlertSchema
-        },
-        district: {
-          setDistrictSchema
-        },
-        feature: {
-          setFeatureSchema
-        },
+        // alert: { setAlertSchema },
+        // district: { setDistrictSchema },
+        // feature: { setFeatureSchema },
         focalPerson: {
           setFocalPersonSchema
-        },
-        indicator: {
-          setIndicatorSchema
-        },
-        incidentType: {
-          setIncidentTypeSchema
-        },
-        question: {
-          setQuestionSchema
-        },
-        questionnaire: {
-          setQuestionnaireSchema
-        },
-        region: {
-          setRegionSchema
-        },
-        role: {
-          setRoleSchema
-        }
+        } // indicator: { setIndicatorSchema },
+        // incidentType: { setIncidentTypeSchema },
+        // question: { setQuestionSchema },
+        // questionnaire: { setQuestionnaireSchema },
+        // region: { setRegionSchema },
+        // role: { setRoleSchema },
+
       } = actions;
       const {
         Agency: agencySchema,
-        Alert: alertSchema,
-        District: districtSchema,
-        Feature: featureSchema,
-        FocalPerson: focalPersonSchema,
-        IncidentType: incidentTypeSchema,
-        Indicator: indicatorSchema,
-        Question: questionSchema,
-        Questionnaire: questionnaireSchema,
-        Region: regionSchema,
-        Role: roleSchema
+        //   Alert: alertSchema,
+        //   District: districtSchema,
+        //   Feature: featureSchema,
+        FocalPerson: focalPersonSchema //   IncidentType: incidentTypeSchema,
+        //   Indicator: indicatorSchema,
+        //   Question: questionSchema,
+        //   Questionnaire: questionnaireSchema,
+        //   Region: regionSchema,
+        //   Role: roleSchema,
+
       } = schemas;
-      dispatch(setAgencySchema(agencySchema));
-      dispatch(setAlertSchema(alertSchema));
-      dispatch(setDistrictSchema(districtSchema));
-      dispatch(setFeatureSchema(featureSchema));
-      dispatch(setFocalPersonSchema(focalPersonSchema));
-      dispatch(setIndicatorSchema(indicatorSchema));
-      dispatch(setIncidentTypeSchema(incidentTypeSchema));
-      dispatch(setQuestionSchema(questionSchema));
-      dispatch(setQuestionnaireSchema(questionnaireSchema));
-      dispatch(setRegionSchema(regionSchema));
-      dispatch(setRoleSchema(roleSchema));
+      dispatch(setAgencySchema(agencySchema)); // dispatch(setAlertSchema(alertSchema));
+      // dispatch(setDistrictSchema(districtSchema));
+      // dispatch(setFeatureSchema(featureSchema));
+
+      dispatch(setFocalPersonSchema(focalPersonSchema)); // dispatch(setIndicatorSchema(indicatorSchema));
+      // dispatch(setIncidentTypeSchema(incidentTypeSchema));
+      // dispatch(setQuestionSchema(questionSchema));
+      // dispatch(setQuestionnaireSchema(questionnaireSchema));
+      // dispatch(setRegionSchema(regionSchema));
+      // dispatch(setRoleSchema(roleSchema));
+
       dispatch(initializeAppSuccess());
     }).catch(error => {
       dispatch(initializeAppFailure(error));
@@ -1222,66 +1165,6 @@ function wrappedSingout() {
   return dispatch(signout());
 }
 
-const assessmentActions = generateExposedActions('assessment', actions, dispatch);
-const {
-  clearAssessmentFilters,
-  clearAssessmentsSort,
-  closeAssessmentForm,
-  deleteAssessment,
-  filterAssessments,
-  getAssessments,
-  getAssessment,
-  selectAssessment,
-  openAssessmentForm,
-  paginateAssessments,
-  postAssessment,
-  putAssessment,
-  refreshAssessments,
-  searchAssessments,
-  setAssessmentSchema,
-  sortAssessments
-} = assessmentActions;
-
-const campaignActions = generateExposedActions('campaign', actions, dispatch);
-const {
-  clearCampaignFilters,
-  clearCampaignsSort,
-  closeCampaignForm,
-  deleteCampaign,
-  filterCampaigns,
-  getCampaigns,
-  getCampaign,
-  selectCampaign,
-  openCampaignForm,
-  paginateCampaigns,
-  postCampaign,
-  putCampaign,
-  refreshCampaigns,
-  searchCampaigns,
-  setCampaignSchema,
-  sortCampaigns
-} = campaignActions;
-
-const featureActions = generateExposedActions('district', actions, dispatch);
-const {
-  clearDistrictFilters,
-  clearDistrictsSort,
-  closeDistrictForm,
-  deleteDistrict,
-  filterDistricts,
-  getDistricts,
-  getDistrict,
-  selectDistrict,
-  openDistrictForm,
-  paginateDistricts,
-  postDistrict,
-  putDistrict,
-  refreshDistricts,
-  searchDistricts,
-  setDistrictSchema,
-  sortDistricts
-} = featureActions;
-
 const eventActionActions = generateExposedActions('eventAction', actions, dispatch);
 const {
   clearEventActionFilters,
@@ -1362,26 +1245,6 @@ const {
   sortEventTypes
 } = eventTypeActions;
 
-const featureActions$1 = generateExposedActions('feature', actions, dispatch);
-const {
-  clearFeatureFilters,
-  clearFeaturesSort,
-  closeFeatureForm,
-  deleteFeature,
-  filterFeatures,
-  getFeatures,
-  getFeature,
-  selectFeature,
-  openFeatureForm,
-  paginateFeatures,
-  postFeature,
-  putFeature,
-  refreshFeatures,
-  searchFeatures,
-  setFeatureSchema,
-  sortFeatures
-} = featureActions$1;
-
 const stakeholderActions$1 = generateExposedActions('focalPerson', actions, dispatch);
 const {
   clearFocalPersonFilters,
@@ -1401,146 +1264,6 @@ const {
   setFocalPersonSchema,
   sortFocalPeople
 } = stakeholderActions$1;
-
-const incidentActions = generateExposedActions('incident', actions, dispatch);
-const {
-  clearIncidentFilters,
-  clearIncidentsSort,
-  closeIncidentForm,
-  deleteIncident,
-  filterIncidents,
-  getIncidents,
-  getIncident,
-  selectIncident,
-  openIncidentForm,
-  paginateIncidents,
-  postIncident,
-  putIncident,
-  refreshIncidents,
-  searchIncidents,
-  setIncidentSchema,
-  sortIncidents
-} = incidentActions;
-
-const incidentTypeActions = generateExposedActions('incidentType', actions, dispatch);
-const {
-  clearIncidentTypeFilters,
-  clearIncidentTypesSort,
-  closeIncidentTypeForm,
-  deleteIncidentType,
-  filterIncidentTypes,
-  getIncidentTypes,
-  getIncidentType,
-  selectIncidentType,
-  openIncidentTypeForm,
-  paginateIncidentTypes,
-  postIncidentType,
-  putIncidentType,
-  refreshIncidentTypes,
-  searchIncidentTypes,
-  setIncidentTypeSchema,
-  sortIncidentTypes
-} = incidentTypeActions;
-
-const indicatorActions = generateExposedActions('indicator', actions, dispatch);
-const {
-  clearIndicatorFilters,
-  clearIndicatorsSort,
-  closeIndicatorForm,
-  deleteIndicator,
-  filterIndicators,
-  getIndicators,
-  getIndicator,
-  selectIndicator,
-  openIndicatorForm,
-  paginateIndicators,
-  postIndicator,
-  putIndicator,
-  refreshIndicators,
-  searchIndicators,
-  setIndicatorSchema,
-  sortIndicators
-} = indicatorActions;
-
-const messageActions = generateExposedActions('message', actions, dispatch);
-const {
-  clearMessageFilters,
-  clearMessagesSort,
-  closeMessageForm,
-  deleteMessage,
-  filterMessages,
-  getMessages,
-  getMessage,
-  selectMessage,
-  openMessageForm,
-  paginateMessages,
-  postMessage,
-  putMessage,
-  refreshMessages,
-  searchMessages,
-  setMessageSchema,
-  sortMessages
-} = messageActions;
-
-const questionActions = generateExposedActions('question', actions, dispatch);
-const {
-  clearQuestionFilters,
-  clearQuestionsSort,
-  closeQuestionForm,
-  deleteQuestion,
-  filterQuestions,
-  getQuestions,
-  getQuestion,
-  selectQuestion,
-  openQuestionForm,
-  paginateQuestions,
-  postQuestion,
-  putQuestion,
-  refreshQuestions,
-  searchQuestions,
-  setQuestionSchema,
-  sortQuestions
-} = questionActions;
-
-const questionnaireActions = generateExposedActions('questionnaire', actions, dispatch);
-const {
-  clearQuestionnaireFilters,
-  clearQuestionnairesSort,
-  closeQuestionnaireForm,
-  deleteQuestionnaire,
-  filterQuestionnaires,
-  getQuestionnaires,
-  getQuestionnaire,
-  selectQuestionnaire,
-  openQuestionnaireForm,
-  paginateQuestionnaires,
-  postQuestionnaire,
-  putQuestionnaire,
-  refreshQuestionnaires,
-  searchQuestionnaires,
-  setQuestionnaireSchema,
-  sortQuestionnaires
-} = questionnaireActions;
-
-const featureActions$2 = generateExposedActions('region', actions, dispatch);
-const {
-  clearRegionFilters,
-  clearRegionsSort,
-  closeRegionForm,
-  deleteRegion,
-  filterRegions,
-  getRegions,
-  getRegion,
-  selectRegion,
-  openRegionForm,
-  paginateRegions,
-  postRegion,
-  putRegion,
-  refreshRegions,
-  searchRegions,
-  setRegionSchema,
-  sortRegions
-} = featureActions$2;
 
 const roleActions = generateExposedActions('role', actions, dispatch);
 const {
@@ -1629,4 +1352,4 @@ function Connect(component, stateToProps = null) {
   return connect(mapStateToProps)(component);
 }
 
-export { Connect, StoreProvider, clearAgenciesSort, clearAgencyFilters, clearAlertFilters, clearAlertSourceFilters, clearAlertSourcesSort, clearAlertsSort, clearAssessmentFilters, clearAssessmentsSort, clearCampaignFilters, clearCampaignsSort, clearDistrictFilters, clearDistrictsSort, clearEventActionFilters, clearEventActionsSort, clearEventFunctionFilters, clearEventFunctionsSort, clearEventGroupFilters, clearEventGroupsSort, clearEventTypeFilters, clearEventTypesSort, clearFeatureFilters, clearFeaturesSort, clearFocalPeopleSort, clearFocalPersonFilters, clearIncidentFilters, clearIncidentTypeFilters, clearIncidentTypesSort, clearIncidentsSort, clearIndicatorFilters, clearIndicatorsSort, clearMessageFilters, clearMessagesSort, clearQuestionFilters, clearQuestionnaireFilters, clearQuestionnairesSort, clearQuestionsSort, clearRegionFilters, clearRegionsSort, clearRoleFilters, clearRolesSort, closeAgencyForm, closeAlertForm, closeAlertSourceForm, closeAssessmentForm, closeCampaignForm, closeDistrictForm, closeEventActionForm, closeEventFunctionForm, closeEventGroupForm, closeEventTypeForm, closeFeatureForm, closeFocalPersonForm, closeIncidentForm, closeIncidentTypeForm, closeIndicatorForm, closeMessageForm, closeQuestionForm, closeQuestionnaireForm, closeRegionForm, closeRoleForm, deleteAgency, deleteAlert, deleteAlertSource, deleteAssessment, deleteCampaign, deleteDistrict, deleteEventAction, deleteEventFunction, deleteEventGroup, deleteEventType, deleteFeature, deleteFocalPerson, deleteIncident, deleteIncidentType, deleteIndicator, deleteMessage, deleteQuestion, deleteQuestionnaire, deleteRegion, deleteRole, filterAgencies, filterAlertSources, filterAlerts, filterAssessments, filterCampaigns, filterDistricts, filterEventActions, filterEventFunctions, filterEventGroups, filterEventTypes, filterFeatures, filterFocalPeople, filterIncidentTypes, filterIncidents, filterIndicators, filterMessages, filterQuestionnaires, filterQuestions, filterRegions, filterRoles, getAgencies, getAgency, getAlert, getAlertSource, getAlertSources, getAlerts, getAssessment, getAssessments, getCampaign, getCampaigns, getDistrict, getDistricts, getEventAction, getEventActions, getEventFunction, getEventFunctions, getEventGroup, getEventGroups, getEventType, getEventTypes, getFeature, getFeatures, getFocalPeople, getFocalPerson, getIncident, getIncidentType, getIncidentTypes, getIncidents, getIndicator, getIndicators, getMessage, getMessages, getQuestion, getQuestionnaire, getQuestionnaires, getQuestions, getRegion, getRegions, getRole, getRoles, wrappedInitializeApp as initializeApp, openAgencyForm, openAlertForm, openAlertSourceForm, openAssessmentForm, openCampaignForm, openDistrictForm, openEventActionForm, openEventFunctionForm, openEventGroupForm, openEventTypeForm, openFeatureForm, openFocalPersonForm, openIncidentForm, openIncidentTypeForm, openIndicatorForm, openMessageForm, openQuestionForm, openQuestionnaireForm, openRegionForm, openRoleForm, paginateAgencies, paginateAlertSources, paginateAlerts, paginateAssessments, paginateCampaigns, paginateDistricts, paginateEventActions, paginateEventFunctions, paginateEventGroups, paginateEventTypes, paginateFeatures, paginateFocalPeople, paginateIncidentTypes, paginateIncidents, paginateIndicators, paginateMessages, paginateQuestionnaires, paginateQuestions, paginateRegions, paginateRoles, postAgency, postAlert, postAlertSource, postAssessment, postCampaign, postDistrict, postEventAction, postEventFunction, postEventGroup, postEventType, postFeature, postFocalPerson, postIncident, postIncidentType, postIndicator, postMessage, postQuestion, postQuestionnaire, postRegion, postRole, putAgency, putAlert, putAlertSource, putAssessment, putCampaign, putDistrict, putEventAction, putEventFunction, putEventGroup, putEventType, putFeature, putFocalPerson, putIncident, putIncidentType, putIndicator, putMessage, putQuestion, putQuestionnaire, putRegion, putRole, refreshAgencies, refreshAlertSources, refreshAlerts, refreshAssessments, refreshCampaigns, refreshDistricts, refreshEventActions, refreshEventFunctions, refreshEventGroups, refreshEventTypes, refreshFeatures, refreshFocalPeople, refreshIncidentTypes, refreshIncidents, refreshIndicators, refreshMessages, refreshQuestionnaires, refreshQuestions, refreshRegions, refreshRoles, searchAgencies, searchAlertSources, searchAlerts, searchAssessments, searchCampaigns, searchDistricts, searchEventActions, searchEventFunctions, searchEventGroups, searchEventTypes, searchFeatures, searchFocalPeople, searchIncidentTypes, searchIncidents, searchIndicators, searchMessages, searchQuestionnaires, searchQuestions, searchRegions, searchRoles, selectAgency, selectAlert, selectAlertSource, selectAssessment, selectCampaign, selectDistrict, selectEventAction, selectEventFunction, selectEventGroup, selectEventType, selectFeature, selectFocalPerson, selectIncident, selectIncidentType, selectIndicator, selectMessage, selectQuestion, selectQuestionnaire, selectRegion, selectRole, setAgencySchema, setAlertSchema, setAlertSourceSchema, setAssessmentSchema, setCampaignSchema, setDistrictSchema, setEventActionSchema, setEventFunctionSchema, setEventGroupSchema, setEventTypeSchema, setFeatureSchema, setFocalPersonSchema, setIncidentSchema, setIncidentTypeSchema, setIndicatorSchema, setMessageSchema, setQuestionSchema, setQuestionnaireSchema, setRegionSchema, setRoleSchema, wrappedSingin as signin, wrappedSingout as signout, sortAgencies, sortAlertSources, sortAlerts, sortAssessments, sortCampaigns, sortDistricts, sortEventActions, sortEventFunctions, sortEventGroups, sortEventTypes, sortFeatures, sortFocalPeople, sortIncidentTypes, sortIncidents, sortIndicators, sortMessages, sortQuestionnaires, sortQuestions, sortRegions, sortRoles };
+export { Connect, StoreProvider, clearAgenciesSort, clearAgencyFilters, clearEventActionFilters, clearEventActionsSort, clearEventFunctionFilters, clearEventFunctionsSort, clearEventGroupFilters, clearEventGroupsSort, clearEventTypeFilters, clearEventTypesSort, clearFocalPeopleSort, clearFocalPersonFilters, clearRoleFilters, clearRolesSort, closeAgencyForm, closeEventActionForm, closeEventFunctionForm, closeEventGroupForm, closeEventTypeForm, closeFocalPersonForm, closeRoleForm, deleteAgency, deleteEventAction, deleteEventFunction, deleteEventGroup, deleteEventType, deleteFocalPerson, deleteRole, filterAgencies, filterEventActions, filterEventFunctions, filterEventGroups, filterEventTypes, filterFocalPeople, filterRoles, getAgencies, getAgency, getEventAction, getEventActions, getEventFunction, getEventFunctions, getEventGroup, getEventGroups, getEventType, getEventTypes, getFocalPeople, getFocalPerson, getRole, getRoles, wrappedInitializeApp as initializeApp, openAgencyForm, openEventActionForm, openEventFunctionForm, openEventGroupForm, openEventTypeForm, openFocalPersonForm, openRoleForm, paginateAgencies, paginateEventActions, paginateEventFunctions, paginateEventGroups, paginateEventTypes, paginateFocalPeople, paginateRoles, postAgency, postEventAction, postEventFunction, postEventGroup, postEventType, postFocalPerson, postRole, putAgency, putEventAction, putEventFunction, putEventGroup, putEventType, putFocalPerson, putRole, refreshAgencies, refreshEventActions, refreshEventFunctions, refreshEventGroups, refreshEventTypes, refreshFocalPeople, refreshRoles, searchAgencies, searchEventActions, searchEventFunctions, searchEventGroups, searchEventTypes, searchFocalPeople, searchRoles, selectAgency, selectEventAction, selectEventFunction, selectEventGroup, selectEventType, selectFocalPerson, selectRole, setAgencySchema, setEventActionSchema, setEventFunctionSchema, setEventGroupSchema, setEventTypeSchema, setFocalPersonSchema, setRoleSchema, wrappedSingin as signin, wrappedSingout as signout, sortAgencies, sortEventActions, sortEventFunctions, sortEventGroups, sortEventTypes, sortFocalPeople, sortRoles };
