@@ -145,43 +145,43 @@ export function initializeApp() {
       .then(schemas => {
         const {
           agency: { setAgencySchema },
-          alert: { setAlertSchema },
-          district: { setDistrictSchema },
-          feature: { setFeatureSchema },
+          // alert: { setAlertSchema },
+          // district: { setDistrictSchema },
+          // feature: { setFeatureSchema },
           focalPerson: { setFocalPersonSchema },
-          indicator: { setIndicatorSchema },
-          incidentType: { setIncidentTypeSchema },
-          question: { setQuestionSchema },
-          questionnaire: { setQuestionnaireSchema },
-          region: { setRegionSchema },
-          role: { setRoleSchema },
+          // indicator: { setIndicatorSchema },
+          // incidentType: { setIncidentTypeSchema },
+          // question: { setQuestionSchema },
+          // questionnaire: { setQuestionnaireSchema },
+          // region: { setRegionSchema },
+          // role: { setRoleSchema },
         } = actions;
 
         const {
           Agency: agencySchema,
-          Alert: alertSchema,
-          District: districtSchema,
-          Feature: featureSchema,
+          //   Alert: alertSchema,
+          //   District: districtSchema,
+          //   Feature: featureSchema,
           FocalPerson: focalPersonSchema,
-          IncidentType: incidentTypeSchema,
-          Indicator: indicatorSchema,
-          Question: questionSchema,
-          Questionnaire: questionnaireSchema,
-          Region: regionSchema,
-          Role: roleSchema,
+          //   IncidentType: incidentTypeSchema,
+          //   Indicator: indicatorSchema,
+          //   Question: questionSchema,
+          //   Questionnaire: questionnaireSchema,
+          //   Region: regionSchema,
+          //   Role: roleSchema,
         } = schemas;
 
         dispatch(setAgencySchema(agencySchema));
-        dispatch(setAlertSchema(alertSchema));
-        dispatch(setDistrictSchema(districtSchema));
-        dispatch(setFeatureSchema(featureSchema));
+        // dispatch(setAlertSchema(alertSchema));
+        // dispatch(setDistrictSchema(districtSchema));
+        // dispatch(setFeatureSchema(featureSchema));
         dispatch(setFocalPersonSchema(focalPersonSchema));
-        dispatch(setIndicatorSchema(indicatorSchema));
-        dispatch(setIncidentTypeSchema(incidentTypeSchema));
-        dispatch(setQuestionSchema(questionSchema));
-        dispatch(setQuestionnaireSchema(questionnaireSchema));
-        dispatch(setRegionSchema(regionSchema));
-        dispatch(setRoleSchema(roleSchema));
+        // dispatch(setIndicatorSchema(indicatorSchema));
+        // dispatch(setIncidentTypeSchema(incidentTypeSchema));
+        // dispatch(setQuestionSchema(questionSchema));
+        // dispatch(setQuestionnaireSchema(questionnaireSchema));
+        // dispatch(setRegionSchema(regionSchema));
+        // dispatch(setRoleSchema(roleSchema));
         dispatch(initializeAppSuccess());
       })
       .catch(error => {

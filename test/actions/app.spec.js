@@ -73,19 +73,9 @@ describe('App Actions', () => {
       const store = mockStore({});
       const mockData = {
         Permission: {},
-        District: {},
-        Feature: {},
         FocalPerson: {},
-        Role: {},
-        Message: {},
         Party: {},
-        Alert: {},
         Agency: {},
-        Indicator: {},
-        Question: {},
-        Questionnaire: {},
-        Region: {},
-        IncidentType: {},
       };
 
       getSchemas.mockResolvedValueOnce(mockData);
@@ -96,30 +86,9 @@ describe('App Actions', () => {
           type: 'agency/setAgencySchema',
           payload: mockData.Agency,
         },
-        { type: 'alert/setAlertSchema', payload: mockData.Alert },
-        { type: 'district/setDistrictSchema', payload: mockData.District },
-        { type: 'feature/setFeatureSchema', payload: mockData.Feature },
         {
           type: 'focalPerson/setFocalPersonSchema',
           payload: mockData.FocalPerson,
-        },
-        { type: 'indicator/setIndicatorSchema', payload: mockData.Indicator },
-        {
-          type: 'incidentType/setIncidentTypeSchema',
-          payload: mockData.IncidentType,
-        },
-        { type: 'question/setQuestionSchema', payload: mockData.Question },
-        {
-          type: 'questionnaire/setQuestionnaireSchema',
-          payload: mockData.Questionnaire,
-        },
-        {
-          type: 'region/setRegionSchema',
-          payload: mockData.Region,
-        },
-        {
-          type: 'role/setRoleSchema',
-          payload: mockData.Role,
         },
         { type: 'app/initializeSuccess' },
       ];

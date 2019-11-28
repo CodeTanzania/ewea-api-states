@@ -1,6 +1,6 @@
 {
   "name": "@codetanzania/ewea-api-states",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "EWEA Redux state management library",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -76,8 +76,8 @@
     "eslint-config-airbnb": ">=18.0.1",
     "eslint-config-prettier": ">=6.7.0",
     "eslint-plugin-import": ">=2.18.2",
-    "eslint-plugin-jest": ">=23.0.4",
-    "eslint-plugin-jsdoc": ">=18.1.4",
+    "eslint-plugin-jest": ">=23.0.5",
+    "eslint-plugin-jsdoc": ">=18.1.5",
     "eslint-plugin-jsx-a11y": ">=6.2.3",
     "eslint-plugin-prettier": ">=3.1.1",
     "eslint-plugin-react": ">=7.16.0",
@@ -85,11 +85,11 @@
     "generate-changelog": ">=1.8.0",
     "husky": ">=3.1.0",
     "jest": ">=24.9.0",
-    "lint-staged": ">=9.4.3",
+    "lint-staged": ">=9.5.0",
     "prettier": ">=1.19.1",
     "react-dom": ">=16.12.0",
     "redux-mock-store": ">=1.5.3",
-    "rollup": ">=1.27.4",
+    "rollup": ">=1.27.5",
     "rollup-plugin-babel": ">=4.3.3"
   },
   "jest": {
@@ -108,10 +108,19 @@
     }
   },
   "commitlint": {
-    "extends": ["@commitlint/config-conventional"]
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   },
   "lint-staged": {
-    "src/**/*.js": ["npm run lint"]
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{md,html,json}": [
+      "prettier --write",
+      "git add"
+    ]
   },
   "husky": {
     "hooks": {

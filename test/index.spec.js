@@ -10,24 +10,24 @@ describe('Library Index', () => {
   it('should expose actions from resources', () => {
     const resources = [
       'agency',
-      'alert',
-      'alertSource',
-      'assessment',
+      // 'alert',
+      // 'alertSource',
+      // 'assessment',
       'eventAction',
       'eventFunction',
       'eventGroup',
       'eventType',
-      'campaign',
-      'district',
-      'feature',
+      // 'campaign',
+      // 'district',
+      // 'feature',
       'focalPerson',
-      'incident',
-      'incidentType',
-      'indicator',
-      'message',
-      'question',
-      'questionnaire',
-      'region',
+      // 'incident',
+      // 'incidentType',
+      // 'indicator',
+      // 'message',
+      // 'question',
+      // 'questionnaire',
+      // 'region',
       'role',
     ];
 
@@ -70,19 +70,19 @@ describe('Component Connect', () => {
   afterEach(cleanup);
 
   // eslint-disable-next-line
-  const TestComponent = ({ alerts, total, page }) => (
+  const TestComponent = ({ focalPeople, total, page }) => (
     <div>
-      <p data-testid="alerts-count">{typeof alerts}</p>
-      <p data-testid="alerts-total">{total}</p>
-      <p data-testid="alerts-page">{page}</p>
+      <p data-testid="focalPeople-count">{typeof focalPeople}</p>
+      <p data-testid="focalPeople-total">{total}</p>
+      <p data-testid="focalPeople-page">{page}</p>
     </div>
   );
 
   it('should render component with states using object accessor', () => {
     const ConnectedComponent = lib.Connect(TestComponent, {
-      alerts: 'alerts.list',
-      total: 'alerts.total',
-      page: 'alerts.page',
+      focalPeople: 'focalPeople.list',
+      total: 'focalPeople.total',
+      page: 'focalPeople.page',
     });
     const { StoreProvider } = lib;
 
@@ -92,16 +92,16 @@ describe('Component Connect', () => {
       </StoreProvider>
     );
 
-    expect(getByTestId('alerts-count').textContent).toBe('object');
-    expect(getByTestId('alerts-total').textContent).toBe('0');
-    expect(getByTestId('alerts-page').textContent).toBe('1');
+    expect(getByTestId('focalPeople-count').textContent).toBe('object');
+    expect(getByTestId('focalPeople-total').textContent).toBe('0');
+    expect(getByTestId('focalPeople-page').textContent).toBe('1');
   });
 
   it('should render component with states using functional accessor', () => {
     const ConnectedComponent = lib.Connect(TestComponent, state => ({
-      alerts: state.alerts.list,
-      total: state.alerts.total,
-      page: state.alerts.page,
+      focalPeople: state.focalPeople.list,
+      total: state.focalPeople.total,
+      page: state.focalPeople.page,
     }));
 
     const { StoreProvider } = lib;
@@ -112,9 +112,9 @@ describe('Component Connect', () => {
       </StoreProvider>
     );
 
-    expect(getByTestId('alerts-count').textContent).toBe('object');
-    expect(getByTestId('alerts-total').textContent).toBe('0');
-    expect(getByTestId('alerts-page').textContent).toBe('1');
+    expect(getByTestId('focalPeople-count').textContent).toBe('object');
+    expect(getByTestId('focalPeople-total').textContent).toBe('0');
+    expect(getByTestId('focalPeople-page').textContent).toBe('1');
   });
 
   it('should not subscribe to store when accessor is undefined', () => {
@@ -128,8 +128,8 @@ describe('Component Connect', () => {
       </StoreProvider>
     );
 
-    expect(getByTestId('alerts-count').textContent).toBe('undefined');
-    expect(getByTestId('alerts-total').textContent).toBe('');
-    expect(getByTestId('alerts-page').textContent).toBe('');
+    expect(getByTestId('focalPeople-count').textContent).toBe('undefined');
+    expect(getByTestId('focalPeople-total').textContent).toBe('');
+    expect(getByTestId('focalPeople-page').textContent).toBe('');
   });
 });
