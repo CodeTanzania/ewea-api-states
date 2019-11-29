@@ -1,3 +1,9 @@
+#### 0.4.0 (2019-11-29)
+
+##### New Features
+
+- add party role on store and refactor code a bit ([c017dc5a](https://github.com/CodeTanzania/ewea-api-states/commit/c017dc5ae6c6c67ba8aafcbe7cb7c2813ac0371f))
+
 #### 0.3.0 (2019-11-28)
 
 ##### Documentation Changes
