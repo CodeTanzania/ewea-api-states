@@ -84,4 +84,4 @@ export * from './actions/eventFunction';
 export * from './actions/eventGroup';
 export * from './actions/eventType';
 export * from './actions/focalPerson';
-export * from './actions/role';
+export * from './actions/partyRole';

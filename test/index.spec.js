@@ -10,25 +10,12 @@ describe('Library Index', () => {
   it('should expose actions from resources', () => {
     const resources = [
       'agency',
-      // 'alert',
-      // 'alertSource',
-      // 'assessment',
       'eventAction',
       'eventFunction',
       'eventGroup',
       'eventType',
-      // 'campaign',
-      // 'district',
-      // 'feature',
       'focalPerson',
-      // 'incident',
-      // 'incidentType',
-      // 'indicator',
-      // 'message',
-      // 'question',
-      // 'questionnaire',
-      // 'region',
-      'role',
+      'partyRole',
     ];
 
     forEach(resources, resource => {

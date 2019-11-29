@@ -85,7 +85,7 @@ const resources = [
   'eventGroup',
   'eventType',
   'focalPerson',
-  // 'role',
+  'partyRole',
 ];
 
 const slices = createResourcesSlices(resources);
