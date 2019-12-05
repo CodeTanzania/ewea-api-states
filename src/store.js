@@ -80,6 +80,7 @@ export function app(state = appDefaultState, action) {
 // all resources exposed by this library
 const resources = [
   'agency',
+  'event',
   'eventAction',
   'eventFunction',
   'eventGroup',

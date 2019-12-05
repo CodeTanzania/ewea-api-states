@@ -79,6 +79,7 @@ export {
   wrappedSingin as signin,
   wrappedSingout as signout,
 } from './actions/app';
+export * from './actions/event';
 export * from './actions/eventAction';
 export * from './actions/eventFunction';
 export * from './actions/eventGroup';
