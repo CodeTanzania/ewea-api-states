@@ -380,7 +380,7 @@ function app(state = appDefaultState, action) {
   }
 } // all resources exposed by this library
 
-const resources = ['agency', 'eventAction', 'eventFunction', 'eventGroup', 'eventType', 'focalPerson', 'partyRole'];
+const resources = ['agency', 'event', 'eventAction', 'eventFunction', 'eventGroup', 'eventType', 'focalPerson', 'partyRole'];
 const slices = createResourcesSlices(resources);
 const reducers = merge({}, extractReducers(resources, slices), {
   app
@@ -1164,6 +1164,26 @@ function wrappedSingout() {
   return dispatch(signout());
 }
 
+const eventActions = generateExposedActions('event', actions, dispatch);
+const {
+  clearEventFilters,
+  clearEventsSort,
+  closeEventForm,
+  deleteEvent,
+  filterEvents,
+  getEvents,
+  getEvent,
+  selectEvent,
+  openEventForm,
+  paginateEvents,
+  postEvent,
+  putEvent,
+  refreshEvents,
+  searchEvents,
+  setEventSchema,
+  sortEvents
+} = eventActions;
+
 const eventActionActions = generateExposedActions('eventAction', actions, dispatch);
 const {
   clearEventActionFilters,
@@ -1351,4 +1371,4 @@ function Connect(component, stateToProps = null) {
   return connect(mapStateToProps)(component);
 }
 
-export { Connect, StoreProvider, clearAgenciesSort, clearAgencyFilters, clearEventActionFilters, clearEventActionsSort, clearEventFunctionFilters, clearEventFunctionsSort, clearEventGroupFilters, clearEventGroupsSort, clearEventTypeFilters, clearEventTypesSort, clearFocalPeopleSort, clearFocalPersonFilters, clearPartyRoleFilters, clearPartyRolesSort, closeAgencyForm, closeEventActionForm, closeEventFunctionForm, closeEventGroupForm, closeEventTypeForm, closeFocalPersonForm, closePartyRoleForm, deleteAgency, deleteEventAction, deleteEventFunction, deleteEventGroup, deleteEventType, deleteFocalPerson, deletePartyRole, filterAgencies, filterEventActions, filterEventFunctions, filterEventGroups, filterEventTypes, filterFocalPeople, filterPartyRoles, getAgencies, getAgency, getEventAction, getEventActions, getEventFunction, getEventFunctions, getEventGroup, getEventGroups, getEventType, getEventTypes, getFocalPeople, getFocalPerson, getPartyRole, getPartyRoles, wrappedInitializeApp as initializeApp, openAgencyForm, openEventActionForm, openEventFunctionForm, openEventGroupForm, openEventTypeForm, openFocalPersonForm, openPartyRoleForm, paginateAgencies, paginateEventActions, paginateEventFunctions, paginateEventGroups, paginateEventTypes, paginateFocalPeople, paginatePartyRoles, postAgency, postEventAction, postEventFunction, postEventGroup, postEventType, postFocalPerson, postPartyRole, putAgency, putEventAction, putEventFunction, putEventGroup, putEventType, putFocalPerson, putPartyRole, refreshAgencies, refreshEventActions, refreshEventFunctions, refreshEventGroups, refreshEventTypes, refreshFocalPeople, refreshPartyRoles, searchAgencies, searchEventActions, searchEventFunctions, searchEventGroups, searchEventTypes, searchFocalPeople, searchPartyRoles, selectAgency, selectEventAction, selectEventFunction, selectEventGroup, selectEventType, selectFocalPerson, selectPartyRole, setAgencySchema, setEventActionSchema, setEventFunctionSchema, setEventGroupSchema, setEventTypeSchema, setFocalPersonSchema, setPartyRoleSchema, wrappedSingin as signin, wrappedSingout as signout, sortAgencies, sortEventActions, sortEventFunctions, sortEventGroups, sortEventTypes, sortFocalPeople, sortPartyRoles };
+export { Connect, StoreProvider, clearAgenciesSort, clearAgencyFilters, clearEventActionFilters, clearEventActionsSort, clearEventFilters, clearEventFunctionFilters, clearEventFunctionsSort, clearEventGroupFilters, clearEventGroupsSort, clearEventTypeFilters, clearEventTypesSort, clearEventsSort, clearFocalPeopleSort, clearFocalPersonFilters, clearPartyRoleFilters, clearPartyRolesSort, closeAgencyForm, closeEventActionForm, closeEventForm, closeEventFunctionForm, closeEventGroupForm, closeEventTypeForm, closeFocalPersonForm, closePartyRoleForm, deleteAgency, deleteEvent, deleteEventAction, deleteEventFunction, deleteEventGroup, deleteEventType, deleteFocalPerson, deletePartyRole, filterAgencies, filterEventActions, filterEventFunctions, filterEventGroups, filterEventTypes, filterEvents, filterFocalPeople, filterPartyRoles, getAgencies, getAgency, getEvent, getEventAction, getEventActions, getEventFunction, getEventFunctions, getEventGroup, getEventGroups, getEventType, getEventTypes, getEvents, getFocalPeople, getFocalPerson, getPartyRole, getPartyRoles, wrappedInitializeApp as initializeApp, openAgencyForm, openEventActionForm, openEventForm, openEventFunctionForm, openEventGroupForm, openEventTypeForm, openFocalPersonForm, openPartyRoleForm, paginateAgencies, paginateEventActions, paginateEventFunctions, paginateEventGroups, paginateEventTypes, paginateEvents, paginateFocalPeople, paginatePartyRoles, postAgency, postEvent, postEventAction, postEventFunction, postEventGroup, postEventType, postFocalPerson, postPartyRole, putAgency, putEvent, putEventAction, putEventFunction, putEventGroup, putEventType, putFocalPerson, putPartyRole, refreshAgencies, refreshEventActions, refreshEventFunctions, refreshEventGroups, refreshEventTypes, refreshEvents, refreshFocalPeople, refreshPartyRoles, searchAgencies, searchEventActions, searchEventFunctions, searchEventGroups, searchEventTypes, searchEvents, searchFocalPeople, searchPartyRoles, selectAgency, selectEvent, selectEventAction, selectEventFunction, selectEventGroup, selectEventType, selectFocalPerson, selectPartyRole, setAgencySchema, setEventActionSchema, setEventFunctionSchema, setEventGroupSchema, setEventSchema, setEventTypeSchema, setFocalPersonSchema, setPartyRoleSchema, wrappedSingin as signin, wrappedSingout as signout, sortAgencies, sortEventActions, sortEventFunctions, sortEventGroups, sortEventTypes, sortEvents, sortFocalPeople, sortPartyRoles };
