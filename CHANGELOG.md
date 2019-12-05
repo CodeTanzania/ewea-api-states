@@ -1,3 +1,9 @@
+#### 0.5.0 (2019-12-05)
+
+##### New Features
+
+- **event:** add event type resource to store ([581f43c0](https://github.com/CodeTanzania/ewea-api-states/commit/581f43c0fd02acfc89868e13fcc7e0f80412979c))
+
 #### 0.4.0 (2019-11-29)
 
 ##### New Features
