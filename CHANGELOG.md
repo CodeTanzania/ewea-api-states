@@ -1,3 +1,18 @@
+#### 0.6.0 (2019-12-06)
+
+##### New Features
+
+- add administrative areas and features to state ([6477629d](https://github.com/CodeTanzania/ewea-api-states/commit/6477629d9c0b291b13cf81c639903d9da7f826cb))
+
+##### Bug Fixes
+
+- **deps:** update dependency @codetanzania/ewea-api-client to >=0.4.0 ([8f125295](https://github.com/CodeTanzania/ewea-api-states/commit/8f125295d4a6c5660f1bbe39bcd4c91995e64ee8))
+
+##### Other Changes
+
+- CodeTanzania/ewea-api-states into develop ([7dc0d389](https://github.com/CodeTanzania/ewea-api-states/commit/7dc0d389e2a28e65b6e32838db3253ce80d34ed5))
+- CodeTanzania/ewea-api-states into develop ([9ed69476](https://github.com/CodeTanzania/ewea-api-states/commit/9ed694760434d5168298f3ccb3d20af118c29447))
+
 #### 0.5.0 (2019-12-05)
 
 ##### New Features
