@@ -10,11 +10,13 @@ describe('Library Index', () => {
   it('should expose actions from resources', () => {
     const resources = [
       'agency',
+      'administrativeArea',
       'event',
       'eventAction',
       'eventFunction',
       'eventGroup',
       'eventType',
+      'feature',
       'focalPerson',
       'partyRole',
     ];

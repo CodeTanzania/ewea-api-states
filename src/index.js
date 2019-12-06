@@ -79,10 +79,12 @@ export {
   wrappedSingin as signin,
   wrappedSingout as signout,
 } from './actions/app';
+export * from './actions/administrativeArea';
 export * from './actions/event';
 export * from './actions/eventAction';
 export * from './actions/eventFunction';
 export * from './actions/eventGroup';
 export * from './actions/eventType';
+export * from './actions/feature';
 export * from './actions/focalPerson';
 export * from './actions/partyRole';
