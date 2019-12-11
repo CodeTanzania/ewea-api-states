@@ -26,36 +26,37 @@ All actions exposed by `ewea-api-states` are wrapped with dispatch function, so 
 
 The following is the list of all resources exposed by this library.
 
+- AdministrativeArea
 - agency
-- alert
-- feature
+- event
+- eventAction
+- eventFunction
+- eventGroup
+- eventType
 - focalPerson
-- incident
-- incidentType
-- indicator
-- role
+- partyRole
 
   For each resource you can get it's exposed actions as follows;
 
-  > Replace alerts/activity with the name of the module you want
+  > Replace events with the name of the module you want
 
 ```js
 import {
-  clearAlertFilters,
-  clearAlertsSort,
-  closeAlertForm,
-  deleteAlert,
-  filterAlerts,
-  getAlerts,
-  getAlert,
-  selectAlert,
-  openAlertForm,
-  paginateAlerts,
-  postAlert,
-  putAlert,
-  refreshAlerts,
-  searchAlerts,
-  sortAlerts,
+  clearEventFilters,
+  clearEventsSort,
+  closeEventForm,
+  deleteEvent,
+  filterEvents,
+  getEvents,
+  getEvent,
+  selectEvent,
+  openEventForm,
+  paginateEvents,
+  postEvent,
+  putEvent,
+  refreshEvents,
+  searchEvents,
+  sortEvents,
 } from '@codetanzania/ewea-api-states';
 ```
 
@@ -65,7 +66,7 @@ The structure of the store for each resource is
 
 ```js
 const store = {
- alerts: {
+ events: {
     list: [],
     selected: null,
     page: 1,
@@ -109,15 +110,15 @@ This is a wrapper around react-redux `connect` HOC with little improvement over 
 import {Connect} from '@codetanzania/ewea-api-states';
 
 // for component
-function AlertList({ alerts }){
+function EventList({ events }){
   return(
     // jsx stuff
   );
 }
 
-// connect AlertList component to store
-export Connect(AlertList, {
-    alerts: 'alerts.list'
+// connect EventList component to store
+export Connect(EventList, {
+    events: 'events.list'
 });
 
 ```
@@ -129,79 +130,77 @@ Some of these actions accepts two callback functions which will be executed on S
 #### Fetch Data
 
 ```js
-import { getAlerts, getAlert } from '@codetanzania/ewea-api-states';
+import { getEvents, getEvent } from '@codetanzania/ewea-api-states';
 
-getAlerts();
+getEvents();
 
-getAlerts(alertId);
+getEvents(eventId);
 ```
 
 #### Create Data
 
 ```js
-import { postAlert } from '@codetanzania/ewea-api-states';
+import { postEvent } from '@codetanzania/ewea-api-states';
 
-postAlert(alert, onSuccess, onError);
+postEvent(event, onSuccess, onError);
 ```
 
 #### Update Data
 
-> Note the `activity` here should have a valid `_id` property
-
 ```js
-import { putAlert } from '@codetanzania/ewea-api-states';
+import { putEvent } from '@codetanzania/ewea-api-states';
 
-putAlert(alert, onSuccess, onError);
+putEvent(event, onSuccess, onError);
 ```
 
 #### Archive/Delete Data
 
 ```js
-import { deleteAlert } from '@codetanzania/ewea-api-states';
+import { deleteEvent } from '@codetanzania/ewea-api-states';
 
-deleteAlert(alertId, onSuccess, onError);
+deleteEvent(eventId, onSuccess, onError);
 ```
 
 #### Searching
 
 ```js
-import { searchAlerts } from '@codetanzania/ewea-api-states';
+import { searchEvents } from '@codetanzania/ewea-api-states';
 
-searchAlerts(searchQueryString);
+searchEvents(searchQueryString);
 ```
 
 #### Filtering
 
 ```js
-import { filterAlerts, clearAlertFilters } from '@codetanzania/ewea-api-states';
+import { filterEvents, clearEventFilters } from '@codetanzania/ewea-api-states';
 
-filterAlerts({ alertType: alertTypeId }, onSuccess, onError);
+filterEvents({ eventType: eventTypeId }, onSuccess, onError);
 
 // clearing filters
-clearAlertFilters(onSuccess, onError);
+clearEventFilters(onSuccess, onError);
 
 //  keep some filters from being cleared. This won't reset plan field in filter object
-clearAlertFilters(onSuccess, onError, ['alertType']);
+clearEventFilters(onSuccess, onError, ['eventType']);
 ```
 
 #### Pagination
 
 ```js
-import { paginateAlerts } from '@codetanzania/ewea-api-state';
+import { paginateEvents } from '@codetanzania/ewea-api-state';
 
-paginateAlerts(pageNumber);
+paginateEvents(pageNumber);
 ```
 
 #### Sorting
 
 ```js
-import { sortAlerts, clearAlertsSort } from '@codetanzania/ewea-api-state';
+import { sortEvents, clearEventsSort } from '@codetanzania/ewea-api-state';
 
-sortAlerts({ name: 1 }, onSuccess, onError);
+sortEvents({ name: 1 }, onSuccess, onError);
 
 // clear sort
 
-clearAlertsSort(onSuccess, onError);
+clearEventsSort(onSuccess, onError);
 ```
 
 > Note: This library depends on [ewea-api-client](https://github.com/CodeTanzania/ewea-api-client) to work, so in order to specify API URL add `.env` file on your project root folder and specify your API URL under `REACT_APP_EWEA_API_URL=[specify API BASE URL here]`

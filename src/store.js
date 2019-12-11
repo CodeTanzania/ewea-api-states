@@ -79,6 +79,7 @@ export function app(state = appDefaultState, action) {
 
 // all resources exposed by this library
 const resources = [
+  'administrativeArea',
   'agency',
   'event',
   'eventAction',
