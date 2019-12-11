@@ -1,3 +1,25 @@
+#### 0.6.1 (2019-12-11)
+
+##### Documentation Changes
+
+- **readme:**
+  - add administrative area as exposed resource ([b49ac33c](https://github.com/CodeTanzania/ewea-api-states/commit/b49ac33ca3a807d130e1aaec59969fd2eeea58ab))
+  - remove no longer exposed resources for this lib ([ac7d270b](https://github.com/CodeTanzania/ewea-api-states/commit/ac7d270bb41798b1f0c332cbc5c9bbaa80b5cecc))
+
+##### New Features
+
+- **administrative-area:** expose administrative area as resource ([ce79076f](https://github.com/CodeTanzania/ewea-api-states/commit/ce79076f8a6e96e32831f0f7d553673694da5fba))
+
+##### Bug Fixes
+
+- **deps:** update dependency @codetanzania/ewea-api-client to >=0.5.0 ([a8de270a](https://github.com/CodeTanzania/ewea-api-states/commit/a8de270aadf884f6dc7cbfd8a0506f97a213e0ae))
+
+##### Other Changes
+
+- CodeTanzania/ewea-api-states into develop ([0341f5f1](https://github.com/CodeTanzania/ewea-api-states/commit/0341f5f19dcbb8cd05765cd1ab6da38c80c216a0))
+- CodeTanzania/ewea-api-states into develop ([23ef512c](https://github.com/CodeTanzania/ewea-api-states/commit/23ef512c07ffab83d9a58b719695de11ff887a3b))
+- CodeTanzania/ewea-api-states into develop ([f97f4ef3](https://github.com/CodeTanzania/ewea-api-states/commit/f97f4ef3f4bf85fc2ed6e26e0a0cc36311726d9c))
+
 #### 0.6.0 (2019-12-06)
 
 ##### New Features
