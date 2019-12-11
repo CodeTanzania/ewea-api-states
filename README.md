@@ -26,6 +26,7 @@ All actions exposed by `ewea-api-states` are wrapped with dispatch function, so 
 
 The following is the list of all resources exposed by this library.
 
+- AdministrativeArea
 - agency
 - event
 - eventAction
