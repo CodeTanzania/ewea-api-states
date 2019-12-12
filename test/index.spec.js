@@ -18,6 +18,7 @@ describe('Library Index', () => {
       'eventType',
       'feature',
       'focalPerson',
+      'notificationTemplate',
       'partyRole',
     ];
 
