@@ -33,7 +33,9 @@ The following is the list of all resources exposed by this library.
 - eventFunction
 - eventGroup
 - eventType
+- feature
 - focalPerson
+- notificationTemplate
 - partyRole
 
   For each resource you can get it's exposed actions as follows;

@@ -87,4 +87,5 @@ export * from './actions/eventGroup';
 export * from './actions/eventType';
 export * from './actions/feature';
 export * from './actions/focalPerson';
+export * from './actions/notificationTemplate';
 export * from './actions/partyRole';

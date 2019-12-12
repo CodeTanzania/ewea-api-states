@@ -87,6 +87,7 @@ const resources = [
   'eventGroup',
   'eventType',
   'focalPerson',
+  'notificationTemplate',
   'partyRole',
 ];
 
