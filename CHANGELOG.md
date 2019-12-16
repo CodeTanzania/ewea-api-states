@@ -1,3 +1,9 @@
+#### 0.7.2 (2019-12-16)
+
+##### Bug Fixes
+
+- **store:** expose feature as store resource ([caa5342d](https://github.com/CodeTanzania/ewea-api-states/commit/caa5342d6f3db025446d32f40fa1c9ab0b45efa6))
+
 #### 0.7.1 (2019-12-16)
 
 ##### Bug Fixes
