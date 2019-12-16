@@ -1,3 +1,14 @@
+#### 0.8.0 (2019-12-16)
+
+##### New Features
+
+- expose changelog resource ([c8fd955a](https://github.com/CodeTanzania/ewea-api-states/commit/c8fd955a9c9faa9bd8fdcd229655155caa7e9d30))
+- **store:** add changelog resource ([d673ce6d](https://github.com/CodeTanzania/ewea-api-states/commit/d673ce6d6bb1954e24cd309c2cde81fde9a17399))
+
+##### Bug Fixes
+
+- **deps:** update dependency @codetanzania/ewea-api-client to >=0.6.2 ([e04c3c0b](https://github.com/CodeTanzania/ewea-api-states/commit/e04c3c0bf090063dd8a0e7189b9dddd427fe77b9))
+
 #### 0.7.2 (2019-12-16)
 
 ##### Bug Fixes

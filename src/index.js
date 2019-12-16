@@ -80,6 +80,7 @@ export {
   wrappedSingout as signout,
 } from './actions/app';
 export * from './actions/administrativeArea';
+export * from './actions/changelog';
 export * from './actions/event';
 export * from './actions/eventAction';
 export * from './actions/eventFunction';
