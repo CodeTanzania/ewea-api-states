@@ -1,6 +1,6 @@
 {
   "name": "@codetanzania/ewea-api-states",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "description": "EWEA Redux state management library",
   "main": "lib/index.js",
   "module": "es/index.js",
