@@ -173,7 +173,7 @@ describe('Slice Factory', () => {
       });
     });
 
-    it('should handle get resource failure action', () => {
+    it('should handle get resources failure action', () => {
       const todos = createSliceFor('todos');
 
       const { reducer } = todos;
@@ -186,6 +186,50 @@ describe('Slice Factory', () => {
       expect(reducer(defaultState, getTodosFailureAction)).toEqual({
         ...defaultState,
         error: getTodosFailureAction.payload,
+        loading: false,
+      });
+    });
+
+    it('should handle get resource request action', () => {
+      const todos = createSliceFor('todos');
+
+      const { reducer } = todos;
+
+      const getTodoRequestAction = createAction('todos/getTodoRequest', {});
+
+      expect(reducer(defaultState, getTodoRequestAction)).toEqual({
+        ...defaultState,
+        loading: true,
+      });
+    });
+
+    it('should handle get resource success action', () => {
+      const todos = createSliceFor('todos');
+
+      const { reducer } = todos;
+
+      const getTodoSuccessAction = createAction('todos/getTodoSuccess', {});
+
+      expect(reducer(defaultState, getTodoSuccessAction)).toEqual({
+        ...defaultState,
+        selected: getTodoSuccessAction.payload,
+        loading: false,
+      });
+    });
+
+    it('should handle get resource failure action', () => {
+      const todos = createSliceFor('todos');
+
+      const { reducer } = todos;
+
+      const getTodoFailureAction = createAction(
+        'todos/getTodoFailure',
+        new Error()
+      );
+
+      expect(reducer(defaultState, getTodoFailureAction)).toEqual({
+        ...defaultState,
+        error: getTodoFailureAction.payload,
         loading: false,
       });
     });
@@ -262,7 +306,7 @@ describe('Slice Factory', () => {
 
       const { reducer } = todos;
 
-      const putTodoSuccessAction = createAction('todos/putTodoSuccess');
+      const putTodoSuccessAction = createAction('todos/putTodoSuccess', {});
 
       expect(
         reducer(
@@ -271,6 +315,7 @@ describe('Slice Factory', () => {
         )
       ).toEqual({
         ...defaultState,
+        selected: putTodoSuccessAction.payload,
         posting: false,
         showForm: false,
       });
