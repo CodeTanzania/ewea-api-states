@@ -11,6 +11,7 @@ describe('Library Index', () => {
     const resources = [
       'agency',
       'administrativeArea',
+      'changelog',
       'event',
       'eventAction',
       'eventFunction',
