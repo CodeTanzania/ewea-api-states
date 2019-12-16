@@ -1,3 +1,12 @@
+#### 0.7.1 (2019-12-16)
+
+##### Bug Fixes
+
+- **slice:** ensure get and put update selected resource ([4f541d1d](https://github.com/CodeTanzania/ewea-api-states/commit/4f541d1de7645a3dd21ffa42e0d2b62674f0433a))
+- **deps:**
+  - update dependency @codetanzania/ewea-api-client to >=0.6.1 ([553baee6](https://github.com/CodeTanzania/ewea-api-states/commit/553baee60908189ea979c6372a9ab03c0c313696))
+  - update dependency @codetanzania/ewea-api-client to >=0.6.0 ([beff74bc](https://github.com/CodeTanzania/ewea-api-states/commit/beff74bc45cfbb8b3e8a6b0fa53752b6f134acf4))
+
 #### 0.7.0 (2019-12-12)
 
 ##### New Features
