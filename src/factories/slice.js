@@ -62,8 +62,9 @@ export function getDefaultReducers(resourceName) {
       ...state,
       loading: true,
     }),
-    [camelize('get', singular, 'Success')]: state => ({
+    [camelize('get', singular, 'Success')]: (state, action) => ({
       ...state,
+      selected: action.payload,
       loading: false,
     }),
     [camelize('get', singular, 'Failure')]: (state, action) => ({
@@ -89,8 +90,9 @@ export function getDefaultReducers(resourceName) {
       ...state,
       posting: true,
     }),
-    [camelize('put', singular, 'Success')]: state => ({
+    [camelize('put', singular, 'Success')]: (state, action) => ({
       ...state,
+      selected: action.payload,
       posting: false,
       showForm: false,
     }),
