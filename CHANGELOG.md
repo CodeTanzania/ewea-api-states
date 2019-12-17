@@ -1,3 +1,15 @@
+#### 0.9.0 (2019-12-17)
+
+##### New Features
+
+- **store:**
+  - add event question and event certainty ([dba197ab](https://github.com/CodeTanzania/ewea-api-states/commit/dba197abd3ce719867ced26b5341c4aa6ff15b2e))
+  - add event severity resource ([c3c2db04](https://github.com/CodeTanzania/ewea-api-states/commit/c3c2db0479e88bf46c80cbabb2db7b031f4cdc9a))
+
+##### Bug Fixes
+
+- **deps:** update dependency @codetanzania/ewea-api-client to >=0.7.0 ([ca513fb9](https://github.com/CodeTanzania/ewea-api-states/commit/ca513fb93533913dffa05fec40a9c557d5b27426))
+
 #### 0.8.0 (2019-12-16)
 
 ##### New Features
