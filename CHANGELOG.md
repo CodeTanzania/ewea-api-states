@@ -1,3 +1,19 @@
+#### 0.9.1 (2020-01-03)
+
+##### Bug Fixes
+
+- **deps:**
+  - update dependency redux to >=4.0.5 ([e0a180f1](https://github.com/CodeTanzania/ewea-api-states/commit/e0a180f18d535696d13799a04efc958deba351f8))
+  - update dependency @codetanzania/ewea-api-client to >=0.8.0 ([167c08eb](https://github.com/CodeTanzania/ewea-api-states/commit/167c08ebc594dae14d93c729929d884183adc334))
+
+##### Other Changes
+
+- CodeTanzania/ewea-api-states into develop ([cbf281e3](https://github.com/CodeTanzania/ewea-api-states/commit/cbf281e3b1c7a4c5e46b2340e2335e3af206f9c9))
+
+##### Refactors
+
+- migrate to @reduxjs/toolkit from redux-starter-kit ([a27fbc27](https://github.com/CodeTanzania/ewea-api-states/commit/a27fbc270646a9a1aa634896a86f99dd5888d5ad))
+
 #### 0.9.0 (2019-12-17)
 
 ##### New Features
