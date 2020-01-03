@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
 import { combineReducers } from 'redux';
-import { configureStore } from 'redux-starter-kit';
+import { configureStore } from '@reduxjs/toolkit';
 import { getAuthenticatedParty } from '@codetanzania/ewea-api-client';
 import createSliceFor from './factories/slice';
 import { extractActions, extractReducers } from './utils';
