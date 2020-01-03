@@ -7,7 +7,7 @@ import React from 'react';
 import { Provider, connect } from 'react-redux';
 import merge from 'lodash/merge';
 import { combineReducers } from 'redux';
-import { createSlice, configureStore } from 'redux-starter-kit';
+import { createSlice, configureStore } from '@reduxjs/toolkit';
 import { getAuthenticatedParty, httpActions, signin as signin$1, signout as signout$1 } from '@codetanzania/ewea-api-client';
 import { pluralize, singularize } from 'inflection';
 import upperFirst from 'lodash/upperFirst';

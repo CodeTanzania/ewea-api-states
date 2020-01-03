@@ -5,6 +5,7 @@ export default {
   input: 'src/index.js',
   external: [
     '@codetanzania/ewea-api-client',
+    '@reduxjs/toolkit',
     'axios',
     'inflection',
     'lodash',
@@ -24,7 +25,6 @@ export default {
     'react',
     'redux',
     'react-redux',
-    'redux-starter-kit',
   ],
   output: [
     {
