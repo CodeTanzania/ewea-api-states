@@ -1,3 +1,13 @@
+#### 0.10.0 (2020-01-13)
+
+##### New Features
+
+- add event indictors resource ([775c6c28](https://github.com/CodeTanzania/ewea-api-states/commit/775c6c285c151e5598a4c36f0b8a1287f17dbd32))
+
+##### Bug Fixes
+
+- **deps:** update dependency axios to >=0.19.1 ([0d2fc452](https://github.com/CodeTanzania/ewea-api-states/commit/0d2fc4525c5813266b267e9f75d5f75eefd6ca4e))
+
 #### 0.9.1 (2020-01-03)
 
 ##### Bug Fixes
