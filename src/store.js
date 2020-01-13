@@ -87,6 +87,7 @@ const resources = [
   'eventCertainty',
   'eventFunction',
   'eventGroup',
+  'eventIndicator',
   'eventQuestion',
   'eventSeverity',
   'eventType',
