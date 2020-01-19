@@ -49,7 +49,7 @@
   "homepage": "https://github.com/CodeTanzania/ewea-api-states#readme",
   "dependencies": {
     "@codetanzania/ewea-api-client": ">=0.8.0",
-    "@reduxjs/toolkit": ">=1.2.2",
+    "@reduxjs/toolkit": ">=1.2.3",
     "axios": ">=0.19.1",
     "inflection": ">=1.12.0",
     "lodash": ">=4.17.15",
