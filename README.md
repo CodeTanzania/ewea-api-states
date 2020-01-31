@@ -147,6 +147,12 @@ import { postEvent } from '@codetanzania/ewea-api-states';
 postEvent(event, onSuccess, onError);
 ```
 
+> If you want to keep filters upon successful update action
+
+```js
+postEvent(event, onSuccess, onError, { filters: {} });
+```
+
 #### Update Data
 
 ```js
