@@ -24,4 +24,5 @@ export const {
   searchEventSeverities,
   setEventSeveritySchema,
   sortEventSeverities,
+  loadMoreEventSeverities,
 } = eventSeverityActions;

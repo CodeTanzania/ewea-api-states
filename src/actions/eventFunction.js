@@ -24,4 +24,5 @@ export const {
   searchEventFunctions,
   setEventFunctionSchema,
   sortEventFunctions,
+  loadMoreEventFunctions,
 } = eventFunctionActions;

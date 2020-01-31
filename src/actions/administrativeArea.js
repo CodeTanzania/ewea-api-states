@@ -24,4 +24,5 @@ export const {
   searchAdministrativeAreas,
   setAdministrativeAreaSchema,
   sortAdministrativeAreas,
+  loadMoreAdministrativeAreas,
 } = administrativeAreaActions;

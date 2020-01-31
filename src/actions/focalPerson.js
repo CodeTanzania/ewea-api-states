@@ -24,4 +24,5 @@ export const {
   searchFocalPeople,
   setFocalPersonSchema,
   sortFocalPeople,
+  loadMoreFocalPeople,
 } = stakeholderActions;

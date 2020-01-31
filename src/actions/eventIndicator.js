@@ -24,4 +24,5 @@ export const {
   searchEventIndicators,
   setEventIndicatorSchema,
   sortEventIndicators,
+  loadMoreEventIndicators,
 } = eventIndicatorActions;

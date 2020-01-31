@@ -96,6 +96,99 @@ describe('Thunk Factory', () => {
       });
   });
 
+  it('should dispatch required actions when loadMore resources succeed', () => {
+    const store = mockStore({
+      focalPeople: {
+        list: [],
+        hasMore: true,
+      },
+    });
+
+    const mockData = {
+      data: {
+        data: [{ name: 'Finish off' }],
+        page: 1,
+        pages: 1,
+        total: 1,
+        hasMore: true,
+      },
+    };
+
+    getFocalPeople.mockResolvedValueOnce(mockData);
+    const onSuccess = jest.fn();
+    const onError = jest.fn();
+
+    const focalPersonThunks = createThunkFor('focalPeople');
+    const expectedActions = [
+      { type: 'focalPerson/loadMoreFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/loadMoreFocalPeopleSuccess', payload: mockData },
+    ];
+
+    return store
+      .dispatch(focalPersonThunks.loadMoreFocalPeople(onSuccess, onError))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+        expect(onSuccess).toHaveBeenCalledTimes(1);
+        expect(onError).toHaveBeenCalledTimes(0);
+      });
+  });
+
+  it('should dispatch required actions when loadMore resources fails', () => {
+    const store = mockStore({
+      focalPeople: {
+        list: [],
+        hasMore: true,
+      },
+    });
+
+    const error = {
+      status: 404,
+      code: 404,
+      name: 'Error',
+      message: 'Not Found',
+      developerMessage: 'Not Found',
+      userMessage: 'Not Found',
+      error: 'Error',
+      error_description: 'Not Found',
+    };
+
+    getFocalPeople.mockRejectedValueOnce(error);
+    const onSuccess = jest.fn();
+    const onError = jest.fn();
+
+    const focalPersonThunks = createThunkFor('focalPeople');
+    const expectedActions = [
+      { type: 'focalPerson/loadMoreFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/loadMoreFocalPeopleFailure', payload: error },
+    ];
+
+    return store
+      .dispatch(focalPersonThunks.loadMoreFocalPeople(onSuccess, onError))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+        expect(onSuccess).toHaveBeenCalledTimes(0);
+        expect(onError).toHaveBeenCalledTimes(1);
+        expect(onError).toHaveBeenCalledWith(error);
+      });
+  });
+
+  it('should not dispatch any action when hasMore is false', () => {
+    const store = mockStore({
+      focalPeople: {
+        list: [],
+        hasMore: false,
+      },
+    });
+
+    const onSuccess = jest.fn();
+    const onError = jest.fn();
+    const focalPersonThunks = createThunkFor('focalPeople');
+
+    expect(
+      store.dispatch(focalPersonThunks.loadMoreFocalPeople(onSuccess, onError))
+    ).toBeUndefined();
+  });
+
   it('should dispatch required actions when refresh resources succeed', () => {
     const store = mockStore({
       focalPeople: {

@@ -24,4 +24,5 @@ export const {
   searchEventCertainties,
   setEventCertaintySchema,
   sortEventCertainties,
+  loadMoreEventCertainties,
 } = eventCertaintyActions;

@@ -24,4 +24,5 @@ export const {
   searchEventQuestions,
   setEventQuestionSchema,
   sortEventQuestions,
+  loadMoreEventQuestions,
 } = eventQuestionActions;

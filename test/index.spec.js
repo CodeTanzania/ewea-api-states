@@ -47,6 +47,7 @@ describe('Library Index', () => {
       expect(typeof lib[`search${pluralName}`]).toBe('function');
       expect(typeof lib[`set${singularName}Schema`]).toBe('function');
       expect(typeof lib[`sort${pluralName}`]).toBe('function');
+      expect(typeof lib[`loadMore${pluralName}`]).toBe('function');
     });
 
     expect(typeof lib.signin).toBe('function');

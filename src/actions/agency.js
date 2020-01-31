@@ -20,4 +20,5 @@ export const {
   searchAgencies,
   setAgencySchema,
   sortAgencies,
+  loadMoreAgencies,
 } = stakeholderActions;

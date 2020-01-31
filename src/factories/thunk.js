@@ -508,6 +508,65 @@ export default function createThunksFor(resource) {
 
   /**
    * @function
+   * @name loadMoreResources
+   * @description A thunk that will be dispatched when loading more data without
+   * paginating resource data in the API
+   *
+   * @param {Function} onSuccess Callback to be executed when paginating
+   * resources succeed
+   * @param {Function} onError Callback to be executed when paginating
+   * resources fails
+   * @returns {Function} Thunk function
+   *
+   * @version 0.1.0
+   * @since 0.1.0
+   */
+  thunks[camelize('load', 'more', pluralName)] = (onSuccess, onError) => (
+    dispatch,
+    getState
+  ) => {
+    dispatch(
+      actions[resourceName][camelize('load', 'more', pluralName, 'request')]()
+    );
+
+    const { page, filters, hasMore } = getState()[storeKey];
+
+    const nextPage = page + 1;
+
+    if (!hasMore) {
+      return undefined;
+    }
+
+    return client[camelize('get', pluralName)]({ page: nextPage, filters })
+      .then(data => {
+        dispatch(
+          actions[resourceName][
+            camelize('load', 'more', pluralName, 'success')
+          ](data)
+        );
+
+        // custom provided onSuccess callback
+        if (isFunction(onSuccess)) {
+          onSuccess();
+        }
+      })
+      .catch(error => {
+        const normalizedError = normalizeError(error);
+        dispatch(
+          actions[resourceName][
+            camelize('load', 'more', pluralName, 'failure')
+          ](normalizedError)
+        );
+
+        // custom provided onError callback
+        if (isFunction(onError)) {
+          onError(error);
+        }
+      });
+  };
+
+  /**
+   * @function
    * @name clearReourceFilters
    * @description A thunk that will be dispatched when clearing filters on
    * resources data in the API
