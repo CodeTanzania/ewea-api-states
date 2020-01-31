@@ -1,3 +1,9 @@
+#### 0.11.1 (2020-01-31)
+
+##### Bug Fixes
+
+- **thunk:** correct a typo on filter property on load more ([db50da1d](https://github.com/CodeTanzania/ewea-api-states/commit/db50da1dd02f5ca348f5329d49988951a6637dc4))
+
 #### 0.11.0 (2020-01-31)
 
 ##### Documentation Changes
