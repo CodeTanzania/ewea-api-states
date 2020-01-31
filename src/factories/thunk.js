@@ -529,7 +529,7 @@ export default function createThunksFor(resource) {
       actions[resourceName][camelize('load', 'more', pluralName, 'request')]()
     );
 
-    const { page, filters, hasMore } = getState()[storeKey];
+    const { page, filter, hasMore } = getState()[storeKey];
 
     const nextPage = page + 1;
 
@@ -537,7 +537,7 @@ export default function createThunksFor(resource) {
       return undefined;
     }
 
-    return client[camelize('get', pluralName)]({ page: nextPage, filters })
+    return client[camelize('get', pluralName)]({ page: nextPage, filter })
       .then(data => {
         dispatch(
           actions[resourceName][
