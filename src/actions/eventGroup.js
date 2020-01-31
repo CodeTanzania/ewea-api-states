@@ -24,4 +24,5 @@ export const {
   searchEventGroups,
   setEventGroupSchema,
   sortEventGroups,
+  loadMoreEventGroups,
 } = eventGroupActions;

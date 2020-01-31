@@ -24,4 +24,5 @@ export const {
   searchEventActions,
   setEventActionSchema,
   sortEventActions,
+  loadMoreEventActions,
 } = eventActionActions;

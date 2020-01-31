@@ -20,4 +20,5 @@ export const {
   searchEventTypes,
   setEventTypeSchema,
   sortEventTypes,
+  loadMoreEventTypes,
 } = eventTypeActions;

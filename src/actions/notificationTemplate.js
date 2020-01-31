@@ -24,4 +24,5 @@ export const {
   searchNotificationTemplates,
   setNotificationTemplateSchema,
   sortNotificationTemplates,
+  loadMoreNotificationTemplates,
 } = stakeholderActions;

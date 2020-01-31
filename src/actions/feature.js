@@ -20,4 +20,5 @@ export const {
   searchFeatures,
   setFeatureSchema,
   sortFeatures,
+  loadMoreFeatures,
 } = featureActions;

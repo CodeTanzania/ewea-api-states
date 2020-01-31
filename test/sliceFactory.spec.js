@@ -30,6 +30,7 @@ describe('Slice Factory', () => {
     schema: null,
     filter: null,
     sort: null,
+    hasMore: false,
     q: undefined,
   };
 
@@ -56,6 +57,9 @@ describe('Slice Factory', () => {
       'getTodosRequest',
       'getTodosSuccess',
       'getTodosFailure',
+      'loadMoreTodosRequest',
+      'loadMoreTodosSuccess',
+      'loadMoreTodosFailure',
       'getTodoRequest',
       'getTodoSuccess',
       'getTodoFailure',
@@ -161,6 +165,7 @@ describe('Slice Factory', () => {
         size: 1,
         page: 1,
         total: 1,
+        hasMore: true,
       });
 
       expect(reducer(defaultState, getTodosSuccessAction)).toEqual({
@@ -169,6 +174,7 @@ describe('Slice Factory', () => {
         page: getTodosSuccessAction.payload.page,
         total: getTodosSuccessAction.payload.total,
         size: getTodosSuccessAction.payload.size,
+        hasMore: true,
         loading: false,
       });
     });
@@ -186,6 +192,82 @@ describe('Slice Factory', () => {
       expect(reducer(defaultState, getTodosFailureAction)).toEqual({
         ...defaultState,
         error: getTodosFailureAction.payload,
+        loading: false,
+      });
+    });
+
+    it('should handle loadMore resources request action', () => {
+      const todos = createSliceFor('todos');
+
+      const { reducer } = todos;
+
+      const loadMoreTodosRequest = createAction('todos/loadMoreTodosRequest');
+
+      expect(reducer(defaultState, loadMoreTodosRequest)).toEqual({
+        ...defaultState,
+        loading: true,
+      });
+    });
+
+    it('should handle loadMore resources success action', () => {
+      const todos = createSliceFor('todos');
+
+      const initialState = {
+        list: [{ name: 'Test' }],
+        selected: null,
+        page: 1,
+        total: 0,
+        size: 0,
+        pages: 1,
+        loading: false,
+        posting: false,
+        showForm: false,
+        schema: null,
+        filter: null,
+        sort: null,
+        hasMore: false,
+        q: undefined,
+      };
+      const { reducer } = todos;
+
+      const loadMoreTodosSuccessAction = createAction(
+        'todos/loadMoreTodosSuccess',
+        {
+          data: [{ name: 'todos' }],
+          size: 1,
+          page: 1,
+          total: 1,
+          hasMore: true,
+        }
+      );
+
+      expect(reducer(initialState, loadMoreTodosSuccessAction)).toEqual({
+        ...initialState,
+        list: [
+          ...initialState.list,
+          ...loadMoreTodosSuccessAction.payload.data,
+        ],
+        page: loadMoreTodosSuccessAction.payload.page,
+        total: loadMoreTodosSuccessAction.payload.total,
+        size: loadMoreTodosSuccessAction.payload.size,
+        hasMore: loadMoreTodosSuccessAction.payload.hasMore,
+        loading: false,
+      });
+    });
+
+    it('should handle loadMore resources failure action', () => {
+      const todos = createSliceFor('todos');
+
+      const { reducer } = todos;
+
+      const loadMoreTodosFailureAction = createAction(
+        'todos/loadMoreTodosFailure',
+        new Error()
+      );
+
+      expect(reducer(defaultState, loadMoreTodosFailureAction)).toEqual({
+        ...defaultState,
+        error: loadMoreTodosFailureAction.payload,
         loading: false,
       });
     });

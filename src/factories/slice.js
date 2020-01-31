@@ -51,9 +51,28 @@ export function getDefaultReducers(resourceName) {
       page: action.payload.page,
       total: action.payload.total,
       size: action.payload.size,
+      hasMore: action.payload.hasMore,
       loading: false,
     }),
     [camelize('get', plural, 'Failure')]: (state, action) => ({
+      ...state,
+      error: action.payload,
+      loading: false,
+    }),
+    [camelize('load', 'more', plural, 'Request')]: state => ({
+      ...state,
+      loading: true,
+    }),
+    [camelize('load', 'more', plural, 'Success')]: (state, action) => ({
+      ...state,
+      list: [...state.list, ...action.payload.data],
+      page: action.payload.page,
+      total: action.payload.total,
+      size: action.payload.size,
+      hasMore: action.payload.hasMore,
+      loading: false,
+    }),
+    [camelize('load', 'more', plural, 'Failure')]: (state, action) => ({
       ...state,
       error: action.payload,
       loading: false,
@@ -154,6 +173,7 @@ export function getDefaultInitialState() {
     filter: null,
     sort: null,
     q: undefined,
+    hasMore: false,
   };
 }
 

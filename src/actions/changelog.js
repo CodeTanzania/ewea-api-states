@@ -20,4 +20,5 @@ export const {
   searchChangelogs,
   setChangelogSchema,
   sortChangelogs,
+  loadMoreChangelogs,
 } = changelogActions;
