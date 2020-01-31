@@ -830,7 +830,7 @@ function createThunksFor(resource) {
     dispatch(actions[resourceName][camelize('load', 'more', pluralName, 'request')]());
     const {
       page,
-      filters,
+      filter,
       hasMore
     } = getState()[storeKey];
     const nextPage = page + 1;
@@ -841,7 +841,7 @@ function createThunksFor(resource) {
 
     return httpActions[camelize('get', pluralName)]({
       page: nextPage,
-      filters
+      filter
     }).then(data => {
       dispatch(actions[resourceName][camelize('load', 'more', pluralName, 'success')](data)); // custom provided onSuccess callback
 
