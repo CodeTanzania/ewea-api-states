@@ -497,6 +497,8 @@ function createThunksFor(resource) {
    * resource succeed
    * @param {Function} onError Callback to be executed when posting
    * resource fails
+   * @param {object} options Additional options params i.e {filters:{}} will be
+   * applied on successfully post action
    * @returns {Function} Thunk function
    *
    * @version 0.2.0
@@ -504,14 +506,26 @@ function createThunksFor(resource) {
    */
 
 
-  thunks[camelize('post', singularName)] = (param, onSuccess, onError) => dispatch => {
+  thunks[camelize('post', singularName)] = (param, onSuccess, onError, options) => (dispatch, getState) => {
     dispatch(actions[resourceName][camelize('post', singularName, 'request')]());
     return httpActions[camelize('post', singularName)](param).then(data => {
       dispatch(actions[resourceName][camelize('post', singularName, 'success')](data));
       dispatch(actions[resourceName][camelize('clear', pluralName, 'filters')]());
       dispatch(actions[resourceName][camelize('clear', pluralName, 'sort')]());
       dispatch(actions[resourceName][camelize('search', pluralName)]());
-      dispatch(thunks[camelize('get', pluralName)]()); // custom provided onSuccess callback
+
+      if (!isEmpty(options) && !isEmpty(options.filters)) {
+        dispatch(actions[resourceName][camelize('filter', pluralName)](options.filters));
+        const {
+          filter
+        } = getState()[storeKey];
+        dispatch(thunks[camelize('get', pluralName)]({
+          filter
+        }));
+      } else {
+        dispatch(thunks[camelize('get', pluralName)]());
+      } // custom provided onSuccess callback
+
 
       if (isFunction(onSuccess)) {
         onSuccess();
