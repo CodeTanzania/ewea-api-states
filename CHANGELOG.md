@@ -1,3 +1,18 @@
+#### 0.10.1 (2020-01-31)
+
+##### Documentation Changes
+
+- **readme:** add how to pass options on post action ([0ca9d83a](https://github.com/CodeTanzania/ewea-api-states/commit/0ca9d83a9b4d61d4fcceee544a8aad03ed3d6936))
+
+##### Bug Fixes
+
+- **thunk:** apply filters on reload after successfuly post action ([f5ca296e](https://github.com/CodeTanzania/ewea-api-states/commit/f5ca296e4c9d51e5ac568be53208a16579465da7))
+- **deps:**
+  - update dependency @codetanzania/ewea-api-client to >=0.8.1 ([9e1926a1](https://github.com/CodeTanzania/ewea-api-states/commit/9e1926a17bc24d56fa0760624947d50c88a694b8))
+  - update dependency axios to >=0.19.2 ([c0713508](https://github.com/CodeTanzania/ewea-api-states/commit/c0713508d4c73fb908078bc5a1b1dac79b33dc15))
+  - update dependency @reduxjs/toolkit to >=1.2.3 ([f83137dd](https://github.com/CodeTanzania/ewea-api-states/commit/f83137ddd1658c6d465a9313bd3dcac5fc0e1c75))
+  - update dependency @reduxjs/toolkit to >=1.2.2 ([da9c0a84](https://github.com/CodeTanzania/ewea-api-states/commit/da9c0a84d07197677c368eb103f010e80a40d11d))
+
 #### 0.10.0 (2020-01-13)
 
 ##### New Features

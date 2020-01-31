@@ -815,6 +815,113 @@ describe('Thunk Factory', () => {
       });
   });
 
+  it('should dispatch actions on post resource with filter option', () => {
+    const store = mockStore({
+      focalPeople: {
+        list: [],
+      },
+    });
+
+    const mockData = {
+      data: {
+        name: 'Finish off',
+      },
+    };
+
+    const mockGetData = {
+      data: {
+        data: [{ name: 'Finish off' }],
+        page: 1,
+        pages: 1,
+        total: 1,
+      },
+    };
+
+    postFocalPerson.mockResolvedValueOnce(mockData);
+    getFocalPeople.mockResolvedValueOnce(mockGetData);
+
+    const onSuccess = jest.fn();
+    const onError = jest.fn();
+
+    const focalPersonThunks = createThunkFor('focalPeople');
+    const expectedActions = [
+      { type: 'focalPerson/postFocalPersonRequest', payload: undefined },
+      { type: 'focalPerson/postFocalPersonSuccess', payload: mockData },
+      { type: 'focalPerson/clearFocalPeopleFilters', payload: undefined },
+      { type: 'focalPerson/clearFocalPeopleSort', payload: undefined },
+      { type: 'focalPerson/searchFocalPeople', payload: undefined },
+      { type: 'focalPerson/filterFocalPeople', payload: { test: 1 } },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleSuccess', payload: mockGetData },
+    ];
+
+    return store
+      .dispatch(
+        focalPersonThunks.postFocalPerson({}, onSuccess, onError, {
+          filters: { test: 1 },
+        })
+      )
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+        expect(getFocalPeople).toHaveBeenCalled();
+        expect(onSuccess).toHaveBeenCalledTimes(1);
+        expect(onError).toHaveBeenCalledTimes(0);
+      });
+  });
+
+  it('should dispatch actions on post resource with no filter option', () => {
+    const store = mockStore({
+      focalPeople: {
+        list: [],
+      },
+    });
+
+    const mockData = {
+      data: {
+        name: 'Finish off',
+      },
+    };
+
+    const mockGetData = {
+      data: {
+        data: [{ name: 'Finish off' }],
+        page: 1,
+        pages: 1,
+        total: 1,
+      },
+    };
+
+    postFocalPerson.mockResolvedValueOnce(mockData);
+    getFocalPeople.mockResolvedValueOnce(mockGetData);
+
+    const onSuccess = jest.fn();
+    const onError = jest.fn();
+
+    const focalPersonThunks = createThunkFor('focalPeople');
+    const expectedActions = [
+      { type: 'focalPerson/postFocalPersonRequest', payload: undefined },
+      { type: 'focalPerson/postFocalPersonSuccess', payload: mockData },
+      { type: 'focalPerson/clearFocalPeopleFilters', payload: undefined },
+      { type: 'focalPerson/clearFocalPeopleSort', payload: undefined },
+      { type: 'focalPerson/searchFocalPeople', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleRequest', payload: undefined },
+      { type: 'focalPerson/getFocalPeopleSuccess', payload: mockGetData },
+    ];
+
+    return store
+      .dispatch(
+        focalPersonThunks.postFocalPerson({}, onSuccess, onError, {
+          sort: { test: 1 },
+        })
+      )
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+        expect(getFocalPeople).toHaveBeenCalled();
+        expect(onSuccess).toHaveBeenCalledTimes(1);
+        expect(onError).toHaveBeenCalledTimes(0);
+      });
+  });
+
   it('should dispatch required actions when post a resource fails', () => {
     const store = mockStore({
       focalPeople: {

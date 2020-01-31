@@ -1,6 +1,6 @@
 {
   "name": "@codetanzania/ewea-api-states",
-  "version": "0.10.0",
+  "version": "0.10.1",
   "description": "EWEA Redux state management library",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -48,9 +48,9 @@
   },
   "homepage": "https://github.com/CodeTanzania/ewea-api-states#readme",
   "dependencies": {
-    "@codetanzania/ewea-api-client": ">=0.8.0",
-    "@reduxjs/toolkit": ">=1.2.1",
-    "axios": ">=0.19.1",
+    "@codetanzania/ewea-api-client": ">=0.8.1",
+    "@reduxjs/toolkit": ">=1.2.3",
+    "axios": ">=0.19.2",
     "inflection": ">=1.12.0",
     "lodash": ">=4.17.15",
     "prop-types": ">=15.7.2",
@@ -60,35 +60,35 @@
     "redux-thunk": ">=2.3.0"
   },
   "devDependencies": {
-    "@babel/core": ">=7.8.0",
-    "@babel/preset-env": ">=7.8.2",
-    "@babel/preset-react": ">=7.8.0",
-    "@commitlint/cli": ">=8.3.4",
+    "@babel/core": ">=7.8.4",
+    "@babel/preset-env": ">=7.8.4",
+    "@babel/preset-react": ">=7.8.3",
+    "@commitlint/cli": ">=8.3.5",
     "@commitlint/config-conventional": ">=8.3.4",
-    "@commitlint/travis-cli": ">=8.3.4",
+    "@commitlint/travis-cli": ">=8.3.5",
     "@testing-library/react": ">=9.4.0",
     "babel-eslint": ">=10.0.3",
-    "babel-jest": ">=24.9.0",
+    "babel-jest": ">=25.1.0",
     "commitizen": ">=4.0.3",
-    "cz-conventional-changelog": ">=3.0.2",
+    "cz-conventional-changelog": ">=3.1.0",
     "eslint": ">=6.8.0",
     "eslint-config-airbnb": ">=18.0.1",
-    "eslint-config-prettier": ">=6.9.0",
+    "eslint-config-prettier": ">=6.10.0",
     "eslint-plugin-import": ">=2.20.0",
     "eslint-plugin-jest": ">=23.6.0",
-    "eslint-plugin-jsdoc": ">=20.3.0",
+    "eslint-plugin-jsdoc": ">=21.0.0",
     "eslint-plugin-jsx-a11y": ">=6.2.3",
     "eslint-plugin-prettier": ">=3.1.2",
-    "eslint-plugin-react": ">=7.17.0",
+    "eslint-plugin-react": ">=7.18.0",
     "faker": ">=4.1.0",
     "generate-changelog": ">=1.8.0",
-    "husky": ">=4.0.7",
-    "jest": ">=24.9.0",
-    "lint-staged": ">=9.5.0",
+    "husky": ">=4.2.1",
+    "jest": ">=25.1.0",
+    "lint-staged": ">=10.0.7",
     "prettier": ">=1.19.1",
     "react-dom": ">=16.12.0",
     "redux-mock-store": ">=1.5.4",
-    "rollup": ">=1.29.0",
+    "rollup": ">=1.31.0",
     "rollup-plugin-babel": ">=4.3.3"
   },
   "jest": {
@@ -113,12 +113,10 @@
   },
   "lint-staged": {
     "*.js": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ],
     "*.{md,html,json}": [
-      "prettier --write",
-      "git add"
+      "prettier --write"
     ]
   },
   "husky": {
