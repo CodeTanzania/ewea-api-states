@@ -1,3 +1,13 @@
+#### 0.11.0 (2020-01-31)
+
+##### Documentation Changes
+
+- **readme:** add documentation about infinity scroll support ([7fb1e197](https://github.com/CodeTanzania/ewea-api-states/commit/7fb1e19773d5927502f41490a2cbab3097140178))
+
+##### New Features
+
+- add support to infinite data loading ([c90705fe](https://github.com/CodeTanzania/ewea-api-states/commit/c90705fe4271c8044de24cf084df4725ad4545bc))
+
 #### 0.10.1 (2020-01-31)
 
 ##### Documentation Changes

@@ -59,6 +59,7 @@ import {
   refreshEvents,
   searchEvents,
   sortEvents,
+  loadMoreEvents,
 } from '@codetanzania/ewea-api-states';
 ```
 
@@ -81,6 +82,7 @@ const store = {
     schema: null,
     filter: null,
     sort: null,
+    hasMore:false,
     q: undefined
   },
   ...
@@ -194,7 +196,7 @@ clearEventFilters(onSuccess, onError, ['eventType']);
 #### Pagination
 
 ```js
-import { paginateEvents } from '@codetanzania/ewea-api-state';
+import { paginateEvents } from '@codetanzania/ewea-api-states';
 
 paginateEvents(pageNumber);
 ```
@@ -202,13 +204,21 @@ paginateEvents(pageNumber);
 #### Sorting
 
 ```js
-import { sortEvents, clearEventsSort } from '@codetanzania/ewea-api-state';
+import { sortEvents, clearEventsSort } from '@codetanzania/ewea-api-states';
 
 sortEvents({ name: 1 }, onSuccess, onError);
 
 // clear sort
 
 clearEventsSort(onSuccess, onError);
+```
+
+### Infinity Scroll
+
+```js
+import { loadMoreEvents } from '@codetanzania/ewea-api-states';
+
+loadMoreEvents();
 ```
 
 > Note: This library depends on [ewea-api-client](https://github.com/CodeTanzania/ewea-api-client) to work, so in order to specify API URL add `.env` file on your project root folder and specify your API URL under `REACT_APP_EWEA_API_URL=[specify API BASE URL here]`

@@ -164,9 +164,25 @@ function getDefaultReducers(resourceName) {
       page: action.payload.page,
       total: action.payload.total,
       size: action.payload.size,
+      hasMore: action.payload.hasMore,
       loading: false
     }),
     [camelize('get', plural, 'Failure')]: (state, action) => ({ ...state,
+      error: action.payload,
+      loading: false
+    }),
+    [camelize('load', 'more', plural, 'Request')]: state => ({ ...state,
+      loading: true
+    }),
+    [camelize('load', 'more', plural, 'Success')]: (state, action) => ({ ...state,
+      list: [...state.list, ...action.payload.data],
+      page: action.payload.page,
+      total: action.payload.total,
+      size: action.payload.size,
+      hasMore: action.payload.hasMore,
+      loading: false
+    }),
+    [camelize('load', 'more', plural, 'Failure')]: (state, action) => ({ ...state,
       error: action.payload,
       loading: false
     }),
@@ -250,7 +266,8 @@ function getDefaultInitialState() {
     schema: null,
     filter: null,
     sort: null,
-    q: undefined
+    q: undefined,
+    hasMore: false
   };
 }
 /**
@@ -794,6 +811,54 @@ function createThunksFor(resource) {
   };
   /**
    * @function
+   * @name loadMoreResources
+   * @description A thunk that will be dispatched when loading more data without
+   * paginating resource data in the API
+   *
+   * @param {Function} onSuccess Callback to be executed when paginating
+   * resources succeed
+   * @param {Function} onError Callback to be executed when paginating
+   * resources fails
+   * @returns {Function} Thunk function
+   *
+   * @version 0.1.0
+   * @since 0.1.0
+   */
+
+
+  thunks[camelize('load', 'more', pluralName)] = (onSuccess, onError) => (dispatch, getState) => {
+    dispatch(actions[resourceName][camelize('load', 'more', pluralName, 'request')]());
+    const {
+      page,
+      filters,
+      hasMore
+    } = getState()[storeKey];
+    const nextPage = page + 1;
+
+    if (!hasMore) {
+      return undefined;
+    }
+
+    return httpActions[camelize('get', pluralName)]({
+      page: nextPage,
+      filters
+    }).then(data => {
+      dispatch(actions[resourceName][camelize('load', 'more', pluralName, 'success')](data)); // custom provided onSuccess callback
+
+      if (isFunction(onSuccess)) {
+        onSuccess();
+      }
+    }).catch(error => {
+      const normalizedError = normalizeError(error);
+      dispatch(actions[resourceName][camelize('load', 'more', pluralName, 'failure')](normalizedError)); // custom provided onError callback
+
+      if (isFunction(onError)) {
+        onError(error);
+      }
+    });
+  };
+  /**
+   * @function
    * @name clearReourceFilters
    * @description A thunk that will be dispatched when clearing filters on
    * resources data in the API
@@ -898,7 +963,8 @@ const {
   refreshAgencies,
   searchAgencies,
   setAgencySchema,
-  sortAgencies
+  sortAgencies,
+  loadMoreAgencies
 } = stakeholderActions;
 
 /* declarations */
@@ -1197,7 +1263,8 @@ const {
   refreshAdministrativeAreas,
   searchAdministrativeAreas,
   setAdministrativeAreaSchema,
-  sortAdministrativeAreas
+  sortAdministrativeAreas,
+  loadMoreAdministrativeAreas
 } = administrativeAreaActions;
 
 const changelogActions = generateExposedActions('changelog', actions, dispatch);
@@ -1217,7 +1284,8 @@ const {
   refreshChangelogs,
   searchChangelogs,
   setChangelogSchema,
-  sortChangelogs
+  sortChangelogs,
+  loadMoreChangelogs
 } = changelogActions;
 
 const eventActions = generateExposedActions('event', actions, dispatch);
@@ -1237,7 +1305,8 @@ const {
   refreshEvents,
   searchEvents,
   setEventSchema,
-  sortEvents
+  sortEvents,
+  loadMoreEvents
 } = eventActions;
 
 const eventActionActions = generateExposedActions('eventAction', actions, dispatch);
@@ -1257,7 +1326,8 @@ const {
   refreshEventActions,
   searchEventActions,
   setEventActionSchema,
-  sortEventActions
+  sortEventActions,
+  loadMoreEventActions
 } = eventActionActions;
 
 const eventCertaintyActions = generateExposedActions('eventCertainty', actions, dispatch);
@@ -1277,7 +1347,8 @@ const {
   refreshEventCertainties,
   searchEventCertainties,
   setEventCertaintySchema,
-  sortEventCertainties
+  sortEventCertainties,
+  loadMoreEventCertainties
 } = eventCertaintyActions;
 
 const eventFunctionActions = generateExposedActions('eventFunction', actions, dispatch);
@@ -1297,7 +1368,8 @@ const {
   refreshEventFunctions,
   searchEventFunctions,
   setEventFunctionSchema,
-  sortEventFunctions
+  sortEventFunctions,
+  loadMoreEventFunctions
 } = eventFunctionActions;
 
 const eventGroupActions = generateExposedActions('eventGroup', actions, dispatch);
@@ -1317,7 +1389,8 @@ const {
   refreshEventGroups,
   searchEventGroups,
   setEventGroupSchema,
-  sortEventGroups
+  sortEventGroups,
+  loadMoreEventGroups
 } = eventGroupActions;
 
 const eventIndicatorActions = generateExposedActions('eventIndicator', actions, dispatch);
@@ -1337,7 +1410,8 @@ const {
   refreshEventIndicators,
   searchEventIndicators,
   setEventIndicatorSchema,
-  sortEventIndicators
+  sortEventIndicators,
+  loadMoreEventIndicators
 } = eventIndicatorActions;
 
 const eventQuestionActions = generateExposedActions('eventQuestion', actions, dispatch);
@@ -1357,7 +1431,8 @@ const {
   refreshEventQuestions,
   searchEventQuestions,
   setEventQuestionSchema,
-  sortEventQuestions
+  sortEventQuestions,
+  loadMoreEventQuestions
 } = eventQuestionActions;
 
 const eventSeverityActions = generateExposedActions('eventSeverity', actions, dispatch);
@@ -1377,7 +1452,8 @@ const {
   refreshEventSeverities,
   searchEventSeverities,
   setEventSeveritySchema,
-  sortEventSeverities
+  sortEventSeverities,
+  loadMoreEventSeverities
 } = eventSeverityActions;
 
 const eventTypeActions = generateExposedActions('eventType', actions, dispatch);
@@ -1397,7 +1473,8 @@ const {
   refreshEventTypes,
   searchEventTypes,
   setEventTypeSchema,
-  sortEventTypes
+  sortEventTypes,
+  loadMoreEventTypes
 } = eventTypeActions;
 
 const featureActions = generateExposedActions('feature', actions, dispatch);
@@ -1417,7 +1494,8 @@ const {
   refreshFeatures,
   searchFeatures,
   setFeatureSchema,
-  sortFeatures
+  sortFeatures,
+  loadMoreFeatures
 } = featureActions;
 
 const stakeholderActions$1 = generateExposedActions('focalPerson', actions, dispatch);
@@ -1437,7 +1515,8 @@ const {
   refreshFocalPeople,
   searchFocalPeople,
   setFocalPersonSchema,
-  sortFocalPeople
+  sortFocalPeople,
+  loadMoreFocalPeople
 } = stakeholderActions$1;
 
 const stakeholderActions$2 = generateExposedActions('notificationTemplate', actions, dispatch);
@@ -1457,7 +1536,8 @@ const {
   refreshNotificationTemplates,
   searchNotificationTemplates,
   setNotificationTemplateSchema,
-  sortNotificationTemplates
+  sortNotificationTemplates,
+  loadMoreNotificationTemplates
 } = stakeholderActions$2;
 
 const partyRoleActions = generateExposedActions('partyRole', actions, dispatch);
@@ -1477,7 +1557,8 @@ const {
   refreshPartyRoles,
   searchPartyRoles,
   setPartyRoleSchema,
-  sortPartyRoles
+  sortPartyRoles,
+  loadMorePartyRoles
 } = partyRoleActions;
 
 /**
@@ -1547,4 +1628,4 @@ function Connect(component, stateToProps = null) {
   return connect(mapStateToProps)(component);
 }
 
-export { Connect, StoreProvider, clearAdministrativeAreaFilters, clearAdministrativeAreasSort, clearAgenciesSort, clearAgencyFilters, clearChangelogFilters, clearChangelogsSort, clearEventActionFilters, clearEventActionsSort, clearEventCertaintiesSort, clearEventCertaintyFilters, clearEventFilters, clearEventFunctionFilters, clearEventFunctionsSort, clearEventGroupFilters, clearEventGroupsSort, clearEventIndicatorFilters, clearEventIndicatorsSort, clearEventQuestionFilters, clearEventQuestionsSort, clearEventSeveritiesSort, clearEventSeverityFilters, clearEventTypeFilters, clearEventTypesSort, clearEventsSort, clearFeatureFilters, clearFeaturesSort, clearFocalPeopleSort, clearFocalPersonFilters, clearNotificationTemplateFilters, clearNotificationTemplatesSort, clearPartyRoleFilters, clearPartyRolesSort, closeAdministrativeAreaForm, closeAgencyForm, closeChangelogForm, closeEventActionForm, closeEventCertaintyForm, closeEventForm, closeEventFunctionForm, closeEventGroupForm, closeEventIndicatorForm, closeEventQuestionForm, closeEventSeverityForm, closeEventTypeForm, closeFeatureForm, closeFocalPersonForm, closeNotificationTemplateForm, closePartyRoleForm, deleteAdministrativeArea, deleteAgency, deleteChangelog, deleteEvent, deleteEventAction, deleteEventCertainty, deleteEventFunction, deleteEventGroup, deleteEventIndicator, deleteEventQuestion, deleteEventSeverity, deleteEventType, deleteFeature, deleteFocalPerson, deleteNotificationTemplate, deletePartyRole, filterAdministrativeAreas, filterAgencies, filterChangelogs, filterEventActions, filterEventCertainties, filterEventFunctions, filterEventGroups, filterEventIndicators, filterEventQuestions, filterEventSeverities, filterEventTypes, filterEvents, filterFeatures, filterFocalPeople, filterNotificationTemplates, filterPartyRoles, getAdministrativeArea, getAdministrativeAreas, getAgencies, getAgency, getChangelog, getChangelogs, getEvent, getEventAction, getEventActions, getEventCertainties, getEventCertainty, getEventFunction, getEventFunctions, getEventGroup, getEventGroups, getEventIndicator, getEventIndicators, getEventQuestion, getEventQuestions, getEventSeverities, getEventSeverity, getEventType, getEventTypes, getEvents, getFeature, getFeatures, getFocalPeople, getFocalPerson, getNotificationTemplate, getNotificationTemplates, getPartyRole, getPartyRoles, wrappedInitializeApp as initializeApp, openAdministrativeAreaForm, openAgencyForm, openChangelogForm, openEventActionForm, openEventCertaintyForm, openEventForm, openEventFunctionForm, openEventGroupForm, openEventIndicatorForm, openEventQuestionForm, openEventSeverityForm, openEventTypeForm, openFeatureForm, openFocalPersonForm, openNotificationTemplateForm, openPartyRoleForm, paginateAdministrativeAreas, paginateAgencies, paginateChangelogs, paginateEventActions, paginateEventCertainties, paginateEventFunctions, paginateEventGroups, paginateEventIndicators, paginateEventQuestions, paginateEventSeverities, paginateEventTypes, paginateEvents, paginateFeatures, paginateFocalPeople, paginateNotificationTemplates, paginatePartyRoles, postAdministrativeArea, postAgency, postChangelog, postEvent, postEventAction, postEventCertainty, postEventFunction, postEventGroup, postEventIndicator, postEventQuestion, postEventSeverity, postEventType, postFeature, postFocalPerson, postNotificationTemplate, postPartyRole, putAdministrativeArea, putAgency, putChangelog, putEvent, putEventAction, putEventCertainty, putEventFunction, putEventGroup, putEventIndicator, putEventQuestion, putEventSeverity, putEventType, putFeature, putFocalPerson, putNotificationTemplate, putPartyRole, refreshAdministrativeAreas, refreshAgencies, refreshChangelogs, refreshEventActions, refreshEventCertainties, refreshEventFunctions, refreshEventGroups, refreshEventIndicators, refreshEventQuestions, refreshEventSeverities, refreshEventTypes, refreshEvents, refreshFeatures, refreshFocalPeople, refreshNotificationTemplates, refreshPartyRoles, searchAdministrativeAreas, searchAgencies, searchChangelogs, searchEventActions, searchEventCertainties, searchEventFunctions, searchEventGroups, searchEventIndicators, searchEventQuestions, searchEventSeverities, searchEventTypes, searchEvents, searchFeatures, searchFocalPeople, searchNotificationTemplates, searchPartyRoles, selectAdministrativeArea, selectAgency, selectChangelog, selectEvent, selectEventAction, selectEventCertainty, selectEventFunction, selectEventGroup, selectEventIndicator, selectEventQuestion, selectEventSeverity, selectEventType, selectFeature, selectFocalPerson, selectNotificationTemplate, selectPartyRole, setAdministrativeAreaSchema, setAgencySchema, setChangelogSchema, setEventActionSchema, setEventCertaintySchema, setEventFunctionSchema, setEventGroupSchema, setEventIndicatorSchema, setEventQuestionSchema, setEventSchema, setEventSeveritySchema, setEventTypeSchema, setFeatureSchema, setFocalPersonSchema, setNotificationTemplateSchema, setPartyRoleSchema, wrappedSingin as signin, wrappedSingout as signout, sortAdministrativeAreas, sortAgencies, sortChangelogs, sortEventActions, sortEventCertainties, sortEventFunctions, sortEventGroups, sortEventIndicators, sortEventQuestions, sortEventSeverities, sortEventTypes, sortEvents, sortFeatures, sortFocalPeople, sortNotificationTemplates, sortPartyRoles };
+export { Connect, StoreProvider, clearAdministrativeAreaFilters, clearAdministrativeAreasSort, clearAgenciesSort, clearAgencyFilters, clearChangelogFilters, clearChangelogsSort, clearEventActionFilters, clearEventActionsSort, clearEventCertaintiesSort, clearEventCertaintyFilters, clearEventFilters, clearEventFunctionFilters, clearEventFunctionsSort, clearEventGroupFilters, clearEventGroupsSort, clearEventIndicatorFilters, clearEventIndicatorsSort, clearEventQuestionFilters, clearEventQuestionsSort, clearEventSeveritiesSort, clearEventSeverityFilters, clearEventTypeFilters, clearEventTypesSort, clearEventsSort, clearFeatureFilters, clearFeaturesSort, clearFocalPeopleSort, clearFocalPersonFilters, clearNotificationTemplateFilters, clearNotificationTemplatesSort, clearPartyRoleFilters, clearPartyRolesSort, closeAdministrativeAreaForm, closeAgencyForm, closeChangelogForm, closeEventActionForm, closeEventCertaintyForm, closeEventForm, closeEventFunctionForm, closeEventGroupForm, closeEventIndicatorForm, closeEventQuestionForm, closeEventSeverityForm, closeEventTypeForm, closeFeatureForm, closeFocalPersonForm, closeNotificationTemplateForm, closePartyRoleForm, deleteAdministrativeArea, deleteAgency, deleteChangelog, deleteEvent, deleteEventAction, deleteEventCertainty, deleteEventFunction, deleteEventGroup, deleteEventIndicator, deleteEventQuestion, deleteEventSeverity, deleteEventType, deleteFeature, deleteFocalPerson, deleteNotificationTemplate, deletePartyRole, filterAdministrativeAreas, filterAgencies, filterChangelogs, filterEventActions, filterEventCertainties, filterEventFunctions, filterEventGroups, filterEventIndicators, filterEventQuestions, filterEventSeverities, filterEventTypes, filterEvents, filterFeatures, filterFocalPeople, filterNotificationTemplates, filterPartyRoles, getAdministrativeArea, getAdministrativeAreas, getAgencies, getAgency, getChangelog, getChangelogs, getEvent, getEventAction, getEventActions, getEventCertainties, getEventCertainty, getEventFunction, getEventFunctions, getEventGroup, getEventGroups, getEventIndicator, getEventIndicators, getEventQuestion, getEventQuestions, getEventSeverities, getEventSeverity, getEventType, getEventTypes, getEvents, getFeature, getFeatures, getFocalPeople, getFocalPerson, getNotificationTemplate, getNotificationTemplates, getPartyRole, getPartyRoles, wrappedInitializeApp as initializeApp, loadMoreAdministrativeAreas, loadMoreAgencies, loadMoreChangelogs, loadMoreEventActions, loadMoreEventCertainties, loadMoreEventFunctions, loadMoreEventGroups, loadMoreEventIndicators, loadMoreEventQuestions, loadMoreEventSeverities, loadMoreEventTypes, loadMoreEvents, loadMoreFeatures, loadMoreFocalPeople, loadMoreNotificationTemplates, loadMorePartyRoles, openAdministrativeAreaForm, openAgencyForm, openChangelogForm, openEventActionForm, openEventCertaintyForm, openEventForm, openEventFunctionForm, openEventGroupForm, openEventIndicatorForm, openEventQuestionForm, openEventSeverityForm, openEventTypeForm, openFeatureForm, openFocalPersonForm, openNotificationTemplateForm, openPartyRoleForm, paginateAdministrativeAreas, paginateAgencies, paginateChangelogs, paginateEventActions, paginateEventCertainties, paginateEventFunctions, paginateEventGroups, paginateEventIndicators, paginateEventQuestions, paginateEventSeverities, paginateEventTypes, paginateEvents, paginateFeatures, paginateFocalPeople, paginateNotificationTemplates, paginatePartyRoles, postAdministrativeArea, postAgency, postChangelog, postEvent, postEventAction, postEventCertainty, postEventFunction, postEventGroup, postEventIndicator, postEventQuestion, postEventSeverity, postEventType, postFeature, postFocalPerson, postNotificationTemplate, postPartyRole, putAdministrativeArea, putAgency, putChangelog, putEvent, putEventAction, putEventCertainty, putEventFunction, putEventGroup, putEventIndicator, putEventQuestion, putEventSeverity, putEventType, putFeature, putFocalPerson, putNotificationTemplate, putPartyRole, refreshAdministrativeAreas, refreshAgencies, refreshChangelogs, refreshEventActions, refreshEventCertainties, refreshEventFunctions, refreshEventGroups, refreshEventIndicators, refreshEventQuestions, refreshEventSeverities, refreshEventTypes, refreshEvents, refreshFeatures, refreshFocalPeople, refreshNotificationTemplates, refreshPartyRoles, searchAdministrativeAreas, searchAgencies, searchChangelogs, searchEventActions, searchEventCertainties, searchEventFunctions, searchEventGroups, searchEventIndicators, searchEventQuestions, searchEventSeverities, searchEventTypes, searchEvents, searchFeatures, searchFocalPeople, searchNotificationTemplates, searchPartyRoles, selectAdministrativeArea, selectAgency, selectChangelog, selectEvent, selectEventAction, selectEventCertainty, selectEventFunction, selectEventGroup, selectEventIndicator, selectEventQuestion, selectEventSeverity, selectEventType, selectFeature, selectFocalPerson, selectNotificationTemplate, selectPartyRole, setAdministrativeAreaSchema, setAgencySchema, setChangelogSchema, setEventActionSchema, setEventCertaintySchema, setEventFunctionSchema, setEventGroupSchema, setEventIndicatorSchema, setEventQuestionSchema, setEventSchema, setEventSeveritySchema, setEventTypeSchema, setFeatureSchema, setFocalPersonSchema, setNotificationTemplateSchema, setPartyRoleSchema, wrappedSingin as signin, wrappedSingout as signout, sortAdministrativeAreas, sortAgencies, sortChangelogs, sortEventActions, sortEventCertainties, sortEventFunctions, sortEventGroups, sortEventIndicators, sortEventQuestions, sortEventSeverities, sortEventTypes, sortEvents, sortFeatures, sortFocalPeople, sortNotificationTemplates, sortPartyRoles };
