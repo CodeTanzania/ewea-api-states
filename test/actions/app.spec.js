@@ -76,6 +76,7 @@ describe('App Actions', () => {
         FocalPerson: {},
         Party: {},
         Agency: {},
+        Event: {},
       };
 
       getSchemas.mockResolvedValueOnce(mockData);
@@ -86,6 +87,7 @@ describe('App Actions', () => {
           type: 'agency/setAgencySchema',
           payload: mockData.Agency,
         },
+        { type: 'event/setEventSchema', payload: mockData.Event },
         {
           type: 'focalPerson/setFocalPersonSchema',
           payload: mockData.FocalPerson,
