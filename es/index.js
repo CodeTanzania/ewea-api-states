@@ -978,7 +978,7 @@ const {
  * @function
  * @name initializeAppStart
  *
- * @returns {object} - Action object
+ * @returns {object}  Action object
  *
  * @version 0.1.0
  * @since 0.1.0
@@ -996,7 +996,7 @@ function initializeAppStart() {
  * @name initializeAppSuccess
  *
  *
- * @returns {object} - action Object
+ * @returns {object}  action Object
  *
  * @version 0.1.0
  * @since 0.1.0
@@ -1013,9 +1013,9 @@ function initializeAppSuccess() {
  * @function
  * @name initializeAppFailure
  *
- * @param {object} error - error happened during application initialization
+ * @param {object} error  error happened during application initialization
  *
- * @returns {object} - Nothing is returned
+ * @returns {object}  Nothing is returned
  *
  * @version 0.1.0
  * @since 0.1.0
@@ -1033,7 +1033,7 @@ function initializeAppFailure(error) {
  * @function
  * @name signinStart
  *
- * @returns {object} - redux action
+ * @returns {object}  redux action
  *
  * @version 0.1.0
  * @since 0.10.3
@@ -1050,8 +1050,8 @@ function signinStart() {
  * @function
  * @name signinSuccess
  *
- * @param {object} party - signined user/party
- * @returns {object} - redux action
+ * @param {object} party  signined user/party
+ * @returns {object}  redux action
  *
  * @version 0.1.0
  * @since 0.10.3
@@ -1066,8 +1066,8 @@ function signinSuccess(party) {
 /**
  * Action dispatched when user signining fails
  *
- * @param {object} error - Error instance
- * @returns {object} - redux action
+ * @param {object} error  Error instance
+ * @returns {object}  redux action
  *
  * @version 0.1.0
  * @since 0.10.3
@@ -1085,7 +1085,7 @@ function signinFailure(error) {
  * @function
  * @name signout
  *
- * @returns {object} - Redux action
+ * @returns {object}  Redux action
  *
  * @version 0.1.0
  * @since 0.10.3
@@ -1103,7 +1103,7 @@ function signout() {
  * @function
  * @name initializeApp
  *
- * @returns {Function} - thunk function
+ * @returns {Function}  thunk function
  *
  * @version 0.1.0
  * @since 0.1.0
@@ -1116,6 +1116,9 @@ function initializeApp() {
       const {
         agency: {
           setAgencySchema
+        },
+        event: {
+          setEventSchema
         },
         // alert: { setAlertSchema },
         // district: { setDistrictSchema },
@@ -1132,6 +1135,7 @@ function initializeApp() {
       } = actions;
       const {
         Agency: agencySchema,
+        Event: eventSchema,
         //   Alert: alertSchema,
         //   District: districtSchema,
         //   Feature: featureSchema,
@@ -1143,7 +1147,8 @@ function initializeApp() {
         //   Role: roleSchema,
 
       } = schemas;
-      dispatch(setAgencySchema(agencySchema)); // dispatch(setAlertSchema(alertSchema));
+      dispatch(setAgencySchema(agencySchema));
+      dispatch(setEventSchema(eventSchema)); // dispatch(setAlertSchema(alertSchema));
       // dispatch(setDistrictSchema(districtSchema));
       // dispatch(setFeatureSchema(featureSchema));
 

@@ -25,7 +25,7 @@ const { getSchemas } = httpActions;
  * @function
  * @name initializeAppStart
  *
- * @returns {object} - Action object
+ * @returns {object}  Action object
  *
  * @version 0.1.0
  * @since 0.1.0
@@ -41,7 +41,7 @@ export function initializeAppStart() {
  * @name initializeAppSuccess
  *
  *
- * @returns {object} - action Object
+ * @returns {object}  action Object
  *
  * @version 0.1.0
  * @since 0.1.0
@@ -56,9 +56,9 @@ export function initializeAppSuccess() {
  * @function
  * @name initializeAppFailure
  *
- * @param {object} error - error happened during application initialization
+ * @param {object} error  error happened during application initialization
  *
- * @returns {object} - Nothing is returned
+ * @returns {object}  Nothing is returned
  *
  * @version 0.1.0
  * @since 0.1.0
@@ -73,7 +73,7 @@ export function initializeAppFailure(error) {
  * @function
  * @name signinStart
  *
- * @returns {object} - redux action
+ * @returns {object}  redux action
  *
  * @version 0.1.0
  * @since 0.10.3
@@ -88,8 +88,8 @@ export function signinStart() {
  * @function
  * @name signinSuccess
  *
- * @param {object} party - signined user/party
- * @returns {object} - redux action
+ * @param {object} party  signined user/party
+ * @returns {object}  redux action
  *
  * @version 0.1.0
  * @since 0.10.3
@@ -101,8 +101,8 @@ export function signinSuccess(party) {
 /**
  * Action dispatched when user signining fails
  *
- * @param {object} error - Error instance
- * @returns {object} - redux action
+ * @param {object} error  Error instance
+ * @returns {object}  redux action
  *
  * @version 0.1.0
  * @since 0.10.3
@@ -117,7 +117,7 @@ export function signinFailure(error) {
  * @function
  * @name signout
  *
- * @returns {object} - Redux action
+ * @returns {object}  Redux action
  *
  * @version 0.1.0
  * @since 0.10.3
@@ -133,7 +133,7 @@ export function signout() {
  * @function
  * @name initializeApp
  *
- * @returns {Function} - thunk function
+ * @returns {Function}  thunk function
  *
  * @version 0.1.0
  * @since 0.1.0
@@ -145,6 +145,7 @@ export function initializeApp() {
       .then(schemas => {
         const {
           agency: { setAgencySchema },
+          event: { setEventSchema },
           // alert: { setAlertSchema },
           // district: { setDistrictSchema },
           // feature: { setFeatureSchema },
@@ -159,6 +160,7 @@ export function initializeApp() {
 
         const {
           Agency: agencySchema,
+          Event: eventSchema,
           //   Alert: alertSchema,
           //   District: districtSchema,
           //   Feature: featureSchema,
@@ -172,6 +174,7 @@ export function initializeApp() {
         } = schemas;
 
         dispatch(setAgencySchema(agencySchema));
+        dispatch(setEventSchema(eventSchema));
         // dispatch(setAlertSchema(alertSchema));
         // dispatch(setDistrictSchema(districtSchema));
         // dispatch(setFeatureSchema(featureSchema));
