@@ -1,3 +1,17 @@
+#### 0.11.2 (2020-02-19)
+
+##### Bug Fixes
+
+- **deps:**
+  - update dependency @codetanzania/ewea-api-client to >=0.8.2 ([f8ab87a0](https://github.com/CodeTanzania/ewea-api-states/commit/f8ab87a086de03af58ba421d34d0571415138f12))
+  - update dependency react-redux to >=7.2.0 ([5f4c623b](https://github.com/CodeTanzania/ewea-api-states/commit/5f4c623bf2abd986a448cb84590cbb3c35598d27))
+  - update dependency @reduxjs/toolkit to >=1.2.5 ([d3f745e2](https://github.com/CodeTanzania/ewea-api-states/commit/d3f745e228f18c6786251e6e8a0897c6cacb1acf))
+  - update dependency @reduxjs/toolkit to >=1.2.4 ([b0c0c16c](https://github.com/CodeTanzania/ewea-api-states/commit/b0c0c16ccae67fa5d95694d5bbc08b20a6f72eac))
+
+##### Other Changes
+
+- **states:** set event schema on the store ([37deff14](https://github.com/CodeTanzania/ewea-api-states/commit/37deff14dc5ab2380e5fc429490b85e9fda9aa5b))
+
 #### 0.11.1 (2020-01-31)
 
 ##### Bug Fixes
