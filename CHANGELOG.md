@@ -1,3 +1,9 @@
+#### 0.12.0 (2020-02-21)
+
+##### New Features
+
+- **state:** add event catalogue to the store ([d8a45de8](https://github.com/CodeTanzania/ewea-api-states/commit/d8a45de8e2416878fbda73556a7be1a67d8fb14e))
+
 #### 0.11.2 (2020-02-19)
 
 ##### Bug Fixes

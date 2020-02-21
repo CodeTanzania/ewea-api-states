@@ -83,6 +83,7 @@ export * from './actions/administrativeArea';
 export * from './actions/changelog';
 export * from './actions/event';
 export * from './actions/eventAction';
+export * from './actions/eventActionCatalogue';
 export * from './actions/eventCertainty';
 export * from './actions/eventFunction';
 export * from './actions/eventGroup';
