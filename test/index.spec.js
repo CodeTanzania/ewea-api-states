@@ -14,6 +14,7 @@ describe('Library Index', () => {
       'changelog',
       'event',
       'eventAction',
+      'eventActionCatalogue',
       'eventCertainty',
       'eventFunction',
       'eventGroup',

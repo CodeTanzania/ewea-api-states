@@ -84,6 +84,7 @@ const resources = [
   'changelog',
   'event',
   'eventAction',
+  'eventActionCatalogue',
   'eventCertainty',
   'eventFunction',
   'eventGroup',
