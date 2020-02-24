@@ -79,7 +79,9 @@ export {
   wrappedSingin as signin,
   wrappedSingout as signout,
 } from './actions/app';
+
 export * from './actions/administrativeArea';
+export * from './actions/campaign';
 export * from './actions/changelog';
 export * from './actions/event';
 export * from './actions/eventAction';
@@ -94,5 +96,6 @@ export * from './actions/eventSeverity';
 export * from './actions/eventType';
 export * from './actions/feature';
 export * from './actions/focalPerson';
+export * from './actions/message';
 export * from './actions/notificationTemplate';
 export * from './actions/partyRole';

@@ -81,6 +81,7 @@ export function app(state = appDefaultState, action) {
 const resources = [
   'administrativeArea',
   'agency',
+  'campaign',
   'changelog',
   'event',
   'eventAction',
