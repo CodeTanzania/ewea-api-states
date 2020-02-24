@@ -1,3 +1,9 @@
+#### 0.13.0 (2020-02-24)
+
+##### New Features
+
+- **event-level:** add event level on store ([92d1c72b](https://github.com/CodeTanzania/ewea-api-states/commit/92d1c72bb14132f7e86d4781b13bb3ef25e35903))
+
 #### 0.12.0 (2020-02-21)
 
 ##### New Features

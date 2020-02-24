@@ -19,6 +19,7 @@ describe('Library Index', () => {
       'eventFunction',
       'eventGroup',
       'eventIndicator',
+      'eventLevel',
       'eventQuestion',
       'eventSeverity',
       'eventType',
