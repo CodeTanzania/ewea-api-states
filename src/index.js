@@ -88,6 +88,7 @@ export * from './actions/eventCertainty';
 export * from './actions/eventFunction';
 export * from './actions/eventGroup';
 export * from './actions/eventIndicator';
+export * from './actions/eventLevel';
 export * from './actions/eventQuestion';
 export * from './actions/eventSeverity';
 export * from './actions/eventType';
