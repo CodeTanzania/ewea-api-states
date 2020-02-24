@@ -12,6 +12,7 @@ describe('Library Index', () => {
       'agency',
       'administrativeArea',
       'changelog',
+      'campaign',
       'event',
       'eventAction',
       'eventActionCatalogue',
@@ -25,6 +26,7 @@ describe('Library Index', () => {
       'eventType',
       'feature',
       'focalPerson',
+      'message',
       'notificationTemplate',
       'partyRole',
     ];
