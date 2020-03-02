@@ -98,6 +98,7 @@ const resources = [
   'feature',
   'focalPerson',
   'notificationTemplate',
+  'partyGroup',
   'partyRole',
 ];
 
