@@ -1,3 +1,15 @@
+#### 0.15.0 (2020-03-02)
+
+##### New Features
+
+- **store:** add event topic on store ([50c76816](https://github.com/CodeTanzania/ewea-api-states/commit/50c768165b0e3c0c51ab0aea24cefdaeca4319ca))
+
+##### Bug Fixes
+
+- **deps:**
+  - update react monorepo to >=16.13.0 ([12af2425](https://github.com/CodeTanzania/ewea-api-states/commit/12af2425f99076857aa318fbd32a9b89e5d0b2b2))
+  - update dependency @codetanzania/ewea-api-client to >=0.10.1 ([43903b3a](https://github.com/CodeTanzania/ewea-api-states/commit/43903b3adea00f64c20a30aa9ac9e576a0c0542e))
+
 #### 0.14.0 (2020-02-24)
 
 ##### New Features
