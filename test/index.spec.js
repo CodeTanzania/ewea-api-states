@@ -31,6 +31,7 @@ describe('Library Index', () => {
       'notificationTemplate',
       'partyGroup',
       'partyRole',
+      'unit',
     ];
 
     forEach(resources, resource => {
