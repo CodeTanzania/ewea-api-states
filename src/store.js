@@ -100,6 +100,7 @@ const resources = [
   'notificationTemplate',
   'partyGroup',
   'partyRole',
+  'unit',
 ];
 
 const slices = createResourcesSlices(resources);
