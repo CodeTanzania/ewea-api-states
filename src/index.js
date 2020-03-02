@@ -93,6 +93,7 @@ export * from './actions/eventIndicator';
 export * from './actions/eventLevel';
 export * from './actions/eventQuestion';
 export * from './actions/eventSeverity';
+export * from './actions/eventTopic';
 export * from './actions/eventType';
 export * from './actions/feature';
 export * from './actions/focalPerson';

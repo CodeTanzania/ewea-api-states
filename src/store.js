@@ -93,6 +93,7 @@ const resources = [
   'eventLevel',
   'eventQuestion',
   'eventSeverity',
+  'eventTopic',
   'eventType',
   'feature',
   'focalPerson',
