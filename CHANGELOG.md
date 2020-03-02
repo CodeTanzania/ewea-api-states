@@ -1,3 +1,9 @@
+#### 0.16.0 (2020-03-02)
+
+##### New Features
+
+- **party-group:** add party group on the store ([bd0a4569](https://github.com/CodeTanzania/ewea-api-states/commit/bd0a45699791227dfbff9285cd962e70e66bbff2))
+
 #### 0.15.0 (2020-03-02)
 
 ##### New Features

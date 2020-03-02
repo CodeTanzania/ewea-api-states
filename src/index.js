@@ -99,4 +99,5 @@ export * from './actions/feature';
 export * from './actions/focalPerson';
 export * from './actions/message';
 export * from './actions/notificationTemplate';
+export * from './actions/partyGroup';
 export * from './actions/partyRole';

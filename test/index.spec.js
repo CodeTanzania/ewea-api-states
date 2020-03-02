@@ -29,6 +29,7 @@ describe('Library Index', () => {
       'focalPerson',
       'message',
       'notificationTemplate',
+      'partyGroup',
       'partyRole',
     ];
 
