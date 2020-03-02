@@ -1,3 +1,19 @@
+#### 0.17.0 (2020-03-02)
+
+##### New Features
+
+- **store:** add unit to the store ([caa21a5c](https://github.com/CodeTanzania/ewea-api-states/commit/caa21a5c8d4101d0bfb56a9ba383190d6445fc04))
+
+##### Bug Fixes
+
+- **deps:**
+  - update dependency @codetanzania/ewea-api-client to >=0.11.2 ([fe5d3869](https://github.com/CodeTanzania/ewea-api-states/commit/fe5d3869c3cd128a5d2382b43d4eabd7254e1997))
+  - update dependency @codetanzania/ewea-api-client to >=0.11.1 ([a9efec37](https://github.com/CodeTanzania/ewea-api-states/commit/a9efec37ac117b57a3a75e1cbe0f665a28e592f8))
+
+##### Other Changes
+
+- CodeTanzania/ewea-api-states into develop ([9853502d](https://github.com/CodeTanzania/ewea-api-states/commit/9853502d1617ad25cc1632ab850b583955872fd0))
+
 #### 0.16.1 (2020-03-02)
 
 ##### Bug Fixes
