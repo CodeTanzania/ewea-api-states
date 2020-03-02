@@ -1,3 +1,9 @@
+#### 0.16.1 (2020-03-02)
+
+##### Bug Fixes
+
+- **store:** add party group resource list ([e00a9b22](https://github.com/CodeTanzania/ewea-api-states/commit/e00a9b226b5abaf335ed45978c7fc0bac112d1e8))
+
 #### 0.16.0 (2020-03-02)
 
 ##### New Features
