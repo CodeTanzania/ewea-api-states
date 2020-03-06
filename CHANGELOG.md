@@ -1,3 +1,9 @@
+#### 0.18.0 (2020-03-06)
+
+##### New Features
+
+- **store:** add event urgency, status & response ([c04aa71b](https://github.com/CodeTanzania/ewea-api-states/commit/c04aa71b10845caf9534a3aa1acdd818a2a03134))
+
 #### 0.17.0 (2020-03-02)
 
 ##### New Features
