@@ -89,7 +89,7 @@
     "react-dom": ">=16.13.0",
     "redux-mock-store": ">=1.5.4",
     "rollup": ">=2.0.2",
-    "rollup-plugin-babel": ">=4.3.3"
+    "rollup-plugin-babel": ">=4.4.0"
   },
   "jest": {
     "verbose": false,
