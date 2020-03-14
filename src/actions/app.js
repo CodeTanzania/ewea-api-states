@@ -246,7 +246,7 @@ export function wrappedInitializeApp() {
  * Wrapped signing thunk
  *
  * @function
- * @name wrappedSingin
+ * @name wrappedSignIn
  *
  * @param {object} credentials - email and password provided by user
  * @param {Function} onSuccess - Callback for successfully signin
@@ -256,22 +256,22 @@ export function wrappedInitializeApp() {
  * @version 0.1.0
  * @since 0.10.3
  */
-export function wrappedSingin(credentials, onSuccess, onError) {
+export function wrappedSignIn(credentials, onSuccess, onError) {
   return storeDispatch(signin(credentials, onSuccess, onError));
 }
 
 /**
- * Wrapped singout action
+ * Wrapped signOut action
  *
  * @function
- * @name wrappedSignout
+ * @name wrappedSignOut
  *
  * @returns {undefined}
  *
  * @version 0.2.0
  * @since 0.10.3
  */
-export function wrappedSingout() {
+export function wrappedSignOut() {
   logout(); // clear sessionStorage
   return storeDispatch(signout());
 }
