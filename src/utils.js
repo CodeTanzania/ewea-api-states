@@ -58,7 +58,7 @@ export function extractReducers(resources, slices) {
   const reducers = {};
 
   // reducers
-  resources.forEach(resource => {
+  resources.forEach((resource) => {
     reducers[pluralize(resource)] = slices[resource].reducer;
   });
 
@@ -80,7 +80,7 @@ export function extractReducers(resources, slices) {
 export function extractActions(resources, slices) {
   const actions = {};
 
-  resources.forEach(resource => {
+  resources.forEach((resource) => {
     actions[resource] = slices[resource].actions;
   });
 

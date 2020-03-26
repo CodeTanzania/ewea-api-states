@@ -139,10 +139,10 @@ export function signout() {
  * @since 0.1.0
  */
 export function initializeApp() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(initializeAppStart());
     return getSchemas()
-      .then(schemas => {
+      .then((schemas) => {
         const {
           agency: { setAgencySchema },
           event: { setEventSchema },
@@ -187,7 +187,7 @@ export function initializeApp() {
         // dispatch(setRoleSchema(roleSchema));
         dispatch(initializeAppSuccess());
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(initializeAppFailure(error));
       });
   };
@@ -208,18 +208,18 @@ export function initializeApp() {
  * @since 0.10.3
  */
 export function signin(credentials, onSuccess, onError) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(signinStart());
 
     return login(credentials)
-      .then(results => {
+      .then((results) => {
         const { party } = results;
         dispatch(signinSuccess(party));
         if (isFunction(onSuccess)) {
           onSuccess();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(signinFailure(error));
         if (isFunction(onError)) {
           onError(error);
