@@ -62,7 +62,6 @@ export function getDefaultReducers(resourceName) {
     [camelize('load', 'more', plural, 'Request')]: (state) => ({
       ...state,
       loading: true,
-      hasMore: false,
     }),
     [camelize('load', 'more', plural, 'Success')]: (state, action) => ({
       ...state,

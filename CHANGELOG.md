@@ -1,3 +1,9 @@
+#### 0.18.3 (2020-03-26)
+
+##### Bug Fixes
+
+- **store:** revert changes to reset hasMore on loadMore action ([dc098852](https://github.com/CodeTanzania/ewea-api-states/commit/dc098852191dc2a7992c2ece40b812b48ce763ee))
+
 #### 2020-03-26
 
 ##### Bug Fixes
