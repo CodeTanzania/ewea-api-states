@@ -139,10 +139,10 @@ export function signout() {
  * @since 0.1.0
  */
 export function initializeApp() {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(initializeAppStart());
     return getSchemas()
-      .then(schemas => {
+      .then((schemas) => {
         const {
           agency: { setAgencySchema },
           event: { setEventSchema },
@@ -187,7 +187,7 @@ export function initializeApp() {
         // dispatch(setRoleSchema(roleSchema));
         dispatch(initializeAppSuccess());
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(initializeAppFailure(error));
       });
   };
@@ -208,18 +208,18 @@ export function initializeApp() {
  * @since 0.10.3
  */
 export function signin(credentials, onSuccess, onError) {
-  return dispatch => {
+  return (dispatch) => {
     dispatch(signinStart());
 
     return login(credentials)
-      .then(results => {
+      .then((results) => {
         const { party } = results;
         dispatch(signinSuccess(party));
         if (isFunction(onSuccess)) {
           onSuccess();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         dispatch(signinFailure(error));
         if (isFunction(onError)) {
           onError(error);
@@ -246,7 +246,7 @@ export function wrappedInitializeApp() {
  * Wrapped signing thunk
  *
  * @function
- * @name wrappedSingin
+ * @name wrappedSignIn
  *
  * @param {object} credentials - email and password provided by user
  * @param {Function} onSuccess - Callback for successfully signin
@@ -256,22 +256,22 @@ export function wrappedInitializeApp() {
  * @version 0.1.0
  * @since 0.10.3
  */
-export function wrappedSingin(credentials, onSuccess, onError) {
+export function wrappedSignIn(credentials, onSuccess, onError) {
   return storeDispatch(signin(credentials, onSuccess, onError));
 }
 
 /**
- * Wrapped singout action
+ * Wrapped signOut action
  *
  * @function
- * @name wrappedSignout
+ * @name wrappedSignOut
  *
  * @returns {undefined}
  *
  * @version 0.2.0
  * @since 0.10.3
  */
-export function wrappedSingout() {
+export function wrappedSignOut() {
   logout(); // clear sessionStorage
   return storeDispatch(signout());
 }

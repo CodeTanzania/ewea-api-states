@@ -45,14 +45,12 @@ export default function createThunksFor(resource) {
    * @version 0.2.0
    * @since 0.1.0
    */
-  thunks[camelize('get', pluralName)] = (
-    param,
-    onSuccess,
-    onError
-  ) => dispatch => {
+  thunks[camelize('get', pluralName)] = (param, onSuccess, onError) => (
+    dispatch
+  ) => {
     dispatch(actions[resourceName][camelize('get', pluralName, 'request')]());
     return client[camelize('get', pluralName)](param)
-      .then(data => {
+      .then((data) => {
         dispatch(
           actions[resourceName][camelize('get', pluralName, 'success')](data)
         );
@@ -62,7 +60,7 @@ export default function createThunksFor(resource) {
           onSuccess();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         const normalizedError = normalizeError(error);
         dispatch(
           actions[resourceName][camelize('get', pluralName, 'failure')](
@@ -93,14 +91,12 @@ export default function createThunksFor(resource) {
    * @version 0.2.0
    * @since 0.1.0
    */
-  thunks[camelize('get', singularName)] = (
-    id,
-    onSuccess,
-    onError
-  ) => dispatch => {
+  thunks[camelize('get', singularName)] = (id, onSuccess, onError) => (
+    dispatch
+  ) => {
     dispatch(actions[resourceName][camelize('get', singularName, 'request')]());
     return client[camelize('get', singularName)](id)
-      .then(data => {
+      .then((data) => {
         dispatch(
           actions[resourceName][camelize('get', singularName, 'success')](data)
         );
@@ -110,7 +106,7 @@ export default function createThunksFor(resource) {
           onSuccess();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         const normalizedError = normalizeError(error);
         dispatch(
           actions[resourceName][camelize('get', singularName, 'failure')](
@@ -153,7 +149,7 @@ export default function createThunksFor(resource) {
       actions[resourceName][camelize('post', singularName, 'request')]()
     );
     return client[camelize('post', singularName)](param)
-      .then(data => {
+      .then((data) => {
         dispatch(
           actions[resourceName][camelize('post', singularName, 'success')](data)
         );
@@ -186,7 +182,7 @@ export default function createThunksFor(resource) {
           onSuccess();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         const normalizedError = normalizeError(error);
         dispatch(
           actions[resourceName][camelize('post', singularName, 'failure')](
@@ -217,14 +213,12 @@ export default function createThunksFor(resource) {
    * @version 0.2.0
    * @since 0.1.0
    */
-  thunks[camelize('put', singularName)] = (
-    param,
-    onSuccess,
-    onError
-  ) => dispatch => {
+  thunks[camelize('put', singularName)] = (param, onSuccess, onError) => (
+    dispatch
+  ) => {
     dispatch(actions[resourceName][camelize('put', singularName, 'request')]());
     return client[camelize('put', singularName)](param)
-      .then(data => {
+      .then((data) => {
         dispatch(
           actions[resourceName][camelize('put', singularName, 'success')](data)
         );
@@ -245,7 +239,7 @@ export default function createThunksFor(resource) {
           onSuccess();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         const normalizedError = normalizeError(error);
         dispatch(
           actions[resourceName][camelize('put', singularName, 'failure')](
@@ -284,7 +278,7 @@ export default function createThunksFor(resource) {
       actions[resourceName][camelize('delete', singularName, 'request')]()
     );
     return client[camelize('delete', singularName)](id)
-      .then(data => {
+      .then((data) => {
         dispatch(
           actions[resourceName][camelize('delete', singularName, 'success')](
             data
@@ -301,7 +295,7 @@ export default function createThunksFor(resource) {
         return dispatch(thunks[camelize('get', pluralName)]({ page, filter }));
       })
 
-      .catch(error => {
+      .catch((error) => {
         const normalizedError = normalizeError(error);
         dispatch(
           actions[resourceName][camelize('delete', singularName, 'failure')](
@@ -363,11 +357,9 @@ export default function createThunksFor(resource) {
    * @version 0.1.0
    * @since 0.1.0
    */
-  thunks[camelize('filter', pluralName)] = (
-    filter,
-    onSuccess,
-    onError
-  ) => dispatch => {
+  thunks[camelize('filter', pluralName)] = (filter, onSuccess, onError) => (
+    dispatch
+  ) => {
     dispatch(actions[resourceName][camelize('filter', pluralName)](filter));
 
     return dispatch(
@@ -538,7 +530,7 @@ export default function createThunksFor(resource) {
     }
 
     return client[camelize('get', pluralName)]({ page: nextPage, filter })
-      .then(data => {
+      .then((data) => {
         dispatch(
           actions[resourceName][
             camelize('load', 'more', pluralName, 'success')
@@ -550,7 +542,7 @@ export default function createThunksFor(resource) {
           onSuccess();
         }
       })
-      .catch(error => {
+      .catch((error) => {
         const normalizedError = normalizeError(error);
         dispatch(
           actions[resourceName][

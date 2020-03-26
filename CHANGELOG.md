@@ -1,3 +1,11 @@
+#### 0.18.1 (2020-03-26)
+
+##### Bug Fixes
+
+- **store:** reset has more on each get resources api call ([164a621e](https://github.com/CodeTanzania/ewea-api-states/commit/164a621eb1ed6c38d8a88c27286639e443761d8d))
+- **deps:** update react monorepo to >=16.13.1 ([6bcbef15](https://github.com/CodeTanzania/ewea-api-states/commit/6bcbef1521495ab8c94180cf59e157da394914e8))
+- rename all accourances of sing to sign ([078bfe67](https://github.com/CodeTanzania/ewea-api-states/commit/078bfe67b06c44f1c73a9bb417e5090cc31f6370))
+
 #### 0.18.0 (2020-03-06)
 
 ##### New Features

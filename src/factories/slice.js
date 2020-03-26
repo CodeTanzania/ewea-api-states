@@ -36,14 +36,15 @@ export function getDefaultReducers(resourceName) {
       ...state,
       q: action.payload,
     }),
-    [camelize('clear', plural, 'filters')]: state => ({
+    [camelize('clear', plural, 'filters')]: (state) => ({
       ...state,
       filters: null,
     }),
-    [camelize('clear', plural, 'sort')]: state => ({ ...state, sort: null }),
-    [camelize('get', plural, 'Request')]: state => ({
+    [camelize('clear', plural, 'sort')]: (state) => ({ ...state, sort: null }),
+    [camelize('get', plural, 'Request')]: (state) => ({
       ...state,
       loading: true,
+      hasMore: false,
     }),
     [camelize('get', plural, 'Success')]: (state, action) => ({
       ...state,
@@ -59,7 +60,7 @@ export function getDefaultReducers(resourceName) {
       error: action.payload,
       loading: false,
     }),
-    [camelize('load', 'more', plural, 'Request')]: state => ({
+    [camelize('load', 'more', plural, 'Request')]: (state) => ({
       ...state,
       loading: true,
     }),
@@ -77,7 +78,7 @@ export function getDefaultReducers(resourceName) {
       error: action.payload,
       loading: false,
     }),
-    [camelize('get', singular, 'Request')]: state => ({
+    [camelize('get', singular, 'Request')]: (state) => ({
       ...state,
       loading: true,
     }),
@@ -91,11 +92,11 @@ export function getDefaultReducers(resourceName) {
       loading: false,
       error: action.payload,
     }),
-    [camelize('post', singular, 'Request')]: state => ({
+    [camelize('post', singular, 'Request')]: (state) => ({
       ...state,
       posting: true,
     }),
-    [camelize('post', singular, 'Success')]: state => ({
+    [camelize('post', singular, 'Success')]: (state) => ({
       ...state,
       posting: false,
       showForm: false,
@@ -105,7 +106,7 @@ export function getDefaultReducers(resourceName) {
       error: action.payload,
       posting: false,
     }),
-    [camelize('put', singular, 'Request')]: state => ({
+    [camelize('put', singular, 'Request')]: (state) => ({
       ...state,
       posting: true,
     }),
@@ -120,11 +121,11 @@ export function getDefaultReducers(resourceName) {
       posting: false,
       error: action.payload,
     }),
-    [camelize('delete', singular, 'Request')]: state => ({
+    [camelize('delete', singular, 'Request')]: (state) => ({
       ...state,
       posting: true,
     }),
-    [camelize('delete', singular, 'Success')]: state => ({
+    [camelize('delete', singular, 'Success')]: (state) => ({
       ...state,
       posting: false,
     }),
@@ -133,11 +134,11 @@ export function getDefaultReducers(resourceName) {
       posting: false,
       error: action.payload,
     }),
-    [camelize('open', singular, 'Form')]: state => ({
+    [camelize('open', singular, 'Form')]: (state) => ({
       ...state,
       showForm: true,
     }),
-    [camelize('close', singular, 'Form')]: state => ({
+    [camelize('close', singular, 'Form')]: (state) => ({
       ...state,
       showForm: false,
     }),

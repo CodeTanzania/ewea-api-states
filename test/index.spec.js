@@ -37,7 +37,7 @@ describe('Library Index', () => {
       'unit',
     ];
 
-    forEach(resources, resource => {
+    forEach(resources, (resource) => {
       const pluralName = upperFirst(pluralize(resource));
       const singularName = upperFirst(singularize(resource));
 
@@ -73,7 +73,7 @@ describe('Library Index', () => {
   });
 });
 
-describe('Component Connect', () => {
+describe.skip('Component Connect', () => {
   afterEach(cleanup);
 
   // eslint-disable-next-line
@@ -105,7 +105,7 @@ describe('Component Connect', () => {
   });
 
   it('should render component with states using functional accessor', () => {
-    const ConnectedComponent = lib.Connect(TestComponent, state => ({
+    const ConnectedComponent = lib.Connect(TestComponent, (state) => ({
       focalPeople: state.focalPeople.list,
       total: state.focalPeople.total,
       page: state.focalPeople.page,
