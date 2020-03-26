@@ -157,8 +157,7 @@ function getDefaultReducers(resourceName) {
       sort: null
     }),
     [camelize('get', plural, 'Request')]: state => ({ ...state,
-      loading: true,
-      hasMore: false
+      loading: true
     }),
     [camelize('get', plural, 'Success')]: (state, action) => ({ ...state,
       list: [...action.payload.data],
@@ -173,7 +172,8 @@ function getDefaultReducers(resourceName) {
       loading: false
     }),
     [camelize('load', 'more', plural, 'Request')]: state => ({ ...state,
-      loading: true
+      loading: true,
+      hasMore: false
     }),
     [camelize('load', 'more', plural, 'Success')]: (state, action) => ({ ...state,
       list: [...state.list, ...action.payload.data],
