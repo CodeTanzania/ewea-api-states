@@ -44,7 +44,6 @@ export function getDefaultReducers(resourceName) {
     [camelize('get', plural, 'Request')]: (state) => ({
       ...state,
       loading: true,
-      hasMore: false,
     }),
     [camelize('get', plural, 'Success')]: (state, action) => ({
       ...state,
@@ -63,6 +62,7 @@ export function getDefaultReducers(resourceName) {
     [camelize('load', 'more', plural, 'Request')]: (state) => ({
       ...state,
       loading: true,
+      hasMore: false,
     }),
     [camelize('load', 'more', plural, 'Success')]: (state, action) => ({
       ...state,

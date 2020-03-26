@@ -149,12 +149,9 @@ describe('Slice Factory', () => {
 
       const getTodosRequestAction = createAction('todos/getTodosRequest');
 
-      expect(
-        reducer({ ...defaultState, hasMore: true }, getTodosRequestAction)
-      ).toEqual({
+      expect(reducer(defaultState, getTodosRequestAction)).toEqual({
         ...defaultState,
         loading: true,
-        hasMore: false,
       });
     });
 
@@ -206,9 +203,12 @@ describe('Slice Factory', () => {
 
       const loadMoreTodosRequest = createAction('todos/loadMoreTodosRequest');
 
-      expect(reducer(defaultState, loadMoreTodosRequest)).toEqual({
+      expect(
+        reducer({ ...defaultState, hasMore: true }, loadMoreTodosRequest)
+      ).toEqual({
         ...defaultState,
         loading: true,
+        hasMore: false,
       });
     });
 
