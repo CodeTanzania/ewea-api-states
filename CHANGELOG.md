@@ -1,3 +1,9 @@
+#### 2020-03-26
+
+##### Bug Fixes
+
+- **store:** reset has more for load more api call ([1a0af8a5](https://github.com/CodeTanzania/ewea-api-states/commit/1a0af8a591ee48e29af146944a1c94fc69f0a4a7))
+
 #### 0.18.1 (2020-03-26)
 
 ##### Bug Fixes
