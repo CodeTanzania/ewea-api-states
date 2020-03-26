@@ -37,7 +37,7 @@ export function createResourcesSlices(resources) {
   const slices = {};
 
   // slices
-  resources.forEach(resource => {
+  resources.forEach((resource) => {
     slices[resource] = createSliceFor(resource);
   });
 

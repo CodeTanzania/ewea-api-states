@@ -58,7 +58,7 @@ export function Connect(component, stateToProps = null) {
   let mapStateToProps = stateToProps;
 
   if (!isFunction(stateToProps) && isObject(stateToProps)) {
-    mapStateToProps = state => {
+    mapStateToProps = (state) => {
       const mappedState = {};
 
       forIn(stateToProps, (value, key) => {
