@@ -11,6 +11,7 @@ describe('Library Index', () => {
     const resources = [
       'agency',
       'administrativeArea',
+      'administrativeLevel',
       'changelog',
       'campaign',
       'event',
@@ -29,6 +30,7 @@ describe('Library Index', () => {
       'eventTopic',
       'eventType',
       'feature',
+      'featureType',
       'focalPerson',
       'message',
       'notificationTemplate',

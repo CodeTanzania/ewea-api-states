@@ -81,6 +81,7 @@ export {
 } from './actions/app';
 
 export * from './actions/administrativeArea';
+export * from './actions/administrativeLevel';
 export * from './actions/campaign';
 export * from './actions/changelog';
 export * from './actions/event';
@@ -99,6 +100,7 @@ export * from './actions/eventQuestion';
 export * from './actions/eventTopic';
 export * from './actions/eventType';
 export * from './actions/feature';
+export * from './actions/featureType';
 export * from './actions/focalPerson';
 export * from './actions/message';
 export * from './actions/notificationTemplate';

@@ -1,3 +1,22 @@
+#### 0.19.0 (2020-04-20)
+
+##### New Features
+
+- add administrative level and feature type to store ([4d7fe049](https://github.com/CodeTanzania/ewea-api-states/commit/4d7fe049541d631cebc282ac9abd0be71c2ff8c9))
+
+##### Bug Fixes
+
+- **deps:**
+  - update dependency @reduxjs/toolkit to >=1.3.5 ([c8dedd45](https://github.com/CodeTanzania/ewea-api-states/commit/c8dedd45141018cdd74fd5c0137c573652bc3257))
+  - update dependency @reduxjs/toolkit to >=1.3.4 ([46608d94](https://github.com/CodeTanzania/ewea-api-states/commit/46608d94a6815568859863e24c169c97abc25a92))
+  - update dependency @reduxjs/toolkit to >=1.3.3 ([db5957df](https://github.com/CodeTanzania/ewea-api-states/commit/db5957df27c5ae15bad0de8661b0320d0dc9d906))
+  - update dependency @reduxjs/toolkit to >=1.3.2 ([9c38ddb9](https://github.com/CodeTanzania/ewea-api-states/commit/9c38ddb94432aac7fb0a779f9fd9f43baaef5484))
+  - update dependency @reduxjs/toolkit to >=1.3.1 ([e9260d82](https://github.com/CodeTanzania/ewea-api-states/commit/e9260d82052b694bf5fb008ecccdab951bc37ec4))
+
+##### Other Changes
+
+- CodeTanzania/ewea-api-states into develop ([e34fa00f](https://github.com/CodeTanzania/ewea-api-states/commit/e34fa00f997ef87352b6531946792f76ff35fdf3))
+
 #### 0.18.3 (2020-03-26)
 
 ##### Bug Fixes
