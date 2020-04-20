@@ -80,6 +80,7 @@ export function app(state = appDefaultState, action) {
 // all resources exposed by this library
 const resources = [
   'administrativeArea',
+  'administrativeLevel',
   'agency',
   'campaign',
   'changelog',
@@ -99,6 +100,7 @@ const resources = [
   'eventTopic',
   'eventType',
   'feature',
+  'featureType',
   'focalPerson',
   'notificationTemplate',
   'partyGroup',
