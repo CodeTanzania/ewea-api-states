@@ -62,8 +62,8 @@ describe('Library Index', () => {
       expect(typeof lib[`loadMore${pluralName}`]).toBe('function');
     });
 
-    expect(typeof lib.signin).toBe('function');
-    expect(typeof lib.signout).toBe('function');
+    expect(typeof lib.signIn).toBe('function');
+    expect(typeof lib.signOut).toBe('function');
   });
 
   it('should expose connect function', () => {

@@ -1,4 +1,4 @@
-import { httpActions, signin } from '@codetanzania/ewea-api-client';
+import { httpActions, signIn } from '@codetanzania/ewea-api-client';
 import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import {
@@ -6,11 +6,11 @@ import {
   initializeAppFailure,
   initializeAppStart,
   initializeAppSuccess,
-  signinStart,
-  signinSuccess,
-  signinFailure,
-  signin as login,
-  signout,
+  signInStart,
+  signInSuccess,
+  signInFailure,
+  signIn as signInThunk,
+  signOut as signOutAction,
 } from '../../src/actions/app';
 import {
   INITIALIZE_APP_FAILURE,
@@ -44,25 +44,25 @@ describe('App Actions', () => {
     });
 
     it(`should create action of type ${SIGNIN_APP_START}`, () => {
-      expect(signinStart()).toEqual({ type: SIGNIN_APP_START });
+      expect(signInStart()).toEqual({ type: SIGNIN_APP_START });
     });
 
     it(`should create action of type ${SIGNIN_APP_SUCCESS}`, () => {
-      expect(signinSuccess({})).toEqual({
+      expect(signInSuccess({})).toEqual({
         type: SIGNIN_APP_SUCCESS,
         payload: {},
       });
     });
 
     it(`should create action of type ${SIGNIN_APP_FAILURE}`, () => {
-      expect(signinFailure({})).toEqual({
+      expect(signInFailure({})).toEqual({
         type: SIGNIN_APP_FAILURE,
         payload: {},
       });
     });
 
     it(`should create action of type ${SIGNOUT}`, () => {
-      expect(signout()).toEqual({
+      expect(signOutAction()).toEqual({
         type: SIGNOUT,
       });
     });
@@ -101,15 +101,15 @@ describe('App Actions', () => {
     });
   });
 
-  describe('signin Thunk', () => {
-    it('should handle successful signin action', () => {
+  describe('Sign In Thunk', () => {
+    it('should handle successful signIn action', () => {
       const store = mockStore({});
       const mockData = {
         success: true,
         party: {},
         token: '',
       };
-      signin.mockResolvedValueOnce(mockData);
+      signIn.mockResolvedValueOnce(mockData);
       const onSuccess = jest.fn();
       const onError = jest.fn();
 
@@ -119,7 +119,7 @@ describe('App Actions', () => {
       ];
 
       return store
-        .dispatch(login({ email: '', password: '' }, onSuccess, onError))
+        .dispatch(signInThunk({ email: '', password: '' }, onSuccess, onError))
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);
           expect(onSuccess).toHaveBeenCalledTimes(1);
@@ -127,7 +127,7 @@ describe('App Actions', () => {
         });
     });
 
-    it('should handle failure signin action', () => {
+    it('should handle failure signIn action', () => {
       const store = mockStore({});
 
       const mockData = {
@@ -140,7 +140,7 @@ describe('App Actions', () => {
         error_description: 'Incorrect email or password',
       };
 
-      signin.mockRejectedValueOnce(mockData);
+      signIn.mockRejectedValueOnce(mockData);
       const onSuccess = jest.fn();
       const onError = jest.fn();
 
@@ -150,7 +150,7 @@ describe('App Actions', () => {
       ];
 
       return store
-        .dispatch(login({ email: '', password: '' }, onSuccess, onError))
+        .dispatch(signInThunk({ email: '', password: '' }, onSuccess, onError))
         .then(() => {
           expect(store.getActions()).toEqual(expectedActions);
           expect(onSuccess).toHaveBeenCalledTimes(0);
