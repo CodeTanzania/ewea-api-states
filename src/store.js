@@ -2,8 +2,16 @@ import merge from 'lodash/merge';
 import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { getAuthenticatedParty } from '@codetanzania/ewea-api-client';
-import createSliceFor from './factories/slice';
-import { extractActions, extractReducers } from './utils';
+import {
+  createSliceFor,
+  getDefaultReportInitialState,
+  getReportDefaultReducer,
+} from './factories/slice';
+import {
+  extractActions,
+  extractReducers,
+  extractReportReducers,
+} from './utils';
 
 /* application action types */
 export const INITIALIZE_APP_START = 'app/initialize';
@@ -46,6 +54,30 @@ export function createResourcesSlices(resources) {
 
 /**
  * @function
+ * @name createReportsSlices
+ * @description Create slices from all EWEA reports
+ * @param {string[]} reports List of exposed reports by the API
+ * @returns {object} slices reports slice
+ * @version 0.1.0
+ * @since 0.20.0
+ */
+export function createReportsSlices(reports) {
+  const slices = {};
+
+  reports.forEach((report) => {
+    const key = `${report}Report`;
+    slices[key] = createSliceFor(
+      key,
+      getDefaultReportInitialState(),
+      getReportDefaultReducer(report)
+    );
+  });
+
+  return slices;
+}
+
+/**
+ * @function
  * @name app
  * @description App reducer for controlling application initialization state
  *
@@ -78,7 +110,7 @@ export function app(state = appDefaultState, action) {
 }
 
 // all resources exposed by this library
-const resources = [
+export const resources = [
   'administrativeArea',
   'administrativeLevel',
   'agency',
@@ -108,9 +140,32 @@ const resources = [
   'unit',
 ];
 
+// Exposed reports by the API
+export const REPORTS = [
+  'action',
+  'alert',
+  'case',
+  'dispatch',
+  'effect',
+  'event',
+  'indicator',
+  'need',
+  'overview',
+  'party',
+  'resource',
+  'risk',
+];
+
 const slices = createResourcesSlices(resources);
 
-const reducers = merge({}, extractReducers(resources, slices), { app });
+const reportSlices = createReportsSlices(REPORTS);
+
+const reducers = merge(
+  {},
+  extractReducers(resources, slices),
+  extractReportReducers(REPORTS, reportSlices),
+  { app }
+);
 
 const rootReducer = combineReducers(reducers);
 
@@ -119,6 +174,9 @@ export const store = configureStore({
   devTools: true,
 });
 
-export const actions = extractActions(resources, slices);
+export const actions = {
+  ...extractActions(resources, slices),
+  ...extractActions(REPORTS, reportSlices, true),
+};
 
 export const { dispatch } = store;

@@ -6,43 +6,13 @@ import upperFirst from 'lodash/upperFirst';
 /* eslint import/namespace: [2, { allowComputed: true }] */
 import * as lib from '../src/index';
 
+import { REPORTS, resources } from '../src/store';
+
 describe('Library Index', () => {
   it('should expose actions from resources', () => {
-    const resources = [
-      'agency',
-      'administrativeArea',
-      'administrativeLevel',
-      'changelog',
-      'campaign',
-      'event',
-      'eventAction',
-      'eventActionCatalogue',
-      'eventFunction',
-      'eventGroup',
-      'eventIndicator',
-      'eventLevel',
-      'eventSeverity',
-      'eventCertainty',
-      'eventStatus',
-      'eventUrgency',
-      'eventResponse',
-      'eventQuestion',
-      'eventTopic',
-      'eventType',
-      'feature',
-      'featureType',
-      'focalPerson',
-      'message',
-      'notificationTemplate',
-      'partyGroup',
-      'partyRole',
-      'unit',
-    ];
-
     forEach(resources, (resource) => {
       const pluralName = upperFirst(pluralize(resource));
       const singularName = upperFirst(singularize(resource));
-
       expect(typeof lib[`clear${singularName}Filters`]).toBe('function');
       expect(typeof lib[`clear${pluralName}Sort`]).toBe('function');
       expect(typeof lib[`close${singularName}Form`]).toBe('function');
@@ -64,6 +34,13 @@ describe('Library Index', () => {
 
     expect(typeof lib.signIn).toBe('function');
     expect(typeof lib.signOut).toBe('function');
+  });
+
+  it('should expose all reports actions', () => {
+    forEach(REPORTS, (report) => {
+      const pluralName = upperFirst(pluralize(report));
+      expect(typeof lib[`get${pluralName}Report`]).toBe('function');
+    });
   });
 
   it('should expose connect function', () => {

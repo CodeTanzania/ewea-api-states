@@ -3,7 +3,7 @@ import get from 'lodash/get';
 import merge from 'lodash/merge';
 import upperFirst from 'lodash/upperFirst';
 import { camelize, wrapActionsWithDispatch } from '../utils';
-import createThunkFor from './thunk';
+import createThunkFor, { createReportThunkFor } from './thunk';
 
 /**
  * @function
@@ -58,4 +58,23 @@ export default function generateExposedActions(
   const allActions = merge({}, extractedActions, generatedThunks);
 
   return wrapActionsWithDispatch(allActions, dispatch);
+}
+
+/**
+ * @function
+ * @name generateExposedActions
+ * @description Generate all actions which are exposed from the library for
+ * consumers to use. All exposed actions are wrapped in dispatch function so
+ * use should not have call dispatch again.
+ * @param {string} report Report Name
+ * @param {Function} dispatch Store action dispatcher
+ * @param {object} thunks  Custom thunks to override/extends existing thunks
+ * @returns {object} Wrapped actions in dispatch function
+ * @version 0.1.0
+ * @since 0.20.0
+ */
+export function generateReportExposedActions(report, dispatch, thunks = null) {
+  const generatedThunks = merge({}, createReportThunkFor(report), thunks);
+
+  return wrapActionsWithDispatch(generatedThunks, dispatch);
 }

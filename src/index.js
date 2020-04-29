@@ -106,4 +106,5 @@ export * from './actions/message';
 export * from './actions/notificationTemplate';
 export * from './actions/partyGroup';
 export * from './actions/partyRole';
+export * from './actions/reports';
 export * from './actions/unit';

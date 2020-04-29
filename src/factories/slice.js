@@ -1,5 +1,4 @@
 import { pluralize, singularize } from 'inflection';
-import isObject from 'lodash/isObject';
 import upperFirst from 'lodash/upperFirst';
 import { createSlice } from '@reduxjs/toolkit';
 import { camelize } from '../utils';
@@ -150,6 +149,38 @@ export function getDefaultReducers(resourceName) {
 
 /**
  * @function
+ * @name getReportDefaultReducer
+ * @description Generate defaultReducers for reports object
+ *
+ * @param {string} report Report Name
+ * @returns {object} Report reducers
+ *
+ * @version 0.1.0
+ * @since 0.20.0
+ */
+export function getReportDefaultReducer(report) {
+  const plural = pluralize(report);
+
+  return {
+    [camelize('get', plural, 'report', 'request')]: (state) => ({
+      ...state,
+      loading: true,
+    }),
+    [camelize('get', plural, 'report', 'success')]: (state, action) => ({
+      ...state,
+      data: action.payload,
+      loading: false,
+    }),
+    [camelize('get', plural, 'report', 'failure')]: (state, action) => ({
+      ...state,
+      loading: false,
+      error: action.payload,
+    }),
+  };
+}
+
+/**
+ * @function
  * @name getDefaultInitialState
  * @description Generate default initial State for resource
  *
@@ -179,6 +210,22 @@ export function getDefaultInitialState() {
 
 /**
  * @function
+ * @name getDefaultInitialState
+ * @description Create initial state for a report resource
+ * @returns {object} initial state for report state
+ * @version 0.1.0
+ * @since 0.20.0
+ */
+export function getDefaultReportInitialState() {
+  return {
+    data: null,
+    error: null,
+    loading: false,
+  };
+}
+
+/**
+ * @function
  * @name createSliceFor
  * @description Slice Factory which is used to create slice
  *
@@ -190,21 +237,13 @@ export function getDefaultInitialState() {
  * @version 0.1.0
  * @since 0.1.0
  */
-export default function createSliceFor(
+export function createSliceFor(
   sliceName,
   initialState = null,
   reducers = null
 ) {
-  let defaultReducers = getDefaultReducers(sliceName);
-  let initialDefaultState = getDefaultInitialState();
-
-  if (initialState) {
-    initialDefaultState = initialState;
-  }
-
-  if (reducers && isObject(reducers)) {
-    defaultReducers = reducers;
-  }
+  const defaultReducers = reducers || getDefaultReducers(sliceName);
+  const initialDefaultState = initialState || getDefaultInitialState();
 
   return createSlice({
     name: sliceName,

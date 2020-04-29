@@ -93,7 +93,7 @@
     "rollup-plugin-babel": ">=4.4.0"
   },
   "jest": {
-    "verbose": false,
+    "verbose": true,
     "collectCoverageFrom": [
       "!**/node_modules/**",
       "!**/vendor/**",

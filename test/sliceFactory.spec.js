@@ -1,4 +1,5 @@
-import createSliceFor, {
+import {
+  createSliceFor,
   getDefaultInitialState,
   getDefaultReducers,
 } from '../src/factories/slice';
