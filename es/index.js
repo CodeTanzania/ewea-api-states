@@ -8,7 +8,7 @@ import { Provider, connect } from 'react-redux';
 import merge from 'lodash/merge';
 import { combineReducers } from 'redux';
 import { createSlice, configureStore } from '@reduxjs/toolkit';
-import { getAuthenticatedParty, httpActions, signin as signin$1, signout as signout$1 } from '@codetanzania/ewea-api-client';
+import { getAuthenticatedParty, httpActions, signIn as signIn$1, signOut as signOut$1 } from '@codetanzania/ewea-api-client';
 import { pluralize, singularize } from 'inflection';
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
@@ -58,11 +58,9 @@ function wrapActionsWithDispatch(actions, dispatch) {
  * @function
  * @name extractReducers
  * @description Extract all resource reducers into a single object
- *
  * @param {string[]} resources list of exposed API resources
- * @param {Array<object>} slices list of resource slices
+ * @param {object[]} slices list of resource slices
  * @returns {object} map of all resources reducers
- *
  * @version 0.1.0
  * @since 0.1.0
  */
@@ -77,21 +75,40 @@ function extractReducers(resources, slices) {
 }
 /**
  * @function
+ * @name extractReportReducers
+ * @description Extract all resource reducers into a single object
+ * @param {string[]} reports list of exposed API reports
+ * @param {object[]} slices list of resource slices
+ * @returns {object} map of all reports reducers
+ * @version 0.1.0
+ * @since 0.20.0
+ */
+
+function extractReportReducers(reports, slices) {
+  const reducers = {};
+  reports.forEach(report => {
+    reducers[`${pluralize(report)}Report`] = slices[`${report}Report`].reducer;
+  });
+  return reducers;
+}
+/**
+ * @function
  * @name extractActions
  * @description Extracts all actions from all slices into into a single object
- *
  * @param {string[]} resources list of api resources
- * @param {Array<object>} slices  list of all resources slices
+ * @param {object[]} slices  list of all resources slices
+ * @param {boolean} isReportActions Flag to indicate extracting report actions
+ *  from slice
  * @returns {object} map of all resources actions
- *
  * @version 0.1.0
  * @since 0.1.0
  */
 
-function extractActions(resources, slices) {
+function extractActions(resources, slices, isReportActions = false) {
   const actions = {};
   resources.forEach(resource => {
-    actions[resource] = slices[resource].actions;
+    const key = isReportActions ? `${resource}Report` : resource;
+    actions[key] = slices[key].actions;
   });
   return actions;
 }
@@ -243,6 +260,34 @@ function getDefaultReducers(resourceName) {
 }
 /**
  * @function
+ * @name getReportDefaultReducer
+ * @description Generate defaultReducers for reports object
+ *
+ * @param {string} report Report Name
+ * @returns {object} Report reducers
+ *
+ * @version 0.1.0
+ * @since 0.20.0
+ */
+
+function getReportDefaultReducer(report) {
+  const plural = pluralize(report);
+  return {
+    [camelize('get', plural, 'report', 'request')]: state => ({ ...state,
+      loading: true
+    }),
+    [camelize('get', plural, 'report', 'success')]: (state, action) => ({ ...state,
+      data: action.payload,
+      loading: false
+    }),
+    [camelize('get', plural, 'report', 'failure')]: (state, action) => ({ ...state,
+      loading: false,
+      error: action.payload
+    })
+  };
+}
+/**
+ * @function
  * @name getDefaultInitialState
  * @description Generate default initial State for resource
  *
@@ -272,6 +317,22 @@ function getDefaultInitialState() {
 }
 /**
  * @function
+ * @name getDefaultInitialState
+ * @description Create initial state for a report resource
+ * @returns {object} initial state for report state
+ * @version 0.1.0
+ * @since 0.20.0
+ */
+
+function getDefaultReportInitialState() {
+  return {
+    data: null,
+    error: null,
+    loading: false
+  };
+}
+/**
+ * @function
  * @name createSliceFor
  * @description Slice Factory which is used to create slice
  *
@@ -285,17 +346,8 @@ function getDefaultInitialState() {
  */
 
 function createSliceFor(sliceName, initialState = null, reducers = null) {
-  let defaultReducers = getDefaultReducers(sliceName);
-  let initialDefaultState = getDefaultInitialState();
-
-  if (initialState) {
-    initialDefaultState = initialState;
-  }
-
-  if (reducers && isObject(reducers)) {
-    defaultReducers = reducers;
-  }
-
+  const defaultReducers = reducers || getDefaultReducers(sliceName);
+  const initialDefaultState = initialState || getDefaultInitialState();
   return createSlice({
     name: sliceName,
     initialState: initialDefaultState,
@@ -337,6 +389,24 @@ function createResourcesSlices(resources) {
 
   resources.forEach(resource => {
     slices[resource] = createSliceFor(resource);
+  });
+  return slices;
+}
+/**
+ * @function
+ * @name createReportsSlices
+ * @description Create slices from all EWEA reports
+ * @param {string[]} reports List of exposed reports by the API
+ * @returns {object} slices reports slice
+ * @version 0.1.0
+ * @since 0.20.0
+ */
+
+function createReportsSlices(reports) {
+  const slices = {};
+  reports.forEach(report => {
+    const key = `${report}Report`;
+    slices[key] = createSliceFor(key, getDefaultReportInitialState(), getReportDefaultReducer(report));
   });
   return slices;
 }
@@ -399,9 +469,12 @@ function app(state = appDefaultState, action) {
   }
 } // all resources exposed by this library
 
-const resources = ['administrativeArea', 'administrativeLevel', 'agency', 'campaign', 'changelog', 'event', 'eventAction', 'eventActionCatalogue', 'eventFunction', 'eventGroup', 'eventIndicator', 'eventLevel', 'eventSeverity', 'eventCertainty', 'eventStatus', 'eventUrgency', 'eventResponse', 'eventQuestion', 'eventTopic', 'eventType', 'feature', 'featureType', 'focalPerson', 'notificationTemplate', 'partyGroup', 'partyRole', 'unit'];
+const resources = ['administrativeArea', 'administrativeLevel', 'agency', 'campaign', 'changelog', 'event', 'eventAction', 'eventActionCatalogue', 'eventFunction', 'eventGroup', 'eventIndicator', 'eventLevel', 'eventSeverity', 'eventCertainty', 'eventStatus', 'eventUrgency', 'eventResponse', 'eventQuestion', 'eventTopic', 'eventType', 'feature', 'featureType', 'focalPerson', 'notificationTemplate', 'partyGroup', 'partyRole', 'unit']; // Exposed reports by the API
+
+const REPORTS = ['action', 'alert', 'case', 'dispatch', 'effect', 'event', 'indicator', 'need', 'overview', 'party', 'resource', 'risk'];
 const slices = createResourcesSlices(resources);
-const reducers = merge({}, extractReducers(resources, slices), {
+const reportSlices = createReportsSlices(REPORTS);
+const reducers = merge({}, extractReducers(resources, slices), extractReportReducers(REPORTS, reportSlices), {
   app
 });
 const rootReducer = combineReducers(reducers);
@@ -409,7 +482,9 @@ const store = configureStore({
   reducer: rootReducer,
   devTools: true
 });
-const actions = extractActions(resources, slices);
+const actions = { ...extractActions(resources, slices),
+  ...extractActions(REPORTS, reportSlices, true)
+};
 const {
   dispatch
 } = store;
@@ -915,6 +990,57 @@ function createThunksFor(resource) {
 
   return thunks;
 }
+/**
+ * @function
+ * @name createReportThunkFor
+ * @description Create thunk for reports as exposed by api client
+ * @param {string} report Report name
+ * @returns {object} thunks  resource thunks
+ *
+ * @version 0.1.0
+ * @since 0.20.0
+ */
+
+function createReportThunkFor(report) {
+  const thunks = {};
+  const pluralName = upperFirst(pluralize(report));
+  const resourceName = `${lowerFirst(singularize(report))}Report`;
+  /**
+   * @function
+   * @name getResources
+   * @description A thunk that will be dispatched when fetching data from API
+   *
+   * @param {object} param  Param object to be passed to API client
+   * @param {Function} onSuccess  Callback to be called when fetching
+   * resources from the API succeed
+   * @param {Function} onError  Callback to be called when fetching
+   * resources from the API fails
+   * @returns {Function}  Thunk function
+   *
+   * @version 0.1.0
+   * @since 0.20.0
+   */
+
+  thunks[camelize('get', pluralName, 'report')] = (param, onSuccess, onError) => dispatch => {
+    dispatch(actions[resourceName][camelize('get', pluralName, 'report', 'request')]());
+    return httpActions[camelize('get', pluralName, 'report')](param).then(data => {
+      dispatch(actions[resourceName][camelize('get', pluralName, 'report', 'success')](data)); // custom provided onSuccess callback
+
+      if (isFunction(onSuccess)) {
+        onSuccess();
+      }
+    }).catch(error => {
+      const normalizedError = normalizeError(error);
+      dispatch(actions[resourceName][camelize('get', pluralName, 'report', 'failure')](normalizedError)); // custom provided onError callback
+
+      if (isFunction(onError)) {
+        onError(error);
+      }
+    });
+  };
+
+  return thunks;
+}
 
 /**
  * @function
@@ -944,6 +1070,24 @@ function generateExposedActions(resource, actions, dispatch, thunks = null) {
   extractedActions[camelize('set', resourceName, 'schema')] = get(actions[resource], camelize('set', resourceName, 'schema'));
   const allActions = merge({}, extractedActions, generatedThunks);
   return wrapActionsWithDispatch(allActions, dispatch);
+}
+/**
+ * @function
+ * @name generateExposedActions
+ * @description Generate all actions which are exposed from the library for
+ * consumers to use. All exposed actions are wrapped in dispatch function so
+ * use should not have call dispatch again.
+ * @param {string} report Report Name
+ * @param {Function} dispatch Store action dispatcher
+ * @param {object} thunks  Custom thunks to override/extends existing thunks
+ * @returns {object} Wrapped actions in dispatch function
+ * @version 0.1.0
+ * @since 0.20.0
+ */
+
+function generateReportExposedActions(report, dispatch, thunks = null) {
+  const generatedThunks = merge({}, createReportThunkFor(report), thunks);
+  return wrapActionsWithDispatch(generatedThunks, dispatch);
 }
 
 const stakeholderActions = generateExposedActions('agency', actions, dispatch);
@@ -1028,10 +1172,10 @@ function initializeAppFailure(error) {
   };
 }
 /**
- * Action dispatched when user start to signing into the system
+ * Action dispatched when user start to signIng into the system
  *
  * @function
- * @name signinStart
+ * @name signInStart
  *
  * @returns {object}  redux action
  *
@@ -1039,32 +1183,32 @@ function initializeAppFailure(error) {
  * @since 0.10.3
  */
 
-function signinStart() {
+function signInStart() {
   return {
     type: SIGNIN_APP_START
   };
 }
 /**
- * Action dispatched when user successfully signined into the system
+ * Action dispatched when user successfully signed In into the system
  *
  * @function
- * @name signinSuccess
+ * @name signInSuccess
  *
- * @param {object} party  signined user/party
+ * @param {object} party  signed In user/party
  * @returns {object}  redux action
  *
  * @version 0.1.0
  * @since 0.10.3
  */
 
-function signinSuccess(party) {
+function signInSuccess(party) {
   return {
     type: SIGNIN_APP_SUCCESS,
     payload: party
   };
 }
 /**
- * Action dispatched when user signining fails
+ * Action dispatched when user signing In fails
  *
  * @param {object} error  Error instance
  * @returns {object}  redux action
@@ -1073,17 +1217,17 @@ function signinSuccess(party) {
  * @since 0.10.3
  */
 
-function signinFailure(error) {
+function signInFailure(error) {
   return {
     type: SIGNIN_APP_FAILURE,
     payload: error
   };
 }
 /**
- * Action dispatched when user signout
+ * Action dispatched when user signOut
  *
  * @function
- * @name signout
+ * @name signOut
  *
  * @returns {object}  Redux action
  *
@@ -1091,7 +1235,7 @@ function signinFailure(error) {
  * @since 0.10.3
  */
 
-function signout() {
+function signOut() {
   return {
     type: SIGNOUT
   };
@@ -1166,34 +1310,34 @@ function initializeApp() {
   };
 }
 /**
- * Thunk action to signin user/party
+ * Thunk action to signIn user/party
  *
  * @function
- * @name signin
+ * @name signIn
  *
  * @param {object} credentials - Email and password
- * @param {Function} onSuccess - Callback for successfully signin
- * @param {Function} onError - Callback for failed signin
+ * @param {Function} onSuccess - Callback for successfully signIn
+ * @param {Function} onError - Callback for failed signIn
  * @returns {Promise} redux thunk
  *
  * @version 0.1.0
  * @since 0.10.3
  */
 
-function signin(credentials, onSuccess, onError) {
+function signIn(credentials, onSuccess, onError) {
   return dispatch => {
-    dispatch(signinStart());
-    return signin$1(credentials).then(results => {
+    dispatch(signInStart());
+    return signIn$1(credentials).then(results => {
       const {
         party
       } = results;
-      dispatch(signinSuccess(party));
+      dispatch(signInSuccess(party));
 
       if (isFunction$1(onSuccess)) {
         onSuccess();
       }
     }).catch(error => {
-      dispatch(signinFailure(error));
+      dispatch(signInFailure(error));
 
       if (isFunction$1(onError)) {
         onError(error);
@@ -1216,22 +1360,22 @@ function wrappedInitializeApp() {
   return dispatch(initializeApp());
 }
 /**
- * Wrapped signing thunk
+ * Wrapped signIng thunk
  *
  * @function
  * @name wrappedSignIn
  *
  * @param {object} credentials - email and password provided by user
- * @param {Function} onSuccess - Callback for successfully signin
- * @param {Function} onError - Callback for failed signin
- * @returns {Promise} - dispatched signing thunk
+ * @param {Function} onSuccess - Callback for successfully signIn
+ * @param {Function} onError - Callback for failed signIn
+ * @returns {Promise} - dispatched signIng thunk
  *
  * @version 0.1.0
  * @since 0.10.3
  */
 
 function wrappedSignIn(credentials, onSuccess, onError) {
-  return dispatch(signin(credentials, onSuccess, onError));
+  return dispatch(signIn(credentials, onSuccess, onError));
 }
 /**
  * Wrapped signOut action
@@ -1246,9 +1390,9 @@ function wrappedSignIn(credentials, onSuccess, onError) {
  */
 
 function wrappedSignOut() {
-  signout$1(); // clear sessionStorage
+  signOut$1(); // clear sessionStorage
 
-  return dispatch(signout());
+  return dispatch(signOut());
 }
 
 const administrativeAreaActions = generateExposedActions('administrativeArea', actions, dispatch);
@@ -1797,6 +1941,43 @@ const {
   loadMorePartyRoles
 } = partyRoleActions;
 
+const {
+  getActionsReport
+} = generateReportExposedActions('action', dispatch);
+const {
+  getAlertsReport
+} = generateReportExposedActions('alert', dispatch);
+const {
+  getCasesReport
+} = generateReportExposedActions('case', dispatch);
+const {
+  getDispatchesReport
+} = generateReportExposedActions('dispatch', dispatch);
+const {
+  getEffectsReport
+} = generateReportExposedActions('effect', dispatch);
+const {
+  getEventsReport
+} = generateReportExposedActions('event', dispatch);
+const {
+  getIndicatorsReport
+} = generateReportExposedActions('indicator', dispatch);
+const {
+  getNeedsReport
+} = generateReportExposedActions('need', dispatch);
+const {
+  getOverviewsReport
+} = generateReportExposedActions('overview', dispatch);
+const {
+  getPartiesReport
+} = generateReportExposedActions('party', dispatch);
+const {
+  getResourcesReport
+} = generateReportExposedActions('resource', dispatch);
+const {
+  getRisksReport
+} = generateReportExposedActions('risk', dispatch);
+
 const unitActions = generateExposedActions('unit', actions, dispatch);
 const {
   clearUnitFilters,
@@ -1885,4 +2066,4 @@ function Connect(component, stateToProps = null) {
   return connect(mapStateToProps)(component);
 }
 
-export { Connect, StoreProvider, clearAdministrativeAreaFilters, clearAdministrativeAreasSort, clearAdministrativeLevelFilters, clearAdministrativeLevelsSort, clearAgenciesSort, clearAgencyFilters, clearCampaignFilters, clearCampaignsSort, clearChangelogFilters, clearChangelogsSort, clearEventActionCatalogueFilters, clearEventActionCataloguesSort, clearEventActionFilters, clearEventActionsSort, clearEventCertaintiesSort, clearEventCertaintyFilters, clearEventFilters, clearEventFunctionFilters, clearEventFunctionsSort, clearEventGroupFilters, clearEventGroupsSort, clearEventIndicatorFilters, clearEventIndicatorsSort, clearEventLevelFilters, clearEventLevelsSort, clearEventQuestionFilters, clearEventQuestionsSort, clearEventResponseFilters, clearEventResponsesSort, clearEventSeveritiesSort, clearEventSeverityFilters, clearEventStatusFilters, clearEventStatusesSort, clearEventTopicFilters, clearEventTopicsSort, clearEventTypeFilters, clearEventTypesSort, clearEventUrgenciesSort, clearEventUrgencyFilters, clearEventsSort, clearFeatureFilters, clearFeatureTypeFilters, clearFeatureTypesSort, clearFeaturesSort, clearFocalPeopleSort, clearFocalPersonFilters, clearMessageFilters, clearMessagesSort, clearNotificationTemplateFilters, clearNotificationTemplatesSort, clearPartyGroupFilters, clearPartyGroupsSort, clearPartyRoleFilters, clearPartyRolesSort, clearUnitFilters, clearUnitsSort, closeAdministrativeAreaForm, closeAdministrativeLevelForm, closeAgencyForm, closeCampaignForm, closeChangelogForm, closeEventActionCatalogueForm, closeEventActionForm, closeEventCertaintyForm, closeEventForm, closeEventFunctionForm, closeEventGroupForm, closeEventIndicatorForm, closeEventLevelForm, closeEventQuestionForm, closeEventResponseForm, closeEventSeverityForm, closeEventStatusForm, closeEventTopicForm, closeEventTypeForm, closeEventUrgencyForm, closeFeatureForm, closeFeatureTypeForm, closeFocalPersonForm, closeMessageForm, closeNotificationTemplateForm, closePartyGroupForm, closePartyRoleForm, closeUnitForm, deleteAdministrativeArea, deleteAdministrativeLevel, deleteAgency, deleteCampaign, deleteChangelog, deleteEvent, deleteEventAction, deleteEventActionCatalogue, deleteEventCertainty, deleteEventFunction, deleteEventGroup, deleteEventIndicator, deleteEventLevel, deleteEventQuestion, deleteEventResponse, deleteEventSeverity, deleteEventStatus, deleteEventTopic, deleteEventType, deleteEventUrgency, deleteFeature, deleteFeatureType, deleteFocalPerson, deleteMessage, deleteNotificationTemplate, deletePartyGroup, deletePartyRole, deleteUnit, filterAdministrativeAreas, filterAdministrativeLevels, filterAgencies, filterCampaigns, filterChangelogs, filterEventActionCatalogues, filterEventActions, filterEventCertainties, filterEventFunctions, filterEventGroups, filterEventIndicators, filterEventLevels, filterEventQuestions, filterEventResponses, filterEventSeverities, filterEventStatuses, filterEventTopics, filterEventTypes, filterEventUrgencies, filterEvents, filterFeatureTypes, filterFeatures, filterFocalPeople, filterMessages, filterNotificationTemplates, filterPartyGroups, filterPartyRoles, filterUnits, getAdministrativeArea, getAdministrativeAreas, getAdministrativeLevel, getAdministrativeLevels, getAgencies, getAgency, getCampaign, getCampaigns, getChangelog, getChangelogs, getEvent, getEventAction, getEventActionCatalogue, getEventActionCatalogues, getEventActions, getEventCertainties, getEventCertainty, getEventFunction, getEventFunctions, getEventGroup, getEventGroups, getEventIndicator, getEventIndicators, getEventLevel, getEventLevels, getEventQuestion, getEventQuestions, getEventResponse, getEventResponses, getEventSeverities, getEventSeverity, getEventStatus, getEventStatuses, getEventTopic, getEventTopics, getEventType, getEventTypes, getEventUrgencies, getEventUrgency, getEvents, getFeature, getFeatureType, getFeatureTypes, getFeatures, getFocalPeople, getFocalPerson, getMessage, getMessages, getNotificationTemplate, getNotificationTemplates, getPartyGroup, getPartyGroups, getPartyRole, getPartyRoles, getUnit, getUnits, wrappedInitializeApp as initializeApp, loadMoreAdministrativeAreas, loadMoreAdministrativeLevels, loadMoreAgencies, loadMoreCampaigns, loadMoreChangelogs, loadMoreEventActionCatalogues, loadMoreEventActions, loadMoreEventCertainties, loadMoreEventFunctions, loadMoreEventGroups, loadMoreEventIndicators, loadMoreEventLevels, loadMoreEventQuestions, loadMoreEventResponses, loadMoreEventSeverities, loadMoreEventStatuses, loadMoreEventTopics, loadMoreEventTypes, loadMoreEventUrgencies, loadMoreEvents, loadMoreFeatureTypes, loadMoreFeatures, loadMoreFocalPeople, loadMoreMessages, loadMoreNotificationTemplates, loadMorePartyGroups, loadMorePartyRoles, loadMoreUnits, openAdministrativeAreaForm, openAdministrativeLevelForm, openAgencyForm, openCampaignForm, openChangelogForm, openEventActionCatalogueForm, openEventActionForm, openEventCertaintyForm, openEventForm, openEventFunctionForm, openEventGroupForm, openEventIndicatorForm, openEventLevelForm, openEventQuestionForm, openEventResponseForm, openEventSeverityForm, openEventStatusForm, openEventTopicForm, openEventTypeForm, openEventUrgencyForm, openFeatureForm, openFeatureTypeForm, openFocalPersonForm, openMessageForm, openNotificationTemplateForm, openPartyGroupForm, openPartyRoleForm, openUnitForm, paginateAdministrativeAreas, paginateAdministrativeLevels, paginateAgencies, paginateCampaigns, paginateChangelogs, paginateEventActionCatalogues, paginateEventActions, paginateEventCertainties, paginateEventFunctions, paginateEventGroups, paginateEventIndicators, paginateEventLevels, paginateEventQuestions, paginateEventResponses, paginateEventSeverities, paginateEventStatuses, paginateEventTopics, paginateEventTypes, paginateEventUrgencies, paginateEvents, paginateFeatureTypes, paginateFeatures, paginateFocalPeople, paginateMessages, paginateNotificationTemplates, paginatePartyGroups, paginatePartyRoles, paginateUnits, postAdministrativeArea, postAdministrativeLevel, postAgency, postCampaign, postChangelog, postEvent, postEventAction, postEventActionCatalogue, postEventCertainty, postEventFunction, postEventGroup, postEventIndicator, postEventLevel, postEventQuestion, postEventResponse, postEventSeverity, postEventStatus, postEventTopic, postEventType, postEventUrgency, postFeature, postFeatureType, postFocalPerson, postMessage, postNotificationTemplate, postPartyGroup, postPartyRole, postUnit, putAdministrativeArea, putAdministrativeLevel, putAgency, putCampaign, putChangelog, putEvent, putEventAction, putEventActionCatalogue, putEventCertainty, putEventFunction, putEventGroup, putEventIndicator, putEventLevel, putEventQuestion, putEventResponse, putEventSeverity, putEventStatus, putEventTopic, putEventType, putEventUrgency, putFeature, putFeatureType, putFocalPerson, putMessage, putNotificationTemplate, putPartyGroup, putPartyRole, putUnit, refreshAdministrativeAreas, refreshAdministrativeLevels, refreshAgencies, refreshCampaigns, refreshChangelogs, refreshEventActionCatalogues, refreshEventActions, refreshEventCertainties, refreshEventFunctions, refreshEventGroups, refreshEventIndicators, refreshEventLevels, refreshEventQuestions, refreshEventResponses, refreshEventSeverities, refreshEventStatuses, refreshEventTopics, refreshEventTypes, refreshEventUrgencies, refreshEvents, refreshFeatureTypes, refreshFeatures, refreshFocalPeople, refreshMessages, refreshNotificationTemplates, refreshPartyGroups, refreshPartyRoles, refreshUnits, searchAdministrativeAreas, searchAdministrativeLevels, searchAgencies, searchCampaigns, searchChangelogs, searchEventActionCatalogues, searchEventActions, searchEventCertainties, searchEventFunctions, searchEventGroups, searchEventIndicators, searchEventLevels, searchEventQuestions, searchEventResponses, searchEventSeverities, searchEventStatuses, searchEventTopics, searchEventTypes, searchEventUrgencies, searchEvents, searchFeatureTypes, searchFeatures, searchFocalPeople, searchMessages, searchNotificationTemplates, searchPartyGroups, searchPartyRoles, searchUnits, selectAdministrativeArea, selectAdministrativeLevel, selectAgency, selectCampaign, selectChangelog, selectEvent, selectEventAction, selectEventActionCatalogue, selectEventCertainty, selectEventFunction, selectEventGroup, selectEventIndicator, selectEventLevel, selectEventQuestion, selectEventResponse, selectEventSeverity, selectEventStatus, selectEventTopic, selectEventType, selectEventUrgency, selectFeature, selectFeatureType, selectFocalPerson, selectMessage, selectNotificationTemplate, selectPartyGroup, selectPartyRole, selectUnit, setAdministrativeAreaSchema, setAdministrativeLevelSchema, setAgencySchema, setCampaignSchema, setChangelogSchema, setEventActionCatalogueSchema, setEventActionSchema, setEventCertaintySchema, setEventFunctionSchema, setEventGroupSchema, setEventIndicatorSchema, setEventLevelSchema, setEventQuestionSchema, setEventResponseSchema, setEventSchema, setEventSeveritySchema, setEventStatusSchema, setEventTopicSchema, setEventTypeSchema, setEventUrgencySchema, setFeatureSchema, setFeatureTypeSchema, setFocalPersonSchema, setMessageSchema, setNotificationTemplateSchema, setPartyGroupSchema, setPartyRoleSchema, setUnitSchema, wrappedSignIn as signin, wrappedSignOut as signout, sortAdministrativeAreas, sortAdministrativeLevels, sortAgencies, sortCampaigns, sortChangelogs, sortEventActionCatalogues, sortEventActions, sortEventCertainties, sortEventFunctions, sortEventGroups, sortEventIndicators, sortEventLevels, sortEventQuestions, sortEventResponses, sortEventSeverities, sortEventStatuses, sortEventTopics, sortEventTypes, sortEventUrgencies, sortEvents, sortFeatureTypes, sortFeatures, sortFocalPeople, sortMessages, sortNotificationTemplates, sortPartyGroups, sortPartyRoles, sortUnits };
+export { Connect, StoreProvider, clearAdministrativeAreaFilters, clearAdministrativeAreasSort, clearAdministrativeLevelFilters, clearAdministrativeLevelsSort, clearAgenciesSort, clearAgencyFilters, clearCampaignFilters, clearCampaignsSort, clearChangelogFilters, clearChangelogsSort, clearEventActionCatalogueFilters, clearEventActionCataloguesSort, clearEventActionFilters, clearEventActionsSort, clearEventCertaintiesSort, clearEventCertaintyFilters, clearEventFilters, clearEventFunctionFilters, clearEventFunctionsSort, clearEventGroupFilters, clearEventGroupsSort, clearEventIndicatorFilters, clearEventIndicatorsSort, clearEventLevelFilters, clearEventLevelsSort, clearEventQuestionFilters, clearEventQuestionsSort, clearEventResponseFilters, clearEventResponsesSort, clearEventSeveritiesSort, clearEventSeverityFilters, clearEventStatusFilters, clearEventStatusesSort, clearEventTopicFilters, clearEventTopicsSort, clearEventTypeFilters, clearEventTypesSort, clearEventUrgenciesSort, clearEventUrgencyFilters, clearEventsSort, clearFeatureFilters, clearFeatureTypeFilters, clearFeatureTypesSort, clearFeaturesSort, clearFocalPeopleSort, clearFocalPersonFilters, clearMessageFilters, clearMessagesSort, clearNotificationTemplateFilters, clearNotificationTemplatesSort, clearPartyGroupFilters, clearPartyGroupsSort, clearPartyRoleFilters, clearPartyRolesSort, clearUnitFilters, clearUnitsSort, closeAdministrativeAreaForm, closeAdministrativeLevelForm, closeAgencyForm, closeCampaignForm, closeChangelogForm, closeEventActionCatalogueForm, closeEventActionForm, closeEventCertaintyForm, closeEventForm, closeEventFunctionForm, closeEventGroupForm, closeEventIndicatorForm, closeEventLevelForm, closeEventQuestionForm, closeEventResponseForm, closeEventSeverityForm, closeEventStatusForm, closeEventTopicForm, closeEventTypeForm, closeEventUrgencyForm, closeFeatureForm, closeFeatureTypeForm, closeFocalPersonForm, closeMessageForm, closeNotificationTemplateForm, closePartyGroupForm, closePartyRoleForm, closeUnitForm, deleteAdministrativeArea, deleteAdministrativeLevel, deleteAgency, deleteCampaign, deleteChangelog, deleteEvent, deleteEventAction, deleteEventActionCatalogue, deleteEventCertainty, deleteEventFunction, deleteEventGroup, deleteEventIndicator, deleteEventLevel, deleteEventQuestion, deleteEventResponse, deleteEventSeverity, deleteEventStatus, deleteEventTopic, deleteEventType, deleteEventUrgency, deleteFeature, deleteFeatureType, deleteFocalPerson, deleteMessage, deleteNotificationTemplate, deletePartyGroup, deletePartyRole, deleteUnit, filterAdministrativeAreas, filterAdministrativeLevels, filterAgencies, filterCampaigns, filterChangelogs, filterEventActionCatalogues, filterEventActions, filterEventCertainties, filterEventFunctions, filterEventGroups, filterEventIndicators, filterEventLevels, filterEventQuestions, filterEventResponses, filterEventSeverities, filterEventStatuses, filterEventTopics, filterEventTypes, filterEventUrgencies, filterEvents, filterFeatureTypes, filterFeatures, filterFocalPeople, filterMessages, filterNotificationTemplates, filterPartyGroups, filterPartyRoles, filterUnits, getActionsReport, getAdministrativeArea, getAdministrativeAreas, getAdministrativeLevel, getAdministrativeLevels, getAgencies, getAgency, getAlertsReport, getCampaign, getCampaigns, getCasesReport, getChangelog, getChangelogs, getDispatchesReport, getEffectsReport, getEvent, getEventAction, getEventActionCatalogue, getEventActionCatalogues, getEventActions, getEventCertainties, getEventCertainty, getEventFunction, getEventFunctions, getEventGroup, getEventGroups, getEventIndicator, getEventIndicators, getEventLevel, getEventLevels, getEventQuestion, getEventQuestions, getEventResponse, getEventResponses, getEventSeverities, getEventSeverity, getEventStatus, getEventStatuses, getEventTopic, getEventTopics, getEventType, getEventTypes, getEventUrgencies, getEventUrgency, getEvents, getEventsReport, getFeature, getFeatureType, getFeatureTypes, getFeatures, getFocalPeople, getFocalPerson, getIndicatorsReport, getMessage, getMessages, getNeedsReport, getNotificationTemplate, getNotificationTemplates, getOverviewsReport, getPartiesReport, getPartyGroup, getPartyGroups, getPartyRole, getPartyRoles, getResourcesReport, getRisksReport, getUnit, getUnits, wrappedInitializeApp as initializeApp, loadMoreAdministrativeAreas, loadMoreAdministrativeLevels, loadMoreAgencies, loadMoreCampaigns, loadMoreChangelogs, loadMoreEventActionCatalogues, loadMoreEventActions, loadMoreEventCertainties, loadMoreEventFunctions, loadMoreEventGroups, loadMoreEventIndicators, loadMoreEventLevels, loadMoreEventQuestions, loadMoreEventResponses, loadMoreEventSeverities, loadMoreEventStatuses, loadMoreEventTopics, loadMoreEventTypes, loadMoreEventUrgencies, loadMoreEvents, loadMoreFeatureTypes, loadMoreFeatures, loadMoreFocalPeople, loadMoreMessages, loadMoreNotificationTemplates, loadMorePartyGroups, loadMorePartyRoles, loadMoreUnits, openAdministrativeAreaForm, openAdministrativeLevelForm, openAgencyForm, openCampaignForm, openChangelogForm, openEventActionCatalogueForm, openEventActionForm, openEventCertaintyForm, openEventForm, openEventFunctionForm, openEventGroupForm, openEventIndicatorForm, openEventLevelForm, openEventQuestionForm, openEventResponseForm, openEventSeverityForm, openEventStatusForm, openEventTopicForm, openEventTypeForm, openEventUrgencyForm, openFeatureForm, openFeatureTypeForm, openFocalPersonForm, openMessageForm, openNotificationTemplateForm, openPartyGroupForm, openPartyRoleForm, openUnitForm, paginateAdministrativeAreas, paginateAdministrativeLevels, paginateAgencies, paginateCampaigns, paginateChangelogs, paginateEventActionCatalogues, paginateEventActions, paginateEventCertainties, paginateEventFunctions, paginateEventGroups, paginateEventIndicators, paginateEventLevels, paginateEventQuestions, paginateEventResponses, paginateEventSeverities, paginateEventStatuses, paginateEventTopics, paginateEventTypes, paginateEventUrgencies, paginateEvents, paginateFeatureTypes, paginateFeatures, paginateFocalPeople, paginateMessages, paginateNotificationTemplates, paginatePartyGroups, paginatePartyRoles, paginateUnits, postAdministrativeArea, postAdministrativeLevel, postAgency, postCampaign, postChangelog, postEvent, postEventAction, postEventActionCatalogue, postEventCertainty, postEventFunction, postEventGroup, postEventIndicator, postEventLevel, postEventQuestion, postEventResponse, postEventSeverity, postEventStatus, postEventTopic, postEventType, postEventUrgency, postFeature, postFeatureType, postFocalPerson, postMessage, postNotificationTemplate, postPartyGroup, postPartyRole, postUnit, putAdministrativeArea, putAdministrativeLevel, putAgency, putCampaign, putChangelog, putEvent, putEventAction, putEventActionCatalogue, putEventCertainty, putEventFunction, putEventGroup, putEventIndicator, putEventLevel, putEventQuestion, putEventResponse, putEventSeverity, putEventStatus, putEventTopic, putEventType, putEventUrgency, putFeature, putFeatureType, putFocalPerson, putMessage, putNotificationTemplate, putPartyGroup, putPartyRole, putUnit, refreshAdministrativeAreas, refreshAdministrativeLevels, refreshAgencies, refreshCampaigns, refreshChangelogs, refreshEventActionCatalogues, refreshEventActions, refreshEventCertainties, refreshEventFunctions, refreshEventGroups, refreshEventIndicators, refreshEventLevels, refreshEventQuestions, refreshEventResponses, refreshEventSeverities, refreshEventStatuses, refreshEventTopics, refreshEventTypes, refreshEventUrgencies, refreshEvents, refreshFeatureTypes, refreshFeatures, refreshFocalPeople, refreshMessages, refreshNotificationTemplates, refreshPartyGroups, refreshPartyRoles, refreshUnits, searchAdministrativeAreas, searchAdministrativeLevels, searchAgencies, searchCampaigns, searchChangelogs, searchEventActionCatalogues, searchEventActions, searchEventCertainties, searchEventFunctions, searchEventGroups, searchEventIndicators, searchEventLevels, searchEventQuestions, searchEventResponses, searchEventSeverities, searchEventStatuses, searchEventTopics, searchEventTypes, searchEventUrgencies, searchEvents, searchFeatureTypes, searchFeatures, searchFocalPeople, searchMessages, searchNotificationTemplates, searchPartyGroups, searchPartyRoles, searchUnits, selectAdministrativeArea, selectAdministrativeLevel, selectAgency, selectCampaign, selectChangelog, selectEvent, selectEventAction, selectEventActionCatalogue, selectEventCertainty, selectEventFunction, selectEventGroup, selectEventIndicator, selectEventLevel, selectEventQuestion, selectEventResponse, selectEventSeverity, selectEventStatus, selectEventTopic, selectEventType, selectEventUrgency, selectFeature, selectFeatureType, selectFocalPerson, selectMessage, selectNotificationTemplate, selectPartyGroup, selectPartyRole, selectUnit, setAdministrativeAreaSchema, setAdministrativeLevelSchema, setAgencySchema, setCampaignSchema, setChangelogSchema, setEventActionCatalogueSchema, setEventActionSchema, setEventCertaintySchema, setEventFunctionSchema, setEventGroupSchema, setEventIndicatorSchema, setEventLevelSchema, setEventQuestionSchema, setEventResponseSchema, setEventSchema, setEventSeveritySchema, setEventStatusSchema, setEventTopicSchema, setEventTypeSchema, setEventUrgencySchema, setFeatureSchema, setFeatureTypeSchema, setFocalPersonSchema, setMessageSchema, setNotificationTemplateSchema, setPartyGroupSchema, setPartyRoleSchema, setUnitSchema, wrappedSignIn as signIn, wrappedSignOut as signOut, sortAdministrativeAreas, sortAdministrativeLevels, sortAgencies, sortCampaigns, sortChangelogs, sortEventActionCatalogues, sortEventActions, sortEventCertainties, sortEventFunctions, sortEventGroups, sortEventIndicators, sortEventLevels, sortEventQuestions, sortEventResponses, sortEventSeverities, sortEventStatuses, sortEventTopics, sortEventTypes, sortEventUrgencies, sortEvents, sortFeatureTypes, sortFeatures, sortFocalPeople, sortMessages, sortNotificationTemplates, sortPartyGroups, sortPartyRoles, sortUnits };
