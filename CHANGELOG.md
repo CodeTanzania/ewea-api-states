@@ -1,3 +1,17 @@
+#### 0.20.0 (2020-04-29)
+
+##### New Features
+
+- **reports:** add reports to the store ([79e54331](https://github.com/CodeTanzania/ewea-api-states/commit/79e54331922338a7f5112c0cecb47e0d424a744e))
+
+##### Other Changes
+
+- CodeTanzania/ewea-api-states into develop ([008041b8](https://github.com/CodeTanzania/ewea-api-states/commit/008041b8677aeaf2b7f905a28c00d451af6812dd))
+
+##### Refactors
+
+- **auth:** migrate to new api of api-client ([5b333b5f](https://github.com/CodeTanzania/ewea-api-states/commit/5b333b5fe49f5af2d2813971101a3ca96929b8d8))
+
 #### 0.19.0 (2020-04-20)
 
 ##### New Features
