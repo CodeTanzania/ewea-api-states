@@ -1,3 +1,9 @@
+#### 0.20.1 (2020-04-29)
+
+##### Bug Fixes
+
+- **slice:** access right data for report storing ([cb4f7691](https://github.com/CodeTanzania/ewea-api-states/commit/cb4f769191ad8ca72b65d6c7accb42c9e879ba17))
+
 #### 0.20.0 (2020-04-29)
 
 ##### New Features
