@@ -1,7 +1,7 @@
 import {
   httpActions,
-  signin as login,
-  signout as logout,
+  signIn as login,
+  signOut as logout,
 } from '@codetanzania/ewea-api-client';
 import { isFunction } from 'lodash';
 import {
@@ -68,38 +68,38 @@ export function initializeAppFailure(error) {
 }
 
 /**
- * Action dispatched when user start to signing into the system
+ * Action dispatched when user start to signIng into the system
  *
  * @function
- * @name signinStart
+ * @name signInStart
  *
  * @returns {object}  redux action
  *
  * @version 0.1.0
  * @since 0.10.3
  */
-export function signinStart() {
+export function signInStart() {
   return { type: SIGNIN_APP_START };
 }
 
 /**
- * Action dispatched when user successfully signined into the system
+ * Action dispatched when user successfully signed In into the system
  *
  * @function
- * @name signinSuccess
+ * @name signInSuccess
  *
- * @param {object} party  signined user/party
+ * @param {object} party  signed In user/party
  * @returns {object}  redux action
  *
  * @version 0.1.0
  * @since 0.10.3
  */
-export function signinSuccess(party) {
+export function signInSuccess(party) {
   return { type: SIGNIN_APP_SUCCESS, payload: party };
 }
 
 /**
- * Action dispatched when user signining fails
+ * Action dispatched when user signing In fails
  *
  * @param {object} error  Error instance
  * @returns {object}  redux action
@@ -107,22 +107,22 @@ export function signinSuccess(party) {
  * @version 0.1.0
  * @since 0.10.3
  */
-export function signinFailure(error) {
+export function signInFailure(error) {
   return { type: SIGNIN_APP_FAILURE, payload: error };
 }
 
 /**
- * Action dispatched when user signout
+ * Action dispatched when user signOut
  *
  * @function
- * @name signout
+ * @name signOut
  *
  * @returns {object}  Redux action
  *
  * @version 0.1.0
  * @since 0.10.3
  */
-export function signout() {
+export function signOut() {
   return { type: SIGNOUT };
 }
 
@@ -194,33 +194,33 @@ export function initializeApp() {
 }
 
 /**
- * Thunk action to signin user/party
+ * Thunk action to signIn user/party
  *
  * @function
- * @name signin
+ * @name signIn
  *
  * @param {object} credentials - Email and password
- * @param {Function} onSuccess - Callback for successfully signin
- * @param {Function} onError - Callback for failed signin
+ * @param {Function} onSuccess - Callback for successfully signIn
+ * @param {Function} onError - Callback for failed signIn
  * @returns {Promise} redux thunk
  *
  * @version 0.1.0
  * @since 0.10.3
  */
-export function signin(credentials, onSuccess, onError) {
+export function signIn(credentials, onSuccess, onError) {
   return (dispatch) => {
-    dispatch(signinStart());
+    dispatch(signInStart());
 
     return login(credentials)
       .then((results) => {
         const { party } = results;
-        dispatch(signinSuccess(party));
+        dispatch(signInSuccess(party));
         if (isFunction(onSuccess)) {
           onSuccess();
         }
       })
       .catch((error) => {
-        dispatch(signinFailure(error));
+        dispatch(signInFailure(error));
         if (isFunction(onError)) {
           onError(error);
         }
@@ -243,21 +243,21 @@ export function wrappedInitializeApp() {
 }
 
 /**
- * Wrapped signing thunk
+ * Wrapped signIng thunk
  *
  * @function
  * @name wrappedSignIn
  *
  * @param {object} credentials - email and password provided by user
- * @param {Function} onSuccess - Callback for successfully signin
- * @param {Function} onError - Callback for failed signin
- * @returns {Promise} - dispatched signing thunk
+ * @param {Function} onSuccess - Callback for successfully signIn
+ * @param {Function} onError - Callback for failed signIn
+ * @returns {Promise} - dispatched signIng thunk
  *
  * @version 0.1.0
  * @since 0.10.3
  */
 export function wrappedSignIn(credentials, onSuccess, onError) {
-  return storeDispatch(signin(credentials, onSuccess, onError));
+  return storeDispatch(signIn(credentials, onSuccess, onError));
 }
 
 /**
@@ -273,5 +273,5 @@ export function wrappedSignIn(credentials, onSuccess, onError) {
  */
 export function wrappedSignOut() {
   logout(); // clear sessionStorage
-  return storeDispatch(signout());
+  return storeDispatch(signOut());
 }

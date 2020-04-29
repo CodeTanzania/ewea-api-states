@@ -76,8 +76,8 @@ export function Connect(component, stateToProps = null) {
 export * from './actions/agency';
 export {
   wrappedInitializeApp as initializeApp,
-  wrappedSignIn as signin,
-  wrappedSignOut as signout,
+  wrappedSignIn as signIn,
+  wrappedSignOut as signOut,
 } from './actions/app';
 
 export * from './actions/administrativeArea';
@@ -106,4 +106,5 @@ export * from './actions/message';
 export * from './actions/notificationTemplate';
 export * from './actions/partyGroup';
 export * from './actions/partyRole';
+export * from './actions/reports';
 export * from './actions/unit';

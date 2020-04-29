@@ -46,11 +46,9 @@ export function wrapActionsWithDispatch(actions, dispatch) {
  * @function
  * @name extractReducers
  * @description Extract all resource reducers into a single object
- *
  * @param {string[]} resources list of exposed API resources
- * @param {Array<object>} slices list of resource slices
+ * @param {object[]} slices list of resource slices
  * @returns {object} map of all resources reducers
- *
  * @version 0.1.0
  * @since 0.1.0
  */
@@ -67,21 +65,42 @@ export function extractReducers(resources, slices) {
 
 /**
  * @function
+ * @name extractReportReducers
+ * @description Extract all resource reducers into a single object
+ * @param {string[]} reports list of exposed API reports
+ * @param {object[]} slices list of resource slices
+ * @returns {object} map of all reports reducers
+ * @version 0.1.0
+ * @since 0.20.0
+ */
+export function extractReportReducers(reports, slices) {
+  const reducers = {};
+
+  reports.forEach((report) => {
+    reducers[`${pluralize(report)}Report`] = slices[`${report}Report`].reducer;
+  });
+
+  return reducers;
+}
+
+/**
+ * @function
  * @name extractActions
  * @description Extracts all actions from all slices into into a single object
- *
  * @param {string[]} resources list of api resources
- * @param {Array<object>} slices  list of all resources slices
+ * @param {object[]} slices  list of all resources slices
+ * @param {boolean} isReportActions Flag to indicate extracting report actions
+ *  from slice
  * @returns {object} map of all resources actions
- *
  * @version 0.1.0
  * @since 0.1.0
  */
-export function extractActions(resources, slices) {
+export function extractActions(resources, slices, isReportActions = false) {
   const actions = {};
 
   resources.forEach((resource) => {
-    actions[resource] = slices[resource].actions;
+    const key = isReportActions ? `${resource}Report` : resource;
+    actions[key] = slices[key].actions;
   });
 
   return actions;

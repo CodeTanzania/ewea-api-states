@@ -623,3 +623,72 @@ export default function createThunksFor(resource) {
 
   return thunks;
 }
+
+/**
+ * @function
+ * @name createReportThunkFor
+ * @description Create thunk for reports as exposed by api client
+ * @param {string} report Report name
+ * @returns {object} thunks  resource thunks
+ *
+ * @version 0.1.0
+ * @since 0.20.0
+ */
+export function createReportThunkFor(report) {
+  const thunks = {};
+  const pluralName = upperFirst(pluralize(report));
+  const resourceName = `${lowerFirst(singularize(report))}Report`;
+
+  /**
+   * @function
+   * @name getResources
+   * @description A thunk that will be dispatched when fetching data from API
+   *
+   * @param {object} param  Param object to be passed to API client
+   * @param {Function} onSuccess  Callback to be called when fetching
+   * resources from the API succeed
+   * @param {Function} onError  Callback to be called when fetching
+   * resources from the API fails
+   * @returns {Function}  Thunk function
+   *
+   * @version 0.1.0
+   * @since 0.20.0
+   */
+  thunks[camelize('get', pluralName, 'report')] = (
+    param,
+    onSuccess,
+    onError
+  ) => (dispatch) => {
+    dispatch(
+      actions[resourceName][camelize('get', pluralName, 'report', 'request')]()
+    );
+    return client[camelize('get', pluralName, 'report')](param)
+      .then((data) => {
+        dispatch(
+          actions[resourceName][
+            camelize('get', pluralName, 'report', 'success')
+          ](data)
+        );
+
+        // custom provided onSuccess callback
+        if (isFunction(onSuccess)) {
+          onSuccess();
+        }
+      })
+      .catch((error) => {
+        const normalizedError = normalizeError(error);
+        dispatch(
+          actions[resourceName][
+            camelize('get', pluralName, 'report', 'failure')
+          ](normalizedError)
+        );
+
+        // custom provided onError callback
+        if (isFunction(onError)) {
+          onError(error);
+        }
+      });
+  };
+
+  return thunks;
+}
