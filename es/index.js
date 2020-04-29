@@ -277,7 +277,7 @@ function getReportDefaultReducer(report) {
       loading: true
     }),
     [camelize('get', plural, 'report', 'success')]: (state, action) => ({ ...state,
-      data: action.payload,
+      data: action.payload.data,
       loading: false
     }),
     [camelize('get', plural, 'report', 'failure')]: (state, action) => ({ ...state,
