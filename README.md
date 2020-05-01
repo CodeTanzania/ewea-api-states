@@ -1,6 +1,6 @@
 # EWEA API States
 
-[![Build Status](https://travis-ci.org/CodeTanzania/ewea-api-states.svg?branch=develop)](https://travis-ci.org/CodeTanzania/ewea-api-states)
+[![Build Status](https://travis-ci.com/CodeTanzania/ewea-api-states.svg?branch=develop)](https://travis-ci.org/CodeTanzania/ewea-api-states)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![Renovate enabled](https://img.shields.io/badge/renovate-enabled-brightgreen.svg)](https://renovatebot.com/)
 
