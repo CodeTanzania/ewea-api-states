@@ -1,11 +1,17 @@
 import forIn from 'lodash/forIn';
 import get from 'lodash/get';
+import forEach from 'lodash/forEach';
+import merge from 'lodash/merge';
 import isFunction from 'lodash/isFunction';
 import isObject from 'lodash/isObject';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { connect, Provider } from 'react-redux';
-import { store } from './store';
+import { store, resources, actions, dispatch, REPORTS } from './store';
+import {
+  generateExposedActions,
+  generateReportExposedActions,
+} from './factories/action';
 
 /**
  * @function
@@ -73,38 +79,20 @@ export function Connect(component, stateToProps = null) {
 }
 
 /* Export resource actions */
-export * from './actions/agency';
 export {
   wrappedInitializeApp as initializeApp,
   wrappedSignIn as signIn,
   wrappedSignOut as signOut,
 } from './actions/app';
 
-export * from './actions/administrativeArea';
-export * from './actions/administrativeLevel';
-export * from './actions/campaign';
-export * from './actions/changelog';
-export * from './actions/event';
-export * from './actions/eventAction';
-export * from './actions/eventActionCatalogue';
-export * from './actions/eventFunction';
-export * from './actions/eventGroup';
-export * from './actions/eventIndicator';
-export * from './actions/eventLevel';
-export * from './actions/eventSeverity';
-export * from './actions/eventCertainty';
-export * from './actions/eventStatus';
-export * from './actions/eventUrgency';
-export * from './actions/eventResponse';
-export * from './actions/eventQuestion';
-export * from './actions/eventTopic';
-export * from './actions/eventType';
-export * from './actions/feature';
-export * from './actions/featureType';
-export * from './actions/focalPerson';
-export * from './actions/message';
-export * from './actions/notificationTemplate';
-export * from './actions/partyGroup';
-export * from './actions/partyRole';
-export * from './actions/reports';
-export * from './actions/unit';
+export const reduxActions = {};
+
+forEach(resources, (resource) => {
+  const generatedActions = generateExposedActions(resource, actions, dispatch);
+  merge(reduxActions, generatedActions);
+});
+
+forEach(REPORTS, (report) => {
+  const generatedReportActions = generateReportExposedActions(report, dispatch);
+  merge(reduxActions, generatedReportActions);
+});

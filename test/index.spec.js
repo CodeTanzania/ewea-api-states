@@ -4,7 +4,13 @@ import { pluralize, singularize } from 'inflection';
 import forEach from 'lodash/forEach';
 import upperFirst from 'lodash/upperFirst';
 /* eslint import/namespace: [2, { allowComputed: true }] */
-import * as lib from '../src/index';
+import {
+  reduxActions,
+  signIn,
+  signOut,
+  Connect,
+  StoreProvider,
+} from '../src/index';
 
 import { REPORTS, resources } from '../src/store';
 
@@ -13,42 +19,44 @@ describe('Library Index', () => {
     forEach(resources, (resource) => {
       const pluralName = upperFirst(pluralize(resource));
       const singularName = upperFirst(singularize(resource));
-      expect(typeof lib[`clear${singularName}Filters`]).toBe('function');
-      expect(typeof lib[`clear${pluralName}Sort`]).toBe('function');
-      expect(typeof lib[`close${singularName}Form`]).toBe('function');
-      expect(typeof lib[`delete${singularName}`]).toBe('function');
-      expect(typeof lib[`filter${pluralName}`]).toBe('function');
-      expect(typeof lib[`get${pluralName}`]).toBe('function');
-      expect(typeof lib[`get${singularName}`]).toBe('function');
-      expect(typeof lib[`select${singularName}`]).toBe('function');
-      expect(typeof lib[`open${singularName}Form`]).toBe('function');
-      expect(typeof lib[`paginate${pluralName}`]).toBe('function');
-      expect(typeof lib[`post${singularName}`]).toBe('function');
-      expect(typeof lib[`put${singularName}`]).toBe('function');
-      expect(typeof lib[`refresh${pluralName}`]).toBe('function');
-      expect(typeof lib[`search${pluralName}`]).toBe('function');
-      expect(typeof lib[`set${singularName}Schema`]).toBe('function');
-      expect(typeof lib[`sort${pluralName}`]).toBe('function');
-      expect(typeof lib[`loadMore${pluralName}`]).toBe('function');
+      expect(typeof reduxActions[`clear${singularName}Filters`]).toBe(
+        'function'
+      );
+      expect(typeof reduxActions[`clear${pluralName}Sort`]).toBe('function');
+      expect(typeof reduxActions[`close${singularName}Form`]).toBe('function');
+      expect(typeof reduxActions[`delete${singularName}`]).toBe('function');
+      expect(typeof reduxActions[`filter${pluralName}`]).toBe('function');
+      expect(typeof reduxActions[`get${pluralName}`]).toBe('function');
+      expect(typeof reduxActions[`get${singularName}`]).toBe('function');
+      expect(typeof reduxActions[`select${singularName}`]).toBe('function');
+      expect(typeof reduxActions[`open${singularName}Form`]).toBe('function');
+      expect(typeof reduxActions[`paginate${pluralName}`]).toBe('function');
+      expect(typeof reduxActions[`post${singularName}`]).toBe('function');
+      expect(typeof reduxActions[`put${singularName}`]).toBe('function');
+      expect(typeof reduxActions[`refresh${pluralName}`]).toBe('function');
+      expect(typeof reduxActions[`search${pluralName}`]).toBe('function');
+      expect(typeof reduxActions[`set${singularName}Schema`]).toBe('function');
+      expect(typeof reduxActions[`sort${pluralName}`]).toBe('function');
+      expect(typeof reduxActions[`loadMore${pluralName}`]).toBe('function');
     });
 
-    expect(typeof lib.signIn).toBe('function');
-    expect(typeof lib.signOut).toBe('function');
+    expect(typeof signIn).toBe('function');
+    expect(typeof signOut).toBe('function');
   });
 
   it('should expose all reports actions', () => {
     forEach(REPORTS, (report) => {
       const pluralName = upperFirst(pluralize(report));
-      expect(typeof lib[`get${pluralName}Report`]).toBe('function');
+      expect(typeof reduxActions[`get${pluralName}Report`]).toBe('function');
     });
   });
 
   it('should expose connect function', () => {
-    expect(typeof lib.Connect).toBe('function');
+    expect(typeof Connect).toBe('function');
   });
 
   it('should expose StoreProvider as a function', () => {
-    expect(typeof lib.StoreProvider).toBe('function');
+    expect(typeof StoreProvider).toBe('function');
   });
 });
 
@@ -65,12 +73,11 @@ describe.skip('Component Connect', () => {
   );
 
   it('should render component with states using object accessor', () => {
-    const ConnectedComponent = lib.Connect(TestComponent, {
+    const ConnectedComponent = Connect(TestComponent, {
       focalPeople: 'focalPeople.list',
       total: 'focalPeople.total',
       page: 'focalPeople.page',
     });
-    const { StoreProvider } = lib;
 
     const { getByTestId } = render(
       <StoreProvider>
@@ -84,13 +91,11 @@ describe.skip('Component Connect', () => {
   });
 
   it('should render component with states using functional accessor', () => {
-    const ConnectedComponent = lib.Connect(TestComponent, (state) => ({
+    const ConnectedComponent = Connect(TestComponent, (state) => ({
       focalPeople: state.focalPeople.list,
       total: state.focalPeople.total,
       page: state.focalPeople.page,
     }));
-
-    const { StoreProvider } = lib;
 
     const { getByTestId } = render(
       <StoreProvider>
@@ -104,9 +109,7 @@ describe.skip('Component Connect', () => {
   });
 
   it('should not subscribe to store when accessor is undefined', () => {
-    const ConnectedComponent = lib.Connect(TestComponent);
-
-    const { StoreProvider } = lib;
+    const ConnectedComponent = Connect(TestComponent);
 
     const { getByTestId } = render(
       <StoreProvider>
