@@ -1,3 +1,21 @@
+#### 0.21.0 (2020-05-03)
+
+##### Documentation Changes
+
+- **readme:** update library usage section to reflect new changes ([d8c686f2](https://github.com/CodeTanzania/ewea-api-states/commit/d8c686f235abe8dd91d83b43d1c3106b24a5aa61))
+
+##### New Features
+
+- **dispatch:** add settings resource for vehicle dispatch ([e10f05c0](https://github.com/CodeTanzania/ewea-api-states/commit/e10f05c0838d5c80aec6dbe11d4ad0597d75042c))
+
+##### Other Changes
+
+- CodeTanzania/ewea-api-states into develop ([5ae6d6b9](https://github.com/CodeTanzania/ewea-api-states/commit/5ae6d6b997f523d9b23323c496743f74df0682ed))
+
+##### Refactors
+
+- reduce number of files by generating resource dynamically ([9c470ca2](https://github.com/CodeTanzania/ewea-api-states/commit/9c470ca20d60d4da74c7caddfaa3adcd84ebccd1))
+
 #### 0.20.1 (2020-04-29)
 
 ##### Bug Fixes
