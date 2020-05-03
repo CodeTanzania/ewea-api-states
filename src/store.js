@@ -136,8 +136,13 @@ export const resources = [
   'focalPerson',
   'notificationTemplate',
   'partyGroup',
+  'partyOwnership',
   'partyRole',
   'unit',
+  'vehicle',
+  'vehicleModel',
+  'vehicleMake',
+  'vehicleType',
 ];
 
 // Exposed reports by the API
