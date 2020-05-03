@@ -11,6 +11,7 @@ export default {
     'lodash',
     'lodash/camelCase',
     'lodash/cloneDeep',
+    'lodash/forEach',
     'lodash/forIn',
     'lodash/get',
     'lodash/isEmpty',
