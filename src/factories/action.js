@@ -21,7 +21,7 @@ import createThunkFor, { createReportThunkFor } from './thunk';
  * @version 0.1.0
  * @since 0.1.0
  */
-export default function generateExposedActions(
+export function generateExposedActions(
   resource,
   actions,
   dispatch,
