@@ -43,7 +43,8 @@ The following is the list of all resources exposed by this library.
   > Replace events with the name of the module you want
 
 ```js
-import {
+import { reduxActions } from '@codetanzania/ewea-api-states';
+const {
   clearEventFilters,
   clearEventsSort,
   closeEventForm,
@@ -60,7 +61,8 @@ import {
   searchEvents,
   sortEvents,
   loadMoreEvents,
-} from '@codetanzania/ewea-api-states';
+  eventsReport,
+} = reduxActions;
 ```
 
 ### Store Structure
@@ -111,7 +113,7 @@ render(
 This is a wrapper around react-redux `connect` HOC with little improvement over it. You can use it as follows
 
 ```js
-import {Connect} from '@codetanzania/ewea-api-states';
+import { Connect } from '@codetanzania/ewea-api-states';
 
 // for component
 function EventList({ events }){
@@ -134,7 +136,7 @@ Some of these actions accepts two callback functions which will be executed on S
 #### Fetch Data
 
 ```js
-import { getEvents, getEvent } from '@codetanzania/ewea-api-states';
+const { getEvents, getEvent } = reduxActions;
 
 getEvents();
 
@@ -144,7 +146,7 @@ getEvents(eventId);
 #### Create Data
 
 ```js
-import { postEvent } from '@codetanzania/ewea-api-states';
+const { postEvent } = reduxActions;
 
 postEvent(event, onSuccess, onError);
 ```
@@ -158,7 +160,7 @@ postEvent(event, onSuccess, onError, { filters: {} });
 #### Update Data
 
 ```js
-import { putEvent } from '@codetanzania/ewea-api-states';
+const { putEvent } = reduxActions;
 
 putEvent(event, onSuccess, onError);
 ```
@@ -166,7 +168,7 @@ putEvent(event, onSuccess, onError);
 #### Archive/Delete Data
 
 ```js
-import { deleteEvent } from '@codetanzania/ewea-api-states';
+const { deleteEvent } = reduxActions;
 
 deleteEvent(eventId, onSuccess, onError);
 ```
@@ -174,7 +176,7 @@ deleteEvent(eventId, onSuccess, onError);
 #### Searching
 
 ```js
-import { searchEvents } from '@codetanzania/ewea-api-states';
+const { searchEvents } = reduxActions;
 
 searchEvents(searchQueryString);
 ```
@@ -182,7 +184,7 @@ searchEvents(searchQueryString);
 #### Filtering
 
 ```js
-import { filterEvents, clearEventFilters } from '@codetanzania/ewea-api-states';
+const { filterEvents, clearEventFilters } = reduxActions;
 
 filterEvents({ eventType: eventTypeId }, onSuccess, onError);
 
@@ -196,7 +198,7 @@ clearEventFilters(onSuccess, onError, ['eventType']);
 #### Pagination
 
 ```js
-import { paginateEvents } from '@codetanzania/ewea-api-states';
+const { paginateEvents } = reduxActions;
 
 paginateEvents(pageNumber);
 ```
@@ -204,7 +206,7 @@ paginateEvents(pageNumber);
 #### Sorting
 
 ```js
-import { sortEvents, clearEventsSort } from '@codetanzania/ewea-api-states';
+const { sortEvents, clearEventsSort } = reduxActions;
 
 sortEvents({ name: 1 }, onSuccess, onError);
 
@@ -216,9 +218,17 @@ clearEventsSort(onSuccess, onError);
 ### Infinity Scroll
 
 ```js
-import { loadMoreEvents } from '@codetanzania/ewea-api-states';
+const { loadMoreEvents } = reduxActions;
 
 loadMoreEvents();
+```
+
+### Get Report
+
+```js
+const { getEventsReport } = reduxActions;
+
+getEventsReport();
 ```
 
 > Note: This library depends on [ewea-api-client](https://github.com/CodeTanzania/ewea-api-client) to work, so in order to specify API URL add `.env` file on your project root folder and specify your API URL under `REACT_APP_EWEA_API_URL=[specify API BASE URL here]`
