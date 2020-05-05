@@ -1,3 +1,9 @@
+#### 0.23.0 (2020-05-05)
+
+##### New Features
+
+- **dispatch:** add dispatch resource to the store ([0997e380](https://github.com/CodeTanzania/ewea-api-states/commit/0997e38016d345ae047780b9addd137603aa15a1))
+
 #### 0.22.0 (2020-05-05)
 
 ##### New Features
