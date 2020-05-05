@@ -116,6 +116,7 @@ export const resources = [
   'agency',
   'campaign',
   'changelog',
+  'dispatch',
   'event',
   'eventAction',
   'eventActionCatalogue',
