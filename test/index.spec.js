@@ -3,7 +3,6 @@ import { cleanup, render } from '@testing-library/react';
 import { pluralize, singularize } from 'inflection';
 import forEach from 'lodash/forEach';
 import upperFirst from 'lodash/upperFirst';
-/* eslint import/namespace: [2, { allowComputed: true }] */
 import {
   reduxActions,
   signIn,
