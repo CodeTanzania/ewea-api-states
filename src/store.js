@@ -142,6 +142,7 @@ export const resources = [
   'vehicle',
   'vehicleModel',
   'vehicleMake',
+  'vehicleStatus',
   'vehicleType',
 ];
 
