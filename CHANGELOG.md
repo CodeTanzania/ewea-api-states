@@ -1,3 +1,15 @@
+#### 0.22.0 (2020-05-05)
+
+##### New Features
+
+- **predefines:** add vehicle statuses to store ([dba94aa3](https://github.com/CodeTanzania/ewea-api-states/commit/dba94aa3ba9515629e9ff8d76f1d2cfe91faf642))
+
+##### Bug Fixes
+
+- **deps:**
+  - update dependency @codetanzania/ewea-api-client to >=0.14.2 ([1bcf67d3](https://github.com/CodeTanzania/ewea-api-states/commit/1bcf67d396254be03a6eacb97008969ea8ed0e1c))
+  - update dependency @codetanzania/ewea-api-client to >=0.14.0 ([7b9dce91](https://github.com/CodeTanzania/ewea-api-states/commit/7b9dce91d4f2666b7fb496ccd1a8edc6f29eadba))
+
 #### 0.21.0 (2020-05-03)
 
 ##### Documentation Changes
