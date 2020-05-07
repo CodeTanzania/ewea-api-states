@@ -1,3 +1,13 @@
+#### 0.24.0 (2020-05-07)
+
+##### New Features
+
+- **predefines:** add party genders to the store ([83c92cf8](https://github.com/CodeTanzania/ewea-api-states/commit/83c92cf8dea273886fa91377d6f57e2723f32f84))
+
+##### Bug Fixes
+
+- **deps:** update dependency @codetanzania/ewea-api-client to >=0.16.0 ([6a4e2770](https://github.com/CodeTanzania/ewea-api-states/commit/6a4e277052e48d21b4dd3a24947d5af283641e45))
+
 #### 0.23.0 (2020-05-05)
 
 ##### New Features
