@@ -136,6 +136,7 @@ export const resources = [
   'featureType',
   'focalPerson',
   'notificationTemplate',
+  'partyGender',
   'partyGroup',
   'partyOwnership',
   'partyRole',
