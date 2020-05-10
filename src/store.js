@@ -140,6 +140,7 @@ export const resources = [
   'partyGroup',
   'partyOwnership',
   'partyRole',
+  'permission',
   'unit',
   'vehicle',
   'vehicleModel',
