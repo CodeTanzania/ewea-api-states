@@ -1,3 +1,17 @@
+#### 0.25.0 (2020-05-10)
+
+##### New Features
+
+- **store:** add permissions to the store ([d7dc629d](https://github.com/CodeTanzania/ewea-api-states/commit/d7dc629d5ffbe05f808d8b1f36ffce7ea99667a9))
+
+##### Bug Fixes
+
+- **deps:** update dependency @reduxjs/toolkit to >=1.3.6 ([3411c687](https://github.com/CodeTanzania/ewea-api-states/commit/3411c687c8bc166241a19f949267bd620231c1af))
+
+##### Other Changes
+
+- CodeTanzania/ewea-api-states into develop ([8cf923bc](https://github.com/CodeTanzania/ewea-api-states/commit/8cf923bc211673588d109e78edd532b820e642ff))
+
 #### 0.24.0 (2020-05-07)
 
 ##### New Features
