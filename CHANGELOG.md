@@ -1,3 +1,9 @@
+#### 0.26.0 (2020-05-19)
+
+##### New Features
+
+- **store:** add priorities to the store ([ee8500d3](https://github.com/CodeTanzania/ewea-api-states/commit/ee8500d3b45149df9e7394a38de281830b09384f))
+
 #### 0.25.0 (2020-05-10)
 
 ##### New Features
