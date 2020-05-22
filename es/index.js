@@ -1314,7 +1314,7 @@ function signIn(credentials, onSuccess, onError) {
       dispatch(signInSuccess(party));
 
       if (isFunction$1(onSuccess)) {
-        onSuccess();
+        onSuccess(party);
       }
     }).catch(error => {
       dispatch(signInFailure(error));
