@@ -1,3 +1,10 @@
+#### 0.26.1 (2020-05-22)
+
+##### Other Changes
+
+- CodeTanzania/ewea-api-states into develop ([c63a6503](https://github.com/CodeTanzania/ewea-api-states/commit/c63a6503014bcd6220877d2b4f07a4cba1acab76))
+- **auth:** pass party on success callback after login ([c96f0dbd](https://github.com/CodeTanzania/ewea-api-states/commit/c96f0dbd9bb037209ddc714ba84badaccfc21303))
+
 #### 0.26.0 (2020-05-19)
 
 ##### New Features
