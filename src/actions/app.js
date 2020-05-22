@@ -216,7 +216,7 @@ export function signIn(credentials, onSuccess, onError) {
         const { party } = results;
         dispatch(signInSuccess(party));
         if (isFunction(onSuccess)) {
-          onSuccess();
+          onSuccess(party);
         }
       })
       .catch((error) => {
