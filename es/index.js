@@ -470,7 +470,7 @@ function app(state = appDefaultState, action) {
   }
 } // all resources exposed by this library
 
-const resources = ['administrativeArea', 'administrativeLevel', 'agency', 'campaign', 'changelog', 'dispatch', 'event', 'eventAction', 'eventActionCatalogue', 'eventFunction', 'eventGroup', 'eventIndicator', 'eventLevel', 'eventSeverity', 'eventCertainty', 'eventStatus', 'eventUrgency', 'eventResponse', 'eventQuestion', 'eventTopic', 'eventType', 'feature', 'featureType', 'focalPerson', 'notificationTemplate', 'partyGender', 'partyGroup', 'partyOwnership', 'partyRole', 'permission', 'priority', 'unit', 'vehicle', 'vehicleModel', 'vehicleMake', 'vehicleStatus', 'vehicleType']; // Exposed reports by the API
+const resources = ['administrativeArea', 'administrativeLevel', 'agency', 'campaign', 'changelog', 'dispatch', 'event', 'eventAction', 'eventActionCatalogue', 'eventFunction', 'eventGroup', 'eventIndicator', 'eventLevel', 'eventSeverity', 'eventCertainty', 'eventStatus', 'eventUrgency', 'eventResponse', 'eventQuestion', 'eventTopic', 'eventType', 'feature', 'featureType', 'focalPerson', 'notificationTemplate', 'partyGender', 'partyGroup', 'partyOwnership', 'partyRole', 'partyOccupation', 'permission', 'priority', 'unit', 'vehicle', 'vehicleModel', 'vehicleMake', 'vehicleStatus', 'vehicleType', 'case']; // Exposed reports by the API
 
 const REPORTS = ['action', 'alert', 'case', 'dispatch', 'effect', 'event', 'indicator', 'need', 'overview', 'party', 'resource', 'risk'];
 const slices = createResourcesSlices(resources);

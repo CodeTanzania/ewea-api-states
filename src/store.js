@@ -140,6 +140,7 @@ export const resources = [
   'partyGroup',
   'partyOwnership',
   'partyRole',
+  'partyOccupation',
   'permission',
   'priority',
   'unit',
@@ -148,6 +149,7 @@ export const resources = [
   'vehicleMake',
   'vehicleStatus',
   'vehicleType',
+  'case',
 ];
 
 // Exposed reports by the API
