@@ -194,7 +194,7 @@ export function getDefaultInitialState() {
     list: [],
     selected: null,
     page: 1,
-    total: 0,
+    total: 1,
     pages: 1,
     size: 0,
     loading: false,
