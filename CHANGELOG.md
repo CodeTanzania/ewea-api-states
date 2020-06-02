@@ -1,3 +1,9 @@
+#### 0.27.1 (2020-06-02)
+
+##### Bug Fixes
+
+- **store:** make default total pages number to be 1 ([f34d5d2b](https://github.com/CodeTanzania/ewea-api-states/commit/f34d5d2bfcff85218f493c6b0c92b039db0c33a3))
+
 #### 0.27.0 (2020-06-02)
 
 ##### New Features
