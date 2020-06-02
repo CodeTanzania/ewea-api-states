@@ -22,7 +22,7 @@ describe('Slice Factory', () => {
     list: [],
     selected: null,
     page: 1,
-    total: 0,
+    total: 1,
     size: 0,
     pages: 1,
     loading: false,
