@@ -1,3 +1,13 @@
+#### 0.27.0 (2020-06-02)
+
+##### New Features
+
+- add case & party occupation states ([026bfe3e](https://github.com/CodeTanzania/ewea-api-states/commit/026bfe3eb5e189c7bcb39d716fd1794ce6294a00))
+
+##### Other Changes
+
+- //github.com/CodeTanzania/ewea-api-states into develop ([678500ac](https://github.com/CodeTanzania/ewea-api-states/commit/678500acb346e1c33b3a37a5563e18d05123d080))
+
 #### 0.26.1 (2020-05-22)
 
 ##### Other Changes
