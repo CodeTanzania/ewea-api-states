@@ -141,6 +141,7 @@ export const resources = [
   'partyOwnership',
   'partyRole',
   'partyOccupation',
+  'partyNationality',
   'permission',
   'priority',
   'unit',
