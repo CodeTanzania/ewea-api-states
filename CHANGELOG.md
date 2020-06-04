@@ -1,3 +1,9 @@
+#### 0.27.2 (2020-06-04)
+
+##### Bug Fixes
+
+- **deps:** update dependency @codetanzania/ewea-api-client to >=0.20.0 ([296bb705](https://github.com/CodeTanzania/ewea-api-states/commit/296bb70526e927aed588ab4d0f88322f4bf1fc7f))
+
 #### 0.27.1 (2020-06-02)
 
 ##### Bug Fixes
