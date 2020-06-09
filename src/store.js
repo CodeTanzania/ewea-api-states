@@ -151,6 +151,8 @@ export const resources = [
   'vehicleStatus',
   'vehicleType',
   'case',
+  'caseStage',
+  'caseSeverity',
 ];
 
 // Exposed reports by the API
