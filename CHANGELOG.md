@@ -1,3 +1,9 @@
+#### 0.28.0 (2020-06-09)
+
+##### New Features
+
+- add case stage & severity ([0f684fa8](https://github.com/CodeTanzania/ewea-api-states/commit/0f684fa802a389f82ece08db8338288f03b69a6a))
+
 #### 0.28.0 (2020-06-04)
 
 ##### New Features
