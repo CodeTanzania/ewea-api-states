@@ -1,3 +1,9 @@
+#### 0.30.0 (2020-06-12)
+
+##### Other Changes
+
+- //github.com/CodeTanzania/ewea-api-states into develop ([a81dd477](https://github.com/CodeTanzania/ewea-api-states/commit/a81dd47793b55bac8231547d818035d9c2a52cb3))
+
 #### 0.29.0 (2020-06-09)
 
 ##### New Features
