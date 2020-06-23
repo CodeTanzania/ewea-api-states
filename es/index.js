@@ -13,11 +13,11 @@ import { getAuthenticatedParty, httpActions, signIn as signIn$1, signOut as sign
 import { pluralize, singularize } from 'inflection';
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
+import map from 'lodash/map';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 import lowerFirst from 'lodash/lowerFirst';
 import pick from 'lodash/pick';
-import { isFunction as isFunction$1 } from 'lodash';
 
 /**
  * @function
@@ -138,6 +138,20 @@ function normalizeError(error) {
   }
 
   return normalizedError;
+}
+/**
+ * @function
+ * @name getPartyPermissionsWildcards
+ * @description Extract wildcards from party permissions
+ * @param {object} party Authenticated party
+ * @returns {string[]} Wildcards extracted from permissions
+ * @version 0.1.0
+ * @since 0.30.0
+ */
+
+function getPartyPermissionsWildcards(party) {
+  const permissions = get(party, 'role.relations.permissions', []);
+  return map(permissions, 'wildcard');
 }
 
 /**
@@ -371,7 +385,8 @@ const appDefaultState = {
   loading: false,
   signing: false,
   error: null,
-  party: getAuthenticatedParty()
+  party: getAuthenticatedParty(),
+  permissions: getPartyPermissionsWildcards(getAuthenticatedParty())
 };
 /**
  * @function
@@ -420,7 +435,7 @@ function createReportsSlices(reports) {
  * @param {object} action dispatched action object
  * @returns {object} updated app state
  *
- * @version 0.1.0
+ * @version 0.2.0
  * @since 0.1.0
  */
 
@@ -449,7 +464,8 @@ function app(state = appDefaultState, action) {
 
     case SIGNIN_APP_SUCCESS:
       return { ...state,
-        party: action.payload,
+        party: action.payload.party,
+        permissions: action.payload.permissions,
         signing: false
       };
 
@@ -472,16 +488,19 @@ function app(state = appDefaultState, action) {
 
 const resources = ['administrativeArea', 'administrativeLevel', 'agency', 'campaign', 'changelog', 'dispatch', 'event', 'eventAction', 'eventActionCatalogue', 'eventFunction', 'eventGroup', 'eventIndicator', 'eventLevel', 'eventSeverity', 'eventCertainty', 'eventStatus', 'eventUrgency', 'eventResponse', 'eventQuestion', 'eventTopic', 'eventType', 'feature', 'featureType', 'focalPerson', 'notificationTemplate', 'partyGender', 'partyGroup', 'partyOwnership', 'partyRole', 'partyOccupation', 'partyNationality', 'permission', 'priority', 'unit', 'vehicle', 'vehicleModel', 'vehicleMake', 'vehicleStatus', 'vehicleType', 'case', 'caseStage', 'caseSeverity']; // Exposed reports by the API
 
-const REPORTS = ['action', 'alert', 'case', 'dispatch', 'effect', 'event', 'indicator', 'need', 'overview', 'party', 'resource', 'risk'];
-const slices = createResourcesSlices(resources);
-const reportSlices = createReportsSlices(REPORTS);
+const REPORTS = ['action', 'alert', 'case', 'dispatch', 'effect', 'event', 'indicator', 'need', 'overview', 'party', 'resource', 'risk']; // create crud resources slices
+
+const slices = createResourcesSlices(resources); // create reports slices
+
+const reportSlices = createReportsSlices(REPORTS); // merge reducers
+
 const reducers = merge({}, extractReducers(resources, slices), extractReportReducers(REPORTS, reportSlices), {
   app
 });
 const rootReducer = combineReducers(reducers);
 const store = configureStore({
   reducer: rootReducer,
-  devTools: true
+  devTools: process.env.NODE_ENV === 'development'
 });
 const actions = { ...extractActions(resources, slices),
   ...extractActions(REPORTS, reportSlices, true)
@@ -1152,13 +1171,10 @@ function initializeAppFailure(error) {
   };
 }
 /**
- * Action dispatched when user start to signIng into the system
- *
  * @function
  * @name signInStart
- *
+ * @description Action dispatched when user start to signIng into the system
  * @returns {object}  redux action
- *
  * @version 0.1.0
  * @since 0.10.3
  */
@@ -1169,30 +1185,29 @@ function signInStart() {
   };
 }
 /**
- * Action dispatched when user successfully signed In into the system
- *
  * @function
  * @name signInSuccess
- *
- * @param {object} party  signed In user/party
+ * @description Action dispatched when user successfully signed In
+ * into the system
+ * @param {object} data  signed In user/party and extracted
+ * permissions wildcards
  * @returns {object}  redux action
- *
- * @version 0.1.0
+ * @version 0.2.0
  * @since 0.10.3
  */
 
-function signInSuccess(party) {
+function signInSuccess(data) {
   return {
     type: SIGNIN_APP_SUCCESS,
-    payload: party
+    payload: data
   };
 }
 /**
- * Action dispatched when user signing In fails
- *
+ * @function
+ * @name signInFailure
+ * @description Action dispatched when user signing In fails
  * @param {object} error  Error instance
  * @returns {object}  redux action
- *
  * @version 0.1.0
  * @since 0.10.3
  */
@@ -1204,13 +1219,10 @@ function signInFailure(error) {
   };
 }
 /**
- * Action dispatched when user signOut
- *
  * @function
  * @name signOut
- *
+ * @description Action dispatched when user signOut
  * @returns {object}  Redux action
- *
  * @version 0.1.0
  * @since 0.10.3
  */
@@ -1221,14 +1233,11 @@ function signOut() {
   };
 }
 /**
- * Action dispatched when application is started. It will load up all schema
- * need for in the application
- *
  * @function
  * @name initializeApp
- *
- * @returns {Function}  thunk function
- *
+ * @description Action dispatched when application is started.
+ * It will load up all schema need for in the application
+ * @returns {Promise}  thunk function
  * @version 0.1.0
  * @since 0.1.0
  */
@@ -1290,17 +1299,15 @@ function initializeApp() {
   };
 }
 /**
- * Thunk action to signIn user/party
  *
  * @function
  * @name signIn
- *
- * @param {object} credentials - Email and password
- * @param {Function} onSuccess - Callback for successfully signIn
- * @param {Function} onError - Callback for failed signIn
+ * @description Thunk action to signIn user/party
+ * @param {object} credentials Email and password
+ * @param {Function} onSuccess  Callback for successfully signIn
+ * @param {Function} onError  Callback for failed signIn
  * @returns {Promise} redux thunk
- *
- * @version 0.1.0
+ * @version 0.2.0
  * @since 0.10.3
  */
 
@@ -1311,27 +1318,30 @@ function signIn(credentials, onSuccess, onError) {
       const {
         party
       } = results;
-      dispatch(signInSuccess(party));
+      const permissions = getPartyPermissionsWildcards(party);
+      dispatch(signInSuccess({
+        party,
+        permissions
+      }));
 
-      if (isFunction$1(onSuccess)) {
+      if (isFunction(onSuccess)) {
         onSuccess(party);
       }
     }).catch(error => {
       dispatch(signInFailure(error));
 
-      if (isFunction$1(onError)) {
+      if (isFunction(onError)) {
         onError(error);
       }
     });
   };
 }
 /**
- * Wrapped initialize app thunk
  *
  * @function
  * @name wrappedInitializeApp
+ * @description Wrapped initialize app thunk
  * @returns {Promise} - dispatched initialize app thunk
- *
  * @version 0.1.0
  * @since 0.3.2
  */
@@ -1340,16 +1350,13 @@ function wrappedInitializeApp() {
   return dispatch(initializeApp());
 }
 /**
- * Wrapped signIng thunk
- *
  * @function
  * @name wrappedSignIn
- *
- * @param {object} credentials - email and password provided by user
- * @param {Function} onSuccess - Callback for successfully signIn
- * @param {Function} onError - Callback for failed signIn
- * @returns {Promise} - dispatched signIng thunk
- *
+ * @description Wrapped signIng thunk
+ * @param {object} credentials email and password provided by user
+ * @param {Function} onSuccess Callback for successfully signIn
+ * @param {Function} onError Callback for failed signIn
+ * @returns {Promise} dispatched signIng thunk
  * @version 0.1.0
  * @since 0.10.3
  */
@@ -1358,13 +1365,10 @@ function wrappedSignIn(credentials, onSuccess, onError) {
   return dispatch(signIn(credentials, onSuccess, onError));
 }
 /**
- * Wrapped signOut action
- *
  * @function
  * @name wrappedSignOut
- *
+ * @description Wrapped signOut action
  * @returns {undefined}
- *
  * @version 0.2.0
  * @since 0.10.3
  */
