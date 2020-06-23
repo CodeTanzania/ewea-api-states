@@ -3,7 +3,7 @@ import {
   signIn as login,
   signOut as logout,
 } from '@codetanzania/ewea-api-client';
-import { isFunction } from 'lodash';
+import isFunction from 'lodash/isFunction';
 import {
   actions,
   dispatch as storeDispatch,
@@ -15,6 +15,7 @@ import {
   SIGNIN_APP_FAILURE,
   SIGNOUT,
 } from '../store';
+import { getPartyPermissionsWildcards } from '../utils';
 
 /* declarations */
 const { getSchemas } = httpActions;
@@ -68,13 +69,10 @@ export function initializeAppFailure(error) {
 }
 
 /**
- * Action dispatched when user start to signIng into the system
- *
  * @function
  * @name signInStart
- *
+ * @description Action dispatched when user start to signIng into the system
  * @returns {object}  redux action
- *
  * @version 0.1.0
  * @since 0.10.3
  */
@@ -83,27 +81,26 @@ export function signInStart() {
 }
 
 /**
- * Action dispatched when user successfully signed In into the system
- *
  * @function
  * @name signInSuccess
- *
- * @param {object} party  signed In user/party
+ * @description Action dispatched when user successfully signed In
+ * into the system
+ * @param {object} data  signed In user/party and extracted
+ * permissions wildcards
  * @returns {object}  redux action
- *
- * @version 0.1.0
+ * @version 0.2.0
  * @since 0.10.3
  */
-export function signInSuccess(party) {
-  return { type: SIGNIN_APP_SUCCESS, payload: party };
+export function signInSuccess(data) {
+  return { type: SIGNIN_APP_SUCCESS, payload: data };
 }
 
 /**
- * Action dispatched when user signing In fails
- *
+ * @function
+ * @name signInFailure
+ * @description Action dispatched when user signing In fails
  * @param {object} error  Error instance
  * @returns {object}  redux action
- *
  * @version 0.1.0
  * @since 0.10.3
  */
@@ -112,13 +109,10 @@ export function signInFailure(error) {
 }
 
 /**
- * Action dispatched when user signOut
- *
  * @function
  * @name signOut
- *
+ * @description Action dispatched when user signOut
  * @returns {object}  Redux action
- *
  * @version 0.1.0
  * @since 0.10.3
  */
@@ -127,14 +121,11 @@ export function signOut() {
 }
 
 /**
- * Action dispatched when application is started. It will load up all schema
- * need for in the application
- *
  * @function
  * @name initializeApp
- *
- * @returns {Function}  thunk function
- *
+ * @description Action dispatched when application is started.
+ * It will load up all schema need for in the application
+ * @returns {Promise}  thunk function
  * @version 0.1.0
  * @since 0.1.0
  */
@@ -194,17 +185,15 @@ export function initializeApp() {
 }
 
 /**
- * Thunk action to signIn user/party
  *
  * @function
  * @name signIn
- *
- * @param {object} credentials - Email and password
- * @param {Function} onSuccess - Callback for successfully signIn
- * @param {Function} onError - Callback for failed signIn
+ * @description Thunk action to signIn user/party
+ * @param {object} credentials Email and password
+ * @param {Function} onSuccess  Callback for successfully signIn
+ * @param {Function} onError  Callback for failed signIn
  * @returns {Promise} redux thunk
- *
- * @version 0.1.0
+ * @version 0.2.0
  * @since 0.10.3
  */
 export function signIn(credentials, onSuccess, onError) {
@@ -214,7 +203,14 @@ export function signIn(credentials, onSuccess, onError) {
     return login(credentials)
       .then((results) => {
         const { party } = results;
-        dispatch(signInSuccess(party));
+
+        const permissions = getPartyPermissionsWildcards(party);
+        dispatch(
+          signInSuccess({
+            party,
+            permissions,
+          })
+        );
         if (isFunction(onSuccess)) {
           onSuccess(party);
         }
@@ -229,12 +225,11 @@ export function signIn(credentials, onSuccess, onError) {
 }
 
 /**
- * Wrapped initialize app thunk
  *
  * @function
  * @name wrappedInitializeApp
+ * @description Wrapped initialize app thunk
  * @returns {Promise} - dispatched initialize app thunk
- *
  * @version 0.1.0
  * @since 0.3.2
  */
@@ -243,16 +238,13 @@ export function wrappedInitializeApp() {
 }
 
 /**
- * Wrapped signIng thunk
- *
  * @function
  * @name wrappedSignIn
- *
- * @param {object} credentials - email and password provided by user
- * @param {Function} onSuccess - Callback for successfully signIn
- * @param {Function} onError - Callback for failed signIn
- * @returns {Promise} - dispatched signIng thunk
- *
+ * @description Wrapped signIng thunk
+ * @param {object} credentials email and password provided by user
+ * @param {Function} onSuccess Callback for successfully signIn
+ * @param {Function} onError Callback for failed signIn
+ * @returns {Promise} dispatched signIng thunk
  * @version 0.1.0
  * @since 0.10.3
  */
@@ -261,13 +253,10 @@ export function wrappedSignIn(credentials, onSuccess, onError) {
 }
 
 /**
- * Wrapped signOut action
- *
  * @function
  * @name wrappedSignOut
- *
+ * @description Wrapped signOut action
  * @returns {undefined}
- *
  * @version 0.2.0
  * @since 0.10.3
  */

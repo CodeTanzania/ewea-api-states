@@ -1,6 +1,7 @@
 import camelCase from 'lodash/camelCase';
 import forIn from 'lodash/forIn';
 import get from 'lodash/get';
+import map from 'lodash/map';
 import cloneDeep from 'lodash/cloneDeep';
 import { pluralize } from 'inflection';
 
@@ -131,4 +132,18 @@ export function normalizeError(error) {
   }
 
   return normalizedError;
+}
+
+/**
+ * @function
+ * @name getPartyPermissionsWildcards
+ * @description Extract wildcards from party permissions
+ * @param {object} party Authenticated party
+ * @returns {string[]} Wildcards extracted from permissions
+ * @version 0.1.0
+ * @since 0.30.0
+ */
+export function getPartyPermissionsWildcards(party) {
+  const permissions = get(party, 'role.relations.permissions', []);
+  return map(permissions, 'wildcard');
 }

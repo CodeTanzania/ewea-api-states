@@ -115,7 +115,10 @@ describe('App Actions', () => {
 
       const expectedActions = [
         { type: SIGNIN_APP_START },
-        { type: SIGNIN_APP_SUCCESS, payload: mockData.party },
+        {
+          type: SIGNIN_APP_SUCCESS,
+          payload: { party: mockData.party, permissions: [] },
+        },
       ];
 
       return store

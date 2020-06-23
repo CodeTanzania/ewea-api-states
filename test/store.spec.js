@@ -15,6 +15,7 @@ describe('App reducer', () => {
     signing: false,
     error: null,
     party: null,
+    permissions: [],
   };
 
   it('should return default state when action is invalid', () => {
@@ -56,12 +57,16 @@ describe('App reducer', () => {
   });
 
   it(`should handle action of type ${SIGNIN_APP_SUCCESS}`, () => {
-    const action = { type: SIGNIN_APP_SUCCESS, payload: {} };
+    const action = {
+      type: SIGNIN_APP_SUCCESS,
+      payload: { party: {}, permissions: [] },
+    };
     const previousState = { ...defaultState, signing: true };
 
     expect(app(previousState, action)).toEqual({
       ...defaultState,
-      party: action.payload,
+      party: action.payload.party,
+      permissions: action.payload.permissions,
       signing: false,
     });
   });
