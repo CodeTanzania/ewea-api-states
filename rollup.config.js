@@ -18,6 +18,7 @@ export default {
     'lodash/isFunction',
     'lodash/isObject',
     'lodash/lowerFirst',
+    'lodash/map',
     'lodash/merge',
     'lodash/pick',
     'lodash/split',

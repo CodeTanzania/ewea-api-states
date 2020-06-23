@@ -1,3 +1,9 @@
+#### 0.31.0 (2020-06-23)
+
+##### New Features
+
+- **app:** add authenticated user permission in the store ([6ca397aa](https://github.com/CodeTanzania/ewea-api-states/commit/6ca397aac024f62c5f424656f8f61cae009b2452))
+
 #### 0.30.0 (2020-06-12)
 
 ##### Other Changes
