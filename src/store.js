@@ -11,6 +11,7 @@ import {
   extractActions,
   extractReducers,
   extractReportReducers,
+  getPartyPermissionsWildcards,
 } from './utils';
 
 /* application action types */
@@ -28,6 +29,7 @@ const appDefaultState = {
   signing: false,
   error: null,
   party: getAuthenticatedParty(),
+  permissions: getPartyPermissionsWildcards(getAuthenticatedParty()),
 };
 
 /**
@@ -85,7 +87,7 @@ export function createReportsSlices(reports) {
  * @param {object} action dispatched action object
  * @returns {object} updated app state
  *
- * @version 0.1.0
+ * @version 0.2.0
  * @since 0.1.0
  */
 export function app(state = appDefaultState, action) {
@@ -99,7 +101,12 @@ export function app(state = appDefaultState, action) {
     case SIGNIN_APP_START:
       return { ...state, signing: true };
     case SIGNIN_APP_SUCCESS:
-      return { ...state, party: action.payload, signing: false };
+      return {
+        ...state,
+        party: action.payload.party,
+        permissions: action.payload.permissions,
+        signing: false,
+      };
     case SIGNIN_APP_FAILURE:
       return { ...state, error: action.payload, signing: false };
     case SIGNOUT:
@@ -171,10 +178,13 @@ export const REPORTS = [
   'risk',
 ];
 
+// create crud resources slices
 const slices = createResourcesSlices(resources);
 
+// create reports slices
 const reportSlices = createReportsSlices(REPORTS);
 
+// merge reducers
 const reducers = merge(
   {},
   extractReducers(resources, slices),
@@ -186,7 +196,7 @@ const rootReducer = combineReducers(reducers);
 
 export const store = configureStore({
   reducer: rootReducer,
-  devTools: true,
+  devTools: process.env.NODE_ENV === 'development',
 });
 
 export const actions = {
