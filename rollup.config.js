@@ -1,4 +1,4 @@
-import babel from 'rollup-plugin-babel'; // eslint-disable-line
+import babel from '@rollup/plugin-babel'; // eslint-disable-line
 import pkg from './package.json';
 
 export default {
