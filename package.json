@@ -68,7 +68,7 @@
     "@commitlint/travis-cli": ">=9.1.2",
     "@rollup/plugin-babel": "^5.2.1",
     "@testing-library/dom": "^7.24.3",
-    "@testing-library/react": ">=10.4.9",
+    "@testing-library/react": ">=11.0.4",
     "babel-eslint": ">=10.1.0",
     "babel-jest": ">=26.3.0",
     "commitizen": ">=4.2.1",
