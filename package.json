@@ -71,7 +71,7 @@
     "@testing-library/react": ">=11.2.3",
     "babel-eslint": ">=10.1.0",
     "babel-jest": ">=26.6.3",
-    "commitizen": ">=4.2.2",
+    "commitizen": ">=4.2.3",
     "cz-conventional-changelog": ">=3.3.0",
     "eslint": ">=7.17.0",
     "eslint-config-airbnb": ">=18.2.1",
