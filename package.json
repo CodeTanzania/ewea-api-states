@@ -61,9 +61,9 @@
     "redux-thunk": ">=2.3.0"
   },
   "devDependencies": {
-    "@babel/core": ">=7.14.3",
-    "@babel/preset-env": ">=7.14.4",
-    "@babel/preset-react": ">=7.13.13",
+    "@babel/core": ">=7.25.9",
+    "@babel/preset-env": ">=7.25.9",
+    "@babel/preset-react": ">=7.25.9",
     "@commitlint/cli": "^12.1.4",
     "@commitlint/config-conventional": ">=12.1.4",
     "@commitlint/travis-cli": ">=12.1.4",
